@@ -7,9 +7,9 @@ namespace LibraryApi.Domains.Repositories;
 public interface IBookRepository
 {
     Task CreateAsync(Book book);
-    Task<bool> UpdateByIdAsync(Book book);
+    //Task<bool> UpdateByIdAsync(Book book);
     Task<Book?> SelectByIdWithBookStockAndBookCategoryAsync(string id);
     Task<List<Book>> SelectByTitleLikeWithBookStockAndBookCategoryAsync(string keyword);
-    Task<bool> DeleteByIdAsync(string id);
-    Task<bool> ExistsByTitleAsync(string title);
+    //Task<bool> DeleteByIdAsync(string id);
+    //Task<bool> ExistsByTitleAsync(string title);
 }

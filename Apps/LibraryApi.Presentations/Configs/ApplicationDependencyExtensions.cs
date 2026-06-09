@@ -5,6 +5,8 @@ using LibraryApi.Infrastructures;
 using LibraryApi.Infrastructures.Contexts;
 using LibraryApi.Infrastructures.Adapters;
 using LibraryApi.Infrastructures.Entities;
+using LibraryApi.Domains.Repositories;
+using LibraryApi.Infrastructures.Repositories;
 namespace LibraryApi.Presentations.Configs;
 
 public static class ApplicationDependencyExtensions
@@ -44,6 +46,10 @@ public static class ApplicationDependencyExtensions
 
         // Factory
         services.AddScoped<BookFactory>();
+
+        // Repository
+        services.AddScoped<IBookCategoryRepository, BookCategoryRepository>();
+        services.AddScoped<IBookRepository, BookRepository>();
         return services;
     }
 
