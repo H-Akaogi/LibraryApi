@@ -15,3 +15,4 @@
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/refint/LibraryApi.Infrastructures.dll
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/LibraryApi.Infrastructures.pdb
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/ref/LibraryApi.Infrastructures.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/LibraryApi.Infrastructures.sourcelink.json

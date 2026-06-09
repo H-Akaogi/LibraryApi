@@ -37,3 +37,4 @@
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Presentations/obj/Debug/net8.0/LibraryApi.Presentations.pdb
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Presentations/obj/Debug/net8.0/LibraryApi.Presentations.genruntimeconfig.cache
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Presentations/obj/Debug/net8.0/ref/LibraryApi.Presentations.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Presentations/obj/Debug/net8.0/LibraryApi.Presentations.sourcelink.json

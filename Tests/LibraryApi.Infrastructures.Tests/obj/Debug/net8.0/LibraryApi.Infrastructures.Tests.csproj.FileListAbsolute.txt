@@ -120,3 +120,4 @@
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/obj/Debug/net8.0/LibraryApi.Infrastructures.Tests.pdb
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/obj/Debug/net8.0/LibraryApi.Infrastructures.Tests.genruntimeconfig.cache
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/obj/Debug/net8.0/ref/LibraryApi.Infrastructures.Tests.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/obj/Debug/net8.0/LibraryApi.Infrastructures.Tests.sourcelink.json

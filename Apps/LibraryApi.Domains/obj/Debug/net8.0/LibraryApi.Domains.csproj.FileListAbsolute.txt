@@ -9,3 +9,4 @@
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/refint/LibraryApi.Domains.dll
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/LibraryApi.Domains.pdb
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/ref/LibraryApi.Domains.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/LibraryApi.Domains.sourcelink.json

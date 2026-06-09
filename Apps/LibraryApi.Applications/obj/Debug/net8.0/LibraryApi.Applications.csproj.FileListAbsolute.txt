@@ -13,3 +13,4 @@
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Applications/obj/Debug/net8.0/refint/LibraryApi.Applications.dll
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Applications/obj/Debug/net8.0/LibraryApi.Applications.pdb
 /home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Applications/obj/Debug/net8.0/ref/LibraryApi.Applications.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Applications/obj/Debug/net8.0/LibraryApi.Applications.sourcelink.json
