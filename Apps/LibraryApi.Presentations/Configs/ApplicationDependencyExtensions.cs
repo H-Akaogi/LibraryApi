@@ -3,6 +3,8 @@ using Npgsql.Replication;
 using LibraryApi.Infrastructures;
 
 using LibraryApi.Infrastructures.Contexts;
+using LibraryApi.Infrastructures.Adapters;
+using LibraryApi.Infrastructures.Entities;
 namespace LibraryApi.Presentations.Configs;
 
 public static class ApplicationDependencyExtensions
@@ -34,6 +36,11 @@ public static class ApplicationDependencyExtensions
             // PostgreSQLのデータベースを指定された接続文字列を使用して構成
             options.UseNpgsql(connectstr);
         });
+
+        services.AddScoped<BookStockEntityAdapter>();
+        services.AddScoped<BookCategoryEntityAdapter>();
+        services.AddScoped<BookEntityAdapter>();
+
         return services;
     }
 
