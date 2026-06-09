@@ -161,7 +161,7 @@ public class BookTests
         // 分類情報を変更する
         product.ChangeCategory(newCategory);
         // 分類情報を検証する
-        Assert.AreEqual("新分類名", product.Category!.Name);
+        Assert.AreEqual("新分類", product.Category!.Name);
     }
 
     [TestMethod("有効な蔵書数に変更できる")]

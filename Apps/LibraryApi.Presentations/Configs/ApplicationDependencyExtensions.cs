@@ -3,7 +3,7 @@ using Npgsql.Replication;
 using LibraryApi.Infrastructures;
 
 using LibraryApi.Infrastructures.Contexts;
-namespace LibraryApi.Presentation.Configs;
+namespace LibraryApi.Presentations.Configs;
 
 public static class ApplicationDependencyExtensions
 {

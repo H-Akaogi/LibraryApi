@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace LibraryApi.Infrastructures.Entities;
 
-[Table("book_category")]
+[Table("category")]
 public class BookCategoryEntity
 {
     [Column("id")]
