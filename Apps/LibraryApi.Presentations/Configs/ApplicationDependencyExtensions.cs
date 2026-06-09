@@ -37,10 +37,13 @@ public static class ApplicationDependencyExtensions
             options.UseNpgsql(connectstr);
         });
 
+        // Adapter
         services.AddScoped<BookStockEntityAdapter>();
         services.AddScoped<BookCategoryEntityAdapter>();
         services.AddScoped<BookEntityAdapter>();
 
+        // Factory
+        services.AddScoped<BookFactory>();
         return services;
     }
 
