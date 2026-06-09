@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace LibraryApi.Infrastructure.Entities;
+namespace LibraryApi.Infrastructures.Entities;
 
 [Table("book_category")]
 public class BookCategoryEntity
@@ -35,7 +35,7 @@ public class BookCategoryEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime UpdatedAt { get; set; }
 
-    public List<BookCategoryEntity> Books { get; set; } = new();
+    public List<BookEntity> Books { get; set; } = new();
 
     public override string ToString()
     {

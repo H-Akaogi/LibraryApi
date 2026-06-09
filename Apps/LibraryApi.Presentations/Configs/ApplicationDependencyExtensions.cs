@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Npgsql.Replication;
-using LibraryApi.Infrastructure;
+using LibraryApi.Infrastructures;
 
-// using LibraryApi.Infrastructure.Contexts;
+using LibraryApi.Infrastructures.Contexts;
 namespace LibraryApi.Presentation.Configs;
 
 public static class ApplicationDependencyExtensions
@@ -24,7 +24,16 @@ public static class ApplicationDependencyExtensions
     // インフラストラクチャ層
     private static IServiceCollection AddInfrastructureDependencies(
     this IServiceCollection services, IConfiguration config)
-    {
+    {// PostgreSQLの接続文字列を設定ファイルから取得する
+        var connectstr = config.GetConnectionString("PostgreSQLConnection");
+        // AddDbContextをサービスコレクションに登録する
+        services.AddDbContext<AppDbContext>(options =>
+        {
+            // データベース操作ログをデバッグレベルでコンソールに出力する
+            options.LogTo(Console.WriteLine, LogLevel.Debug);
+            // PostgreSQLのデータベースを指定された接続文字列を使用して構成
+            options.UseNpgsql(connectstr);
+        });
         return services;
     }
 
