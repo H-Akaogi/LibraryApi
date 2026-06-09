@@ -11,5 +11,5 @@ public interface IBookRepository
     Task<Book?> SelectByIdWithBookStockAndBookCategoryAsync(string id);
     Task<List<Book>> SelectByTitleLikeWithBookStockAndBookCategoryAsync(string keyword);
     //Task<bool> DeleteByIdAsync(string id);
-    //Task<bool> ExistsByTitleAsync(string title);
+    Task<bool> ExistsByTitleAsync(string title);
 }
