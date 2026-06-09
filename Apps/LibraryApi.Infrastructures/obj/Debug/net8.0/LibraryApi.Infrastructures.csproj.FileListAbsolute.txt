@@ -1,0 +1,17 @@
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/bin/Debug/net8.0/LibraryApi.Infrastructures.deps.json
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/bin/Debug/net8.0/LibraryApi.Infrastructures.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/bin/Debug/net8.0/LibraryApi.Infrastructures.pdb
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/bin/Debug/net8.0/LibraryApi.Applications.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/bin/Debug/net8.0/LibraryApi.Domains.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/bin/Debug/net8.0/LibraryApi.Domains.pdb
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/bin/Debug/net8.0/LibraryApi.Applications.pdb
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/LibraryApi.Infrastructures.csproj.AssemblyReference.cache
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/LibraryApi.Infrastructures.GeneratedMSBuildEditorConfig.editorconfig
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/LibraryApi.Infrastructures.AssemblyInfoInputs.cache
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/LibraryApi.Infrastructures.AssemblyInfo.cs
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/LibraryApi.Infrastructures.csproj.CoreCompileInputs.cache
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/LibraryA.99650800.Up2Date
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/LibraryApi.Infrastructures.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/refint/LibraryApi.Infrastructures.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/LibraryApi.Infrastructures.pdb
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Infrastructures/obj/Debug/net8.0/ref/LibraryApi.Infrastructures.dll

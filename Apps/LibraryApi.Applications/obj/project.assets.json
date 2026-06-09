@@ -1,0 +1,94 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "LibraryApi.Domains/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/LibraryApi.Domains.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LibraryApi.Domains.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "LibraryApi.Domains/1.0.0": {
+      "type": "project",
+      "path": "../LibraryApi.Domains/LibraryApi.Domains.csproj",
+      "msbuildProject": "../LibraryApi.Domains/LibraryApi.Domains.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "LibraryApi.Domains >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/fullness/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Applications/LibraryApi.Applications.csproj",
+      "projectName": "LibraryApi.Applications",
+      "projectPath": "/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Applications/LibraryApi.Applications.csproj",
+      "packagesPath": "/home/fullness/.nuget/packages/",
+      "outputPath": "/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Applications/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/fullness/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/LibraryApi.Domains.csproj": {
+              "projectPath": "/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/LibraryApi.Domains.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/home/fullness/.dotnet/sdk/8.0.420/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

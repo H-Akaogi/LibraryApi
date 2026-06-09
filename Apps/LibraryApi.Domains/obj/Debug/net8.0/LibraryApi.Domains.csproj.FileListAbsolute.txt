@@ -1,0 +1,11 @@
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/bin/Debug/net8.0/LibraryApi.Domains.deps.json
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/bin/Debug/net8.0/LibraryApi.Domains.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/bin/Debug/net8.0/LibraryApi.Domains.pdb
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/LibraryApi.Domains.GeneratedMSBuildEditorConfig.editorconfig
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/LibraryApi.Domains.AssemblyInfoInputs.cache
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/LibraryApi.Domains.AssemblyInfo.cs
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/LibraryApi.Domains.csproj.CoreCompileInputs.cache
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/LibraryApi.Domains.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/refint/LibraryApi.Domains.dll
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/LibraryApi.Domains.pdb
+/home/fullness/CS_Training/LibraryApi/Apps/LibraryApi.Domains/obj/Debug/net8.0/ref/LibraryApi.Domains.dll

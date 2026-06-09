@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/LibraryApi.Presentations.props" />
+</Project>
