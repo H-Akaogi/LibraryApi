@@ -130,3 +130,8 @@
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/obj/Debug/net8.0/LibraryApi.Presentations.Tests.genruntimeconfig.cache
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/obj/Debug/net8.0/ref/LibraryApi.Presentations.Tests.dll
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/obj/Debug/net8.0/LibraryApi.Presentations.Tests.sourcelink.json
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/bin/Debug/net8.0/Npgsql.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll

@@ -121,3 +121,17 @@
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/obj/Debug/net8.0/LibraryApi.Infrastructures.Tests.genruntimeconfig.cache
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/obj/Debug/net8.0/ref/LibraryApi.Infrastructures.Tests.dll
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/obj/Debug/net8.0/LibraryApi.Infrastructures.Tests.sourcelink.json
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.Extensions.Caching.Abstractions.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.Extensions.Caching.Memory.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.Extensions.Logging.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.Extensions.Primitives.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Npgsql.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
