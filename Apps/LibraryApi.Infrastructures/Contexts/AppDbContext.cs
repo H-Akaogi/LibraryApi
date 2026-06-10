@@ -44,7 +44,7 @@ public class AppDbContext : DbContext
             //UserEntity
         });
 
-        // 商品カテゴリの動作設定
+        // 分類の動作設定
         modelBuilder.Entity<BookCategoryEntity>(e =>
         {
             e.HasIndex(c => c.CategoryUuid).IsUnique();

@@ -16,7 +16,7 @@ public class RegisterBookUsecase : IRegisterBookUsecase
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="bookCategoryRepository">図書カテゴリCRUD操作リポジトリ</param>
+    /// <param name="bookCategoryRepository">分類CRUD操作リポジトリ</param>
     /// <param name="bookRepository">図書CRUD操作リポジトリ</param>
     /// <param name="unitOfWork">トランザクション制御機能</param>
     public RegisterBookUsecase(
@@ -35,18 +35,18 @@ public class RegisterBookUsecase : IRegisterBookUsecase
     /// <param name="bookTitle">図書目</param>
     /// <returns>なし</returns>
     /// <exception cref="ExistsException">同一図書名が存在する場合にスローされる</exception>
-    public async Task ExistsByBookNameAsync(string bookTitle)
+    public async Task ExistsByBookTitleAsync(string bookTitle)
     {
         // 指定された図書の有無を調べる
         var result = await _bookRepository.ExistsByTitleAsync(bookTitle);
         if (result) // 図書が既に存在する
         {
-            throw new ExistsException($"図書名:{bookTitle}は既に存在します。");
+            throw new ExistsException($"書名:{bookTitle}は既に存在します。");
         }
     }
 
     /// <summary>
-    /// すべての図書カテゴリを取得する
+    /// すべての分類を取得する
     /// クライアント側の[入力画面]で利用するプルダウンを作成するため
     /// </summary>
     /// <returns>BookCategoryのリスト</returns>
@@ -56,18 +56,18 @@ public class RegisterBookUsecase : IRegisterBookUsecase
     }
 
     /// <summary>
-    /// 指定された図書カテゴリIdの図書カテゴリを取得する
+    /// 指定された分類Idの分類を取得する
     /// クライアント側の[確認画面]で利用するため
     /// </summary>
-    /// <param name="id">図書カテゴリId</param>
-    /// <returns>該当図書カテゴリ</returns>
+    /// <param name="id">分類Id</param>
+    /// <returns>該当分類</returns>
     /// <exception cref="NotFoundException">該当データが存在しない場合にスローされる</exception>
     public async Task<BookCategory> GetCategoryByIdAsync(string id)
     {
         var result = await _bookCategoryRepository.SelectByIdAsync(id);
         if (result is null)
         {
-            throw new NotFoundException($"図書カテゴリId:{id}の図書カテゴリは存在しません。");
+            throw new NotFoundException($"分類Id:{id}の分類は存在しません。");
         }
         return result!;
     }
@@ -77,14 +77,14 @@ public class RegisterBookUsecase : IRegisterBookUsecase
     /// </summary>
     /// <param name="book">登録対象図書</param>
     /// <returns>なし</returns>
-    /// <exception cref="NotFoundException">図書カテゴリが存在しない場合にスローされる</exception>
+    /// <exception cref="NotFoundException">分類が存在しない場合にスローされる</exception>
     public async Task RegisterBookAsync(Book book)
     {
         // トランザクションを開始する
         await _unitOfWork.BeginAsync();
         try
         {
-            // 図書カテゴリを取得する
+            // 分類を取得する
             await GetCategoryByIdAsync(book.Category!.CategoryUuid);
             // 新図書を登録する
             await _bookRepository.CreateAsync(book);

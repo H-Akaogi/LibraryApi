@@ -30,7 +30,7 @@ public interface IRegisterBookUsecase
     /// <param name="bookName">図書目</param>
     /// <returns>なし</returns>
     /// <exception cref="ExistsException">同一図書名が存在する場合にスローされる</exception>
-    Task ExistsByBookNameAsync(string bookName);
+    Task ExistsByBookTitleAsync(string bookName);
 
     /// <summary>
     /// 新図書を登録する

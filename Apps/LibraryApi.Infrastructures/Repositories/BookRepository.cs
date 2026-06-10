@@ -98,7 +98,56 @@ public class BookRepository : IBookRepository
     }
 
     // 更新
+    public async Task<bool> UpdateByIdAsync(Book book)
+    {
+        try
+        {
+            var entity = await _context.Books
+            .Include(p => p.BookStock)
+            .SingleOrDefaultAsync(p => p.BookUuid == book.BookUuid);
+            if (entity is null)
+            {
+                return false;
+            }
+            // 書名と著者名を変更する
+            entity.Title = book.Title;
+            entity.Author = book.Author;
+            // 蔵書数を変更する
+            entity.BookStock!.Stock = book.Stock!.Stock;
+            // 変更データをデータベースに永続化する
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            // InternalExceptionにラップしてスローする
+            throw new InternalException($"Id:{book.BookUuid}の図書変更中に予期しないエラーが発生しました。", ex);
+        }
+    }
+
     // 削除    
+    public async Task<bool> DeleteByIdAsync(string id)
+    {
+        try
+        {
+            // 削除対象の商品を取得する
+            var entity = await _context.Books.SingleOrDefaultAsync(p => p.BookUuid == id);
+            if (entity is null)
+            {
+                return false; // 該当商品が存在しない場合はfalseを返す
+            }
+            // 商品を削除する
+            _context.Books.Remove(entity);
+            // 削除結果をデータベースに反映させる
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            // InternalExceptionにラップしてスローする
+            throw new InternalException($"Id:{id}の図書削除中に予期しないエラーが発生しました。", ex);
+        }
+    }
 
     // 商品名の存在有無
     public async Task<bool> ExistsByTitleAsync(string title)

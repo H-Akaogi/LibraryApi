@@ -72,7 +72,7 @@ public class RegisterBookViewModelAdapterTests
         _scope!.Dispose();
     }
 
-    [TestMethod("ViewModelからBookを復元でき、商品Idと蔵書数Idが自動生成される")]
+    [TestMethod("ViewModelからBookを復元でき、図書Idと蔵書数Idが自動生成される")]
     public async Task RestoreAsync_ShouldMapVmToDomain_AndGenerateUuids()
     {
         // ViewModelを用意する
@@ -90,7 +90,7 @@ public class RegisterBookViewModelAdapterTests
         Assert.AreEqual(viewModel.Title, book.Title);
         // 単価を検証する
         Assert.AreEqual(viewModel.Author, book.Author);
-        // 商品Idが生成されていることを検証する
+        // 図書Idが生成されていることを検証する
         Assert.IsFalse(string.IsNullOrWhiteSpace(book.BookUuid));
         Assert.IsTrue(Guid.TryParse(book.BookUuid, out _));
         // 分類がnullでないことを検証する

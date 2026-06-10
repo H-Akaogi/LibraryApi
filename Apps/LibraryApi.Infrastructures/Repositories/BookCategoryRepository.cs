@@ -9,7 +9,7 @@ using LibraryApi.Infrastructures.Contexts;
 
 namespace LibraryApi.Infrastructures.Repositories;
 
-// 商品カテゴリのCRUD操作
+// 分類のCRUD操作
 public class BookCategoryRepository : IBookCategoryRepository
 {
     private readonly AppDbContext _context;

@@ -18,9 +18,9 @@ public class CategoryTests
         var category = new BookCategory(uuid, name);
         // nullでないことを検証する
         Assert.IsNotNull(category);
-        // 商品カテゴリIdを検証する
+        // 分類Idを検証する
         Assert.AreEqual(uuid, category.CategoryUuid);
-        // 商品カテゴリ名を検証する
+        // 分類名を検証する
         Assert.AreEqual(name, category.Name);
     }
 
@@ -31,9 +31,9 @@ public class CategoryTests
         var name = "夏への扉";
         // インスタンスを生成する
         var category = new BookCategory(name);
-        // 商品カテゴリIdがUUID形式かどうかを検証する
+        // 分類IdがUUID形式かどうかを検証する
         Assert.IsTrue(Guid.TryParse(category.CategoryUuid, out _));
-        // 商品カテゴリ名を検証する
+        // 分類名を検証する
         Assert.AreEqual(name, category.Name);
     }
 
@@ -85,7 +85,7 @@ public class CategoryTests
         // インスタンスを生成する
         var category = new BookCategory("歴史");
         var newName = "自己啓発";
-        // 商品カテゴリ名を変更する
+        // 分類名を変更する
         category.ChangeName(newName);
         // 変更結果を検証する
         Assert.AreEqual(newName, category.Name);

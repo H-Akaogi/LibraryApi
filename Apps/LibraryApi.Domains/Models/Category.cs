@@ -20,7 +20,7 @@ public class BookCategory
     // 新規作成用コンストラクタ
     public BookCategory(string name) : this(Guid.NewGuid().ToString(), name) { }
 
-    // 図書カテゴリ名の最大長
+    // 分類名の最大長
     private const int MaxLength = 20;
 
     // 分類名のルール検証
