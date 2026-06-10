@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using LibraryApi.Infrastructure.Entities;
 namespace LibraryApi.Infrastructures.Entities;
 
 [Table("category")]
-public class BookCategoryEntity
+public class BookCategoryEntity : ITimestamped
 {
     [Column("id")]
     [Key]
@@ -19,23 +20,19 @@ public class BookCategoryEntity
     [StringLength(20)]
     public string Name { get; set; } = string.Empty;
 
-    /*
-        /// <summary>
-        /// 登録日時
-        /// </summary>
-        [Required]
-        [Column("created_at")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime CreatedAt { get; set; }
+    /// <summary>
+    /// レコード作成日時
+    /// </summary>
+    [Required]
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
 
-        /// <summary>
-        /// 更新日時
-        /// </summary>
-        [Required]
-        [Column("updated_at")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime UpdatedAt { get; set; }
-    */
+    /// <summary>
+    /// レコード変更日時
+    /// </summary>
+    [Required]
+    [Column("updated_at")]
+    public DateTime UpdatedAt { get; set; }
 
     public List<BookEntity> Books { get; set; } = new();
 
