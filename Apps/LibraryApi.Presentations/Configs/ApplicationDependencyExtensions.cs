@@ -85,6 +85,8 @@ public static class ApplicationDependencyExtensions
     private static IServiceCollection AddPresentationLayerDependencies(
     this IServiceCollection services, IConfiguration config)
     {
+        // コントローラーをサービスコレクションに登録する
+        services.AddControllers();
         return services;
     }
 
