@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using LibraryApi.Domains.Models;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
 
@@ -8,7 +9,9 @@ namespace LibraryApi.Presentations.Controllers;
 /// ユースケース:[図書をキーワード検索する]を実現するコントローラ
 /// </summary>
 [ApiController]
-[Route("api/products")]
+[Route("api/books")]
+// タググループに反映されるコントローラの概要
+[SwaggerTag("図書をキーワード検索API")]
 public class SearchBookByKeywordController : ControllerBase
 {
     private readonly ISearchBookByKeywordUsecase _usecase;
