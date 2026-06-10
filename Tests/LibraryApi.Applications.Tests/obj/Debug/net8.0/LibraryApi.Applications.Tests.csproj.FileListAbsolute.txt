@@ -149,3 +149,5 @@
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Applications.Tests/bin/Debug/net8.0/LibraryApi.Presentations.dll
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Applications.Tests/bin/Debug/net8.0/LibraryApi.Presentations.pdb
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Applications.Tests/bin/Debug/net8.0/LibraryApi.Infrastructures.pdb
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Applications.Tests/bin/Debug/net8.0/Swashbuckle.AspNetCore.Annotations.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Applications.Tests/bin/Debug/net8.0/LibraryApi.Presentations.xml

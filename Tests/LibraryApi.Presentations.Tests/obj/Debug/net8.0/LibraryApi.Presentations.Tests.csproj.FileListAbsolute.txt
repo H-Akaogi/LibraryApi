@@ -135,3 +135,5 @@
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/bin/Debug/net8.0/Npgsql.dll
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/bin/Debug/net8.0/Swashbuckle.AspNetCore.Annotations.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Presentations.Tests/bin/Debug/net8.0/LibraryApi.Presentations.xml
