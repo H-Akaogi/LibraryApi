@@ -7,23 +7,23 @@ namespace LibraryApi.Applications.Usecases.Books.Interfaces;
 /// </summary>
 public interface IRegisterBookUsecase
 {
+    /*
+        /// <summary>
+        /// すべての図書カテゴリを取得する
+        /// クライアント側の[入力画面]で利用するプルダウンを作成するため
+        /// </summary>
+        /// <returns>BookCategoryのリスト</returns>
+        Task<List<BookCategory>> GetCategoriesAsync();
 
-    /// <summary>
-    /// すべての図書カテゴリを取得する
-    /// クライアント側の[入力画面]で利用するプルダウンを作成するため
-    /// </summary>
-    /// <returns>BookCategoryのリスト</returns>
-    Task<List<BookCategory>> GetCategoriesAsync();
-
-    /// <summary>
-    /// 指定された図書カテゴリIdの図書カテゴリを取得する
-    /// クライアント側の[確認画面]で利用するため
-    /// </summary>
-    /// <param name="id">図書カテゴリId</param>
-    /// <returns>該当図書カテゴリ</returns>
-    /// <exception cref="NotFoundException">該当データが存在しない場合にスローされる</exception>
-    Task<BookCategory> GetCategoryByIdAsync(string id);
-
+        /// <summary>
+        /// 指定された図書カテゴリIdの図書カテゴリを取得する
+        /// クライアント側の[確認画面]で利用するため
+        /// </summary>
+        /// <param name="id">図書カテゴリId</param>
+        /// <returns>該当図書カテゴリ</returns>
+        /// <exception cref="NotFoundException">該当データが存在しない場合にスローされる</exception>
+        Task<BookCategory> GetCategoryByIdAsync(string id);
+    */
     /// <summary>
     /// 指定された図書の存在有無を調べる
     /// </summary>

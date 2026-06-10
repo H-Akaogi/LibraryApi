@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using LibraryApi.Domains.Models;
 using LibraryApi.Domains.Exceptions;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
+using LibraryApi.Applications.Usecases.Categories.Interfaces;
 using LibraryApi.Presentations.Adapters;
 using LibraryApi.Presentations.ViewModels;
 namespace LibraryApi.Presentations.Controllers;
@@ -12,53 +13,57 @@ namespace LibraryApi.Presentations.Controllers;
 [Route("library/api")]
 public class RegisterBookController : ControllerBase
 {
-    private readonly IRegisterBookUsecase _usecase;
+    private readonly IRegisterBookUsecase _bookUsecase;
+    private readonly ICategoryUsecase _categoryUsecase;
     private readonly RegisterBookViewModelAdapter _adapter;
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="usecase">ユースケース:[新図書を登録する]を実現するインターフェイス</param>
+    /// <param name="bookUsecase">ユースケース:[新図書を登録する]を実現するインターフェイス</param>
+    /// <param name="categoryUsecase"></param>
     /// <param name="adapter">RegisterBookViewModelからドメインオブジェクト:Bookへ変換するアダプタ</param>
     public RegisterBookController(
-        IRegisterBookUsecase usecase,
+        IRegisterBookUsecase bookUsecase,
+        ICategoryUsecase categoryUsecase,
         RegisterBookViewModelAdapter adapter)
     {
-        _usecase = usecase;
+        _bookUsecase = bookUsecase;
+        _categoryUsecase = categoryUsecase;
         _adapter = adapter;
     }
-
-    /// <summary>
-    /// 図書カテゴリ一覧の取得
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("categories")]
-    public async Task<IActionResult> GetCategories()
-    {
-        var result = await _usecase.GetCategoriesAsync();
-        return Ok(result);
-    }
-
-    /// <summary>
-    /// 選択された図書カテゴリIdで図書カテゴリを取得する取得する
-    /// </summary>
-    /// <param name="categoryId">図書カテゴリId(UUID)</param>
-    /// <returns>該当するカテゴリが存在すればOK(200)、存在しなければNotFound(404)</returns>
-    [HttpGet("categories/{categoryId}")]
-    public async Task<IActionResult> GetCategoryById(string categoryId)
-    {
-        try
+    /*
+        /// <summary>
+        /// 図書カテゴリ一覧の取得
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetCategories()
         {
-            var category = await _usecase.GetCategoryByIdAsync(categoryId);
-            return Ok(category);
+            var result = await _usecase.GetCategoriesAsync();
+            return Ok(result);
         }
-        catch (NotFoundException ex)
-        {
-            // エラーレスポンスを返却する
-            return NotFound(new
-            { code = "CATEGORY_NOT_FOUND", message = ex.Message });
-        }
-    }
 
+        /// <summary>
+        /// 選択された図書カテゴリIdで図書カテゴリを取得する
+        /// </summary>
+        /// <param name="categoryId">図書カテゴリId(UUID)</param>
+        /// <returns>該当するカテゴリが存在すればOK(200)、存在しなければNotFound(404)</returns>
+        [HttpGet("categories/{categoryId}")]
+        public async Task<IActionResult> GetCategoryById(string categoryId)
+        {
+            try
+            {
+                var category = await _usecase.GetCategoryByIdAsync(categoryId);
+                return Ok(category);
+            }
+            catch (NotFoundException ex)
+            {
+                // エラーレスポンスを返却する
+                return NotFound(new
+                { code = "CATEGORY_NOT_FOUND", message = ex.Message });
+            }
+        }
+    */
     /// <summary>
     /// 図書が既に存在するかを検証する
     /// </summary>
@@ -66,7 +71,7 @@ public class RegisterBookController : ControllerBase
     /// <returns>
     /// 存在しない場合:Ok(200)、存在する場合:Conflict(409) 
     /// </returns>
-    [HttpGet("validate/book")]
+    [HttpGet("book/validate")]
     public async Task<IActionResult> ValidateBook([FromQuery] string bookTitle)
     {
         // 書名がnullか空白
@@ -78,7 +83,7 @@ public class RegisterBookController : ControllerBase
         try
         {
             // 書名の存在有無を調べる
-            await _usecase.ExistsByBookTitleAsync(bookTitle);
+            await _bookUsecase.ExistsByBookTitleAsync(bookTitle);
             return Ok(new { exists = false });
         }
         catch (ExistsException ex)
@@ -88,7 +93,7 @@ public class RegisterBookController : ControllerBase
             { code = "PRODUCT_ALREADY_EXISTS", message = ex.Message });
         }
     }
-    [HttpGet("validate/author")]
+    [HttpGet("author/validate")]
     // 著者名
     public async Task<IActionResult> ValidateAuthor([FromQuery] string author)
     {
@@ -135,13 +140,13 @@ public class RegisterBookController : ControllerBase
         try
         {
             // 存在しない図書カテゴリを受信した(ミスしている)
-            await _usecase.GetCategoryByIdAsync(model.CategoryId);
+            await _categoryUsecase.GetCategoryByIdAsync(model.CategoryId);
             // 既に登録済みの図書を受信した(ミスしている)
-            await _usecase.ExistsByBookTitleAsync(model.Title);
+            await _bookUsecase.ExistsByBookTitleAsync(model.Title);
             // RegisterBookViewModelからBookを復元する
             var book = await _adapter.RestoreAsync(model);
             // 図書を永続化する
-            await _usecase.RegisterBookAsync(book);
+            await _bookUsecase.RegisterBookAsync(book);
             return Created($"/library/api/books/{book.BookUuid}", book);
         }
         catch (ExistsException ex)

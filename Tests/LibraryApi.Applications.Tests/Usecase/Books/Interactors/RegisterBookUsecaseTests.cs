@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using LibraryApi.Applications.Usecases.Books.Interfaces;
+using LibraryApi.Applications.Usecases.Categories.Interfaces;
 using LibraryApi.Presentations.Configs;
 using LibraryApi.Domains.Exceptions;
 using LibraryApi.Domains.Models;
@@ -22,7 +23,8 @@ public class RegisterBookUsecaseTests
     // スコープドサービス
     private IServiceScope? _scope;
     // テストターゲット
-    private static IRegisterBookUsecase? _uscase;
+    private static IRegisterBookUsecase? _bookUsecase;
+    private static ICategoryUsecase? _categoryUsecase;
     // 図書リポジトリ
     private static IBookRepository? _bookRepository;
 
@@ -62,7 +64,7 @@ public class RegisterBookUsecaseTests
         // スコープドサービスを取得する
         _scope = _provider!.CreateScope();
         // テストターゲットを取得する
-        _uscase =
+        _bookUsecase =
         _scope.ServiceProvider.GetRequiredService<IRegisterBookUsecase>();
         // 図書リポジトリを取得する
         _bookRepository =
@@ -83,7 +85,7 @@ public class RegisterBookUsecaseTests
     public async Task GetCategoriesAsync_ShouldReturnAllCategories()
     {
         // すべての分類を取得する
-        var categories = await _uscase!.GetCategoriesAsync();
+        var categories = await _categoryUsecase!.GetCategoriesAsync();
         // nullでないことを検証する
         Assert.IsNotNull(categories);
         // 件数が6件であることを検証する

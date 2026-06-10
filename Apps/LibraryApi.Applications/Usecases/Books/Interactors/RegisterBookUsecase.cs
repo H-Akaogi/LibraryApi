@@ -2,6 +2,7 @@ using LibraryApi.Domains.Models;
 using LibraryApi.Domains.Repositories;
 using LibraryApi.Domains.Exceptions;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
+using LibraryApi.Applications.Usecases.Categories.Interfaces;
 using LibraryApi.Applications.Usecases;
 
 namespace LibraryApi.Applications.Usecases.Books.Interactors;
@@ -12,6 +13,7 @@ public class RegisterBookUsecase : IRegisterBookUsecase
 {
     private readonly IBookCategoryRepository _bookCategoryRepository;
     private readonly IBookRepository _bookRepository;
+    private readonly ICategoryUsecase _categoryUsecase;
     private readonly IUnitOfWork _unitOfWork;
     /// <summary>
     /// コンストラクタ
@@ -22,15 +24,17 @@ public class RegisterBookUsecase : IRegisterBookUsecase
     public RegisterBookUsecase(
         IBookCategoryRepository bookCategoryRepository,
         IBookRepository bookRepository,
+        ICategoryUsecase categoryUsecase,
         IUnitOfWork unitOfWork)
     {
         _bookCategoryRepository = bookCategoryRepository;
         _bookRepository = bookRepository;
+        _categoryUsecase = categoryUsecase;
         _unitOfWork = unitOfWork;
     }
 
     /// <summary>
-    /// 指定ざれた図書の存在有無を調べる
+    /// 指定された図書の存在有無を調べる
     /// </summary>
     /// <param name="bookTitle">図書目</param>
     /// <returns>なし</returns>
@@ -44,34 +48,34 @@ public class RegisterBookUsecase : IRegisterBookUsecase
             throw new ExistsException($"書名:{bookTitle}は既に存在します。");
         }
     }
-
-    /// <summary>
-    /// すべての分類を取得する
-    /// クライアント側の[入力画面]で利用するプルダウンを作成するため
-    /// </summary>
-    /// <returns>BookCategoryのリスト</returns>
-    public async Task<List<BookCategory>> GetCategoriesAsync()
-    {
-        return await _bookCategoryRepository.SelectAllAsync();
-    }
-
-    /// <summary>
-    /// 指定された分類Idの分類を取得する
-    /// クライアント側の[確認画面]で利用するため
-    /// </summary>
-    /// <param name="id">分類Id</param>
-    /// <returns>該当分類</returns>
-    /// <exception cref="NotFoundException">該当データが存在しない場合にスローされる</exception>
-    public async Task<BookCategory> GetCategoryByIdAsync(string id)
-    {
-        var result = await _bookCategoryRepository.SelectByIdAsync(id);
-        if (result is null)
+    /*
+        /// <summary>
+        /// すべての分類を取得する
+        /// クライアント側の[入力画面]で利用するプルダウンを作成するため
+        /// </summary>
+        /// <returns>BookCategoryのリスト</returns>
+        public async Task<List<BookCategory>> GetCategoriesAsync()
         {
-            throw new NotFoundException($"分類Id:{id}の分類は存在しません。");
+            return await _bookCategoryRepository.SelectAllAsync();
         }
-        return result!;
-    }
 
+        /// <summary>
+        /// 指定された分類Idの分類を取得する
+        /// クライアント側の[確認画面]で利用するため
+        /// </summary>
+        /// <param name="id">分類Id</param>
+        /// <returns>該当分類</returns>
+        /// <exception cref="NotFoundException">該当データが存在しない場合にスローされる</exception>
+        public async Task<BookCategory> GetCategoryByIdAsync(string id)
+        {
+            var result = await _bookCategoryRepository.SelectByIdAsync(id);
+            if (result is null)
+            {
+                throw new NotFoundException($"分類Id:{id}の分類は存在しません。");
+            }
+            return result!;
+        }
+    */
     /// <summary>
     /// 新図書を登録する
     /// </summary>
@@ -85,7 +89,7 @@ public class RegisterBookUsecase : IRegisterBookUsecase
         try
         {
             // 分類を取得する
-            await GetCategoryByIdAsync(book.Category!.CategoryUuid);
+            await _categoryUsecase.GetCategoryByIdAsync(book.Category!.CategoryUuid);
             // 新図書を登録する
             await _bookRepository.CreateAsync(book);
             // トランザクションをコミットする

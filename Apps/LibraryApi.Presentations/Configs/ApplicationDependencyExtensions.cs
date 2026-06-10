@@ -13,6 +13,8 @@ using LibraryApi.Infrastructures.Shared;
 using LibraryApi.Applications.Usecases;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
 using LibraryApi.Applications.Usecases.Books.Interactors;
+using LibraryApi.Applications.Usecases.Categories.Interfaces;
+using LibraryApi.Applications.Usecases.Categories.Interactors;
 
 using LibraryApi.Presentations.ViewModels;
 using LibraryApi.Presentations.Adapters;
@@ -75,6 +77,8 @@ public static class ApplicationDependencyExtensions
         services.AddScoped<ISearchBookByKeywordUsecase, SearchBookByKeywordUsecase>();
         // 図書登録ユースケース
         services.AddScoped<IRegisterBookUsecase, RegisterBookUsecase>();
+        // 分類ユースケース
+        services.AddScoped<ICategoryUsecase, CategoryUsecase>();
         return services;
     }
 
