@@ -12,7 +12,7 @@ public class BookStock
     {
         ValidateUuid(stockUuid);  // UUID形式の検証
         StockUuid = stockUuid;
-        ValidateStock(stock);     // 在庫数の検証
+        ValidateStock(stock);     // 蔵書数の検証
         Stock = stock;
     }
     // 新規作成用コンストラクタ
@@ -24,11 +24,11 @@ public class BookStock
         Stock = stock;
     }
 
-    // 在庫数のルール検証
+    // 蔵書数のルール検証
     private void ValidateStock(int stock)
     {
         if (stock < 0)
-            throw new DomainException("在庫数は0以上である必要があります。");
+            throw new DomainException("蔵書数は0以上である必要があります。");
     }
 
     // UUIDの形式検証

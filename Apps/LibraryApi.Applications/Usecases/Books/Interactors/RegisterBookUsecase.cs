@@ -4,7 +4,7 @@ using LibraryApi.Domains.Exceptions;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
 using LibraryApi.Applications.Usecases;
 
-namespace RestAPI_Exercise.Application.Usecases.Books.Interactors;
+namespace LibraryApi.Applications.Usecases.Books.Interactors;
 /// <summary>
 /// ユースケース:[新図書を登録する]を実現するインターフェイスの実装
 /// </summary>

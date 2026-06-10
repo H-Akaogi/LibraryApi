@@ -38,6 +38,11 @@ public class SearchBookByKeywordController : ControllerBase
             return BadRequest(
             new { code = "INVALID_KEYWORD", message = "検索キーワードを入力してください。" });
         }
+        if (keyword.Length > 50)
+        {
+            return BadRequest(
+           new { code = "ValidationError", message = "キーワードは1~50文字で入力してください" });
+        }
         // 図書キーワード検索する
         var result = await _usecase.ExecuteAsync(keyword.Trim());
         return Ok(result);

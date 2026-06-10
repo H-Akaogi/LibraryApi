@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Npgsql.Replication;
 
-using LibraryApi.Applications.Usecases;
-
 using LibraryApi.Domains.Repositories;
 
 using LibraryApi.Infrastructures;
@@ -11,10 +9,13 @@ using LibraryApi.Infrastructures.Adapters;
 using LibraryApi.Infrastructures.Entities;
 using LibraryApi.Infrastructures.Repositories;
 using LibraryApi.Infrastructures.Shared;
+
+using LibraryApi.Applications.Usecases;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
 using LibraryApi.Applications.Usecases.Books.Interactors;
-using RestAPI_Exercise.Application.Usecases.Books.Interactors;
 
+using LibraryApi.Presentations.ViewModels;
+using LibraryApi.Presentations.Adapters;
 
 namespace LibraryApi.Presentations.Configs;
 
@@ -90,6 +91,9 @@ public static class ApplicationDependencyExtensions
     {
         // コントローラーをサービスコレクションに登録する
         services.AddControllers();
+
+        // RegisterProductViewModelからドメインオブジェクト:Productへ変換するアダプタ
+        services.AddScoped<RegisterBookViewModelAdapter>();
         return services;
     }
 

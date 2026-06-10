@@ -82,7 +82,7 @@ public class BookStockEntityAdapterTests
         Assert.IsNotNull(entity);
         // 在庫IdがBookStcokと同じであるこを検証する
         Assert.AreEqual(stockUuid, entity.StockUuid);
-        // 在庫数が25であることを検証する
+        // 蔵書数が25であることを検証する
         Assert.AreEqual(25, entity.Stock);
     }
 
@@ -108,7 +108,7 @@ public class BookStockEntityAdapterTests
         Assert.IsNotNull(domain);
         // 在庫Idが一致していることを検証する
         Assert.AreEqual(stockUuid, domain.StockUuid);
-        // 在庫数が10であることを検証する
+        // 蔵書数が10であることを検証する
         Assert.AreEqual(10, domain.Stock);
     }
 

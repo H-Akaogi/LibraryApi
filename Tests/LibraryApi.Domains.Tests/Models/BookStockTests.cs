@@ -18,7 +18,7 @@ public class BookStockTests
         var productStock = new BookStock(uuid, stock);
         // 商品在庫Idを検証する
         Assert.AreEqual(uuid, productStock.StockUuid);
-        // 商品在庫数を検証する
+        // 商品蔵書数を検証する
         Assert.AreEqual(stock, productStock.Stock);
     }
 
@@ -31,7 +31,7 @@ public class BookStockTests
         var productStock = new BookStock(stock);
         //  商品在庫IdがUUID形式かどうかを検証する
         Assert.IsTrue(Guid.TryParse(productStock.StockUuid, out _));
-        // 商品在庫数を検証する
+        // 商品蔵書数を検証する
         Assert.AreEqual(stock, productStock.Stock);
     }
 
@@ -49,7 +49,7 @@ public class BookStockTests
         Assert.AreEqual("UUIDの形式が正しくありません。", ex.Message);
     }
 
-    [TestMethod("在庫数がマイナスの場合、DomainExceptionがスローされる")]
+    [TestMethod("蔵書数がマイナスの場合、DomainExceptionがスローされる")]
     public void Stock_WithNegativeValue_ShouldThrowDomainException()
     {
         // データを用意する
@@ -60,32 +60,32 @@ public class BookStockTests
             _ = new BookStock(uuid, stock);
         });
         // 例外メッセージを検証する
-        Assert.AreEqual("在庫数は0以上である必要があります。", ex.Message);
+        Assert.AreEqual("蔵書数は0以上である必要があります。", ex.Message);
     }
 
-    [TestMethod("有効な在庫数の場合、在庫数を変更できる")]
+    [TestMethod("有効な蔵書数の場合、蔵書数を変更できる")]
     public void ChangeStock_WithValidValue_ShouldUpdateStock()
     {
         // インスタンス生成する
         var productStock = new BookStock(10);
         var newStock = 50;
-        // 在庫数を変更する
+        // 蔵書数を変更する
         productStock.ChangeStock(newStock);
         // 変更結果を検証する
         Assert.AreEqual(newStock, productStock.Stock);
     }
 
-    [TestMethod("マイナスの在庫数で変更した場合、DomainExceptionをスローする")]
+    [TestMethod("マイナスの蔵書数で変更した場合、DomainExceptionをスローする")]
     public void ChangeStock_WithNegativeValue_ShouldThrowDomainException()
     {
         // インスタンスを生成する
         var productStock = new BookStock(10);
         var ex = Assert.ThrowsException<DomainException>(() =>
         {
-            productStock.ChangeStock(-5);// 在庫数を変更する
+            productStock.ChangeStock(-5);// 蔵書数を変更する
         });
         // 例外メッセージを検証する
-        Assert.AreEqual("在庫数は0以上である必要があります。", ex.Message);
+        Assert.AreEqual("蔵書数は0以上である必要があります。", ex.Message);
     }
 
     [TestMethod("UUIDで等価と判定される")]
