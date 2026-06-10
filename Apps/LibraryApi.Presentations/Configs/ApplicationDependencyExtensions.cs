@@ -11,6 +11,8 @@ using LibraryApi.Infrastructures.Adapters;
 using LibraryApi.Infrastructures.Entities;
 using LibraryApi.Infrastructures.Repositories;
 using LibraryApi.Infrastructures.Shared;
+using LibraryApi.Applications.Usecases.Books.Interfaces;
+using LibraryApi.Applications.Usecases.Books.Interactors;
 
 
 namespace LibraryApi.Presentations.Configs;
@@ -67,6 +69,8 @@ public static class ApplicationDependencyExtensions
     private static IServiceCollection AddApplicationLayerDependencies(
     this IServiceCollection services, IConfiguration config)
     {
+        // 図書検索ユースケース
+        services.AddScoped<ISearchBookByKeywordUsecase, SearchBookByKeywordUsecase>();
         return services;
     }
 
