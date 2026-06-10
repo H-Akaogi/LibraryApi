@@ -69,6 +69,10 @@ public class RegisterBookUsecaseTests
         // 図書リポジトリを取得する
         _bookRepository =
         _scope.ServiceProvider.GetRequiredService<IBookRepository>();
+        _categoryUsecase =
+        _scope.ServiceProvider.GetRequiredService<ICategoryUsecase>();
+        _bookUsecase =
+        _scope.ServiceProvider.GetRequiredService<IRegisterBookUsecase>();
     }
 
     /// <summary>
