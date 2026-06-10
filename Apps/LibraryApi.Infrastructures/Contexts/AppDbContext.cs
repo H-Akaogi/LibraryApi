@@ -39,10 +39,7 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
 
             e.Property(b => b.BookUuid)
-                .HasConversion(
-                    v => Guid.Parse(v),
-                    v => v.ToString()
-                );
+                .HasMaxLength(36);
 
             //UserEntity
         });
@@ -54,10 +51,7 @@ public class AppDbContext : DbContext
             e.Property(c => c.Name).HasMaxLength(20);
 
             e.Property(c => c.CategoryUuid)
-             .HasConversion(
-                 v => Guid.Parse(v),  // C#(string)をDB(uuid)に書き込む時の処理
-                 v => v.ToString()    // DB(uuid)をC#(string)に読み込む時の処理
-            );
+                .HasMaxLength(36);
         });
 
         // 蔵書数の動作設定
@@ -69,10 +63,7 @@ public class AppDbContext : DbContext
             e.HasIndex(s => s.BookId).IsUnique();
             // C#のstring ⇔ PostgreSQLのuuidを自動変換する
             e.Property(s => s.StockUuid)
-             .HasConversion(
-                 v => Guid.Parse(v),
-                 v => v.ToString()
-            );
+                .HasMaxLength(36);
         });
     }
 }

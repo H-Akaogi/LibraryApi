@@ -25,19 +25,21 @@ public class BookStockEntity
     [ForeignKey("BookId")]
     public BookEntity? Book { get; set; }
 
-    /// <summary>
-    /// 登録日時
-    /// </summary>
-    [Required]
-    [Column("created_at")]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public DateTime CreatedAt { get; set; }
+    /*
+        /// <summary>
+        /// 登録日時
+        /// </summary>
+        [Required]
+        [Column("created_at")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime CreatedAt { get; set; }
 
-    /// <summary>
-    /// 更新日時
-    /// </summary>
-    [Required]
-    [Column("updated_at")]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    public DateTime UpdatedAt { get; set; }
+        /// <summary>
+        /// 更新日時
+        /// </summary>
+        [Required]
+        [Column("updated_at")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime UpdatedAt { get; set; }
+    */
 }
