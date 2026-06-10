@@ -1,4 +1,4 @@
-namespace LibraryApi.Infrastructure.Entities;
+namespace LibraryApi.Infrastructures.Entities;
 /// <summary>
 /// 作成日時・変更日時を持つ EF Core エンティティが実装する共通インターフェイス
 ///

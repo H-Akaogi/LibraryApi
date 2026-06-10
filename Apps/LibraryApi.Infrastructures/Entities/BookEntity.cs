@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices;
-using LibraryApi.Infrastructure.Entities;
+using LibraryApi.Infrastructures.Entities;
 namespace LibraryApi.Infrastructures.Entities;
 
 [Table("book")]

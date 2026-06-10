@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using LibraryApi.Infrastructure.Entities;
+using LibraryApi.Infrastructures.Entities;
 namespace LibraryApi.Infrastructures.Entities;
 
 [Table("category")]
