@@ -120,7 +120,7 @@ public class BookRepositoryTests
     public async Task CreateAsync_WithStock_ShouldPersistBoth()
     {
         // 登録データを用意する
-        var bookCategory = new BookCategory("a1f70bb5-aac0-4f3e-95a9-712dc100a26d", "雑誌");
+        var bookCategory = new BookCategory("d652b797-d71a-4c4c-9539-65049819d942", "雑誌");
         var bookStock = new BookStock(Guid.NewGuid().ToString(), 20);
         var book = new Book(Guid.NewGuid().ToString(), "図書-A", "著者-A");
         book.ChangeStock(bookStock);

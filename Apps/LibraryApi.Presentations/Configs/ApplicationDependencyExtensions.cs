@@ -1,12 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using Npgsql.Replication;
-using LibraryApi.Infrastructures;
 
+using LibraryApi.Applications.Usecases;
+
+using LibraryApi.Domains.Repositories;
+
+using LibraryApi.Infrastructures;
 using LibraryApi.Infrastructures.Contexts;
 using LibraryApi.Infrastructures.Adapters;
 using LibraryApi.Infrastructures.Entities;
-using LibraryApi.Domains.Repositories;
 using LibraryApi.Infrastructures.Repositories;
+using LibraryApi.Infrastructures.Shared;
+
+
 namespace LibraryApi.Presentations.Configs;
 
 public static class ApplicationDependencyExtensions
@@ -50,6 +56,10 @@ public static class ApplicationDependencyExtensions
         // Repository
         services.AddScoped<IBookCategoryRepository, BookCategoryRepository>();
         services.AddScoped<IBookRepository, BookRepository>();
+
+        // Unit of Workパターンを利用したトランザクション制御インターフェイス
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         return services;
     }
 
