@@ -13,6 +13,7 @@ using LibraryApi.Infrastructures.Repositories;
 using LibraryApi.Infrastructures.Shared;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
 using LibraryApi.Applications.Usecases.Books.Interactors;
+using RestAPI_Exercise.Application.Usecases.Books.Interactors;
 
 
 namespace LibraryApi.Presentations.Configs;
@@ -71,6 +72,8 @@ public static class ApplicationDependencyExtensions
     {
         // 図書検索ユースケース
         services.AddScoped<ISearchBookByKeywordUsecase, SearchBookByKeywordUsecase>();
+        // 図書登録ユースケース
+        services.AddScoped<IRegisterBookUsecase, RegisterBookUsecase>();
         return services;
     }
 
