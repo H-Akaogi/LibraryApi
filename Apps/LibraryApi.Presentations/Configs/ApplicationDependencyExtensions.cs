@@ -98,8 +98,11 @@ public static class ApplicationDependencyExtensions
         // コントローラーをサービスコレクションに登録する
         services.AddControllers();
 
-        // RegisterProductViewModelからドメインオブジェクト:Productへ変換するアダプタ
+        // RegisterBookViewModelからドメインオブジェクト:Bookへ変換するアダプタ
         services.AddScoped<RegisterBookViewModelAdapter>();
+
+        // UpdateBookViewModelからドメインオブジェクト:Bookへ変換するアダプタ
+        services.AddScoped<UpdateBookViewModelAdapter>();
         return services;
     }
 
