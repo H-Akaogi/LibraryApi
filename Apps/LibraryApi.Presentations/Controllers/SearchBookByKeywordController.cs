@@ -9,9 +9,9 @@ namespace LibraryApi.Presentations.Controllers;
 /// ユースケース:[図書をキーワード検索する]を実現するコントローラ
 /// </summary>
 [ApiController]
-[Route("library/api/books")]
+[Route("library/api")]
 // タググループに反映されるコントローラの概要
-[SwaggerTag("図書をキーワード検索API")]
+[SwaggerTag("図書をキーワード検索するAPI")]
 public class SearchBookByKeywordController : ControllerBase
 {
     private readonly ISearchBookByKeywordUsecase _usecase;
@@ -29,7 +29,9 @@ public class SearchBookByKeywordController : ControllerBase
     /// </summary>
     /// <param name="keyword">検索キーワード</param>
     /// <returns>検索結果の図書一覧</returns>
-    [HttpGet]
+    [HttpGet("books")]
+    [SwaggerResponse(StatusCodes.Status200OK, "図書検索成功", typeof(List<Book>))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー")]
     public async Task<IActionResult> Search([FromQuery] string? keyword)
     {
         // 未入力チェック

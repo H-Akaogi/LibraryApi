@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using LibraryApi.Domains.Models;
 using LibraryApi.Domains.Exceptions;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
@@ -11,6 +12,7 @@ namespace LibraryApi.Presentations.Controllers;
 /// </summary>
 [ApiController]
 [Route("library/api")]
+[SwaggerTag("新しい図書を登録するAPI")]
 public class RegisterBookController : ControllerBase
 {
     private readonly IRegisterBookUsecase _bookUsecase;
@@ -72,6 +74,11 @@ public class RegisterBookController : ControllerBase
     /// 存在しない場合:Ok(200)、存在する場合:Conflict(409) 
     /// </returns>
     [HttpGet("book/validate")]
+    [SwaggerOperation(Summary = "書名の存在確認",
+                      Description = "書名が既に存在するかを検証する")]
+    [SwaggerResponse(StatusCodes.Status200OK, "存在しない場合 { exists=false } を返す")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "書名が未入力の場合")]
+    [SwaggerResponse(StatusCodes.Status409Conflict, "書名が既に存在する場合")]
     public async Task<IActionResult> ValidateBook([FromQuery] string bookTitle)
     {
         // 書名がnullか空白
@@ -94,6 +101,9 @@ public class RegisterBookController : ControllerBase
         }
     }
     [HttpGet("author/validate")]
+    [SwaggerOperation(Summary = "著者名の入力確認",
+                      Description = "著者名が入力されたかを検証する")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "著者名が未入力の場合")]
     // 著者名
     public async Task<IActionResult> ValidateAuthor([FromQuery] string author)
     {
@@ -115,6 +125,12 @@ public class RegisterBookController : ControllerBase
     /// <param name="model">図書登録用ViewModel</param>
     /// <returns></returns>
     [HttpPost("books")]
+    [SwaggerOperation(Summary = "図書登録",
+                      Description = "新しい図書を登録する")]
+    [SwaggerResponse(StatusCodes.Status201Created, "図書登録成功", typeof(Book))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー、または分類が存在しない")]
+    // [SwaggerResponse(StatusCodes.Status404NotFound, "分類Idが存在しない場合")]
+    // [SwaggerResponse(StatusCodes.Status409Conflict, "図書が既に存在する場合")]
     public async Task<IActionResult> Register(
         RegisterBookViewModel model)
     {
@@ -152,12 +168,14 @@ public class RegisterBookController : ControllerBase
         catch (ExistsException ex)
         {
             // 既に存在する図書を受信した
-            return Conflict(new { code = "PRODUCT_ALREADY_EXISTS", message = ex.Message });
+            //return Conflict(new { code = "PRODUCT_ALREADY_EXISTS", message = ex.Message });
+            return BadRequest(new { code = "PRODUCT_ALREADY_EXISTS", message = ex.Message }); // BadRequestに変更
         }
         catch (NotFoundException ex)
         {
             // 存在しない図書カテゴリIdを受信した
-            return NotFound(new { code = "CATEGORY_NOT_FOUND", message = ex.Message });
+            //return NotFound(new { code = "CATEGORY_NOT_FOUND", message = ex.Message });
+            return BadRequest(new { code = "CATEGORY_NOT_FOUND", message = ex.Message });
         }
         catch (DomainException ex)
         {

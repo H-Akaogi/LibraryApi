@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using LibraryApi.Domains.Models;
 using LibraryApi.Domains.Exceptions;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
@@ -9,7 +10,8 @@ namespace LibraryApi.Presentations.Controllers;
 /// ユースケース:[図書を変更する]を実現するコントローラ
 /// </summary>
 [ApiController]
-[Route("api/books/update")]
+[Route("library/api")]
+[SwaggerTag("図書を変更するAPI")]
 public class UpdateBookController : ControllerBase
 {
     private readonly IUpdateBookUsecase _usecase;
@@ -28,11 +30,16 @@ public class UpdateBookController : ControllerBase
     }
 
     /// <summary>
-    /// 選択された図書Idで図書を取得する取得する
+    /// 選択された図書Idで図書を取得する
     /// </summary>
     /// <param name="bookId">図書Id(UUID)</param>
     /// <returns>該当する図書が存在すればOK(200)、存在しなければNotFound(404)</returns>
-    [HttpGet("book/{bookId}")]
+    [HttpGet("books/{bookId}")]
+    [SwaggerOperation(Summary = "図書の取得",
+                      Description = "図書の詳細を取得する")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "指定された図書が存在しない")]
+    //[SwaggerResponse(StatusCodes.Status400BadRequest, "書名が未入力の場合")]
+    [SwaggerResponse(StatusCodes.Status200OK, "図書の詳細取得成功")]
     public async Task<IActionResult> GetBookById(string bookId)
     {
         try
@@ -56,6 +63,11 @@ public class UpdateBookController : ControllerBase
     /// 存在しない場合:Ok(200)、存在する場合:Conflict(409) 
     /// </returns>
     [HttpGet("validate")]
+    [SwaggerOperation(Summary = "図書の検証",
+                      Description = "図書が既に存在するかを検証する")]
+    [SwaggerResponse(StatusCodes.Status409Conflict, "図書が既に存在する場合{ Conflict(409) } を返す")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "書名が未入力の場合")]
+    [SwaggerResponse(StatusCodes.Status200OK, "存在しない場合 ")]
     public async Task<IActionResult> ValidateBook([FromQuery] string bookName)
     {
         // 書名がnullか空白
@@ -83,7 +95,13 @@ public class UpdateBookController : ControllerBase
     /// </summary>
     /// <param name="model">図書変更用ViewModel</param>
     /// <returns></returns>
-    [HttpPut]
+    [HttpPut("books/{bookId}")]
+    [SwaggerOperation(Summary = "図書の変更",
+                      Description = "図書を変更する")]
+    [SwaggerResponse(StatusCodes.Status409Conflict, "図書が既に存在する場合{ Conflict(409) } を返す")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "存在しない場合 { NotFound(404) } を返す")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "入力内容に誤りがある場合")]
+    [SwaggerResponse(StatusCodes.Status200OK, "存在しない場合 ")]
     public async Task<IActionResult> Updated([FromBody] UpdateBookViewModel model)
     {
         // サーバーサイドバリデーション
