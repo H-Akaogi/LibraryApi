@@ -93,6 +93,7 @@ public class UpdateBookController : ControllerBase
     /// <summary>
     /// 図書を変更する
     /// </summary>
+    /// <param name="bookId"></param>
     /// <param name="model">図書変更用ViewModel</param>
     /// <returns></returns>
     [HttpPut("books/{bookId}")]
@@ -102,7 +103,7 @@ public class UpdateBookController : ControllerBase
     [SwaggerResponse(StatusCodes.Status404NotFound, "指定された図書が存在しない")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー")]
     [SwaggerResponse(StatusCodes.Status200OK, "図書の変更成功")]
-    public async Task<IActionResult> Updated([FromBody] UpdateBookViewModel model)
+    public async Task<IActionResult> Updated([FromRoute] string bookId, [FromBody] UpdateBookViewModel model)
     {
         // サーバーサイドバリデーション
         if (!ModelState.IsValid)
@@ -128,7 +129,7 @@ public class UpdateBookController : ControllerBase
             // 書名の存在有無を調べる
             await _usecase.ExistsByBookNameAsync(model.Title);
             // UpdateBookViewModelからBookを復元する
-            var book = await _adapter.RestoreAsync(model);
+            var book = await _adapter.RestoreAsync(bookId, model);
             // 図書を変更する
             await _usecase.UpdateBookAsync(book);
             return Ok(book);

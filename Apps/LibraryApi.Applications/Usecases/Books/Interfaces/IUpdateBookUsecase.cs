@@ -16,7 +16,7 @@ public interface IUpdateBookUsecase
     Task<Book> GetBookByIdAsync(string id);
 
     /// <summary>
-    /// 指定ざれた商品の存在有無を調べる
+    /// 指定された商品の存在有無を調べる
     /// </summary>
     /// <param name="bookTitle">商品目</param>
     /// <returns>なし</returns>

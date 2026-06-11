@@ -81,6 +81,8 @@ public static class ApplicationDependencyExtensions
         services.AddScoped<ICategoryUsecase, CategoryUsecase>();
         // 図書更新ユースケース
         services.AddScoped<IUpdateBookUsecase, UpdateBookUsecase>();
+        // 図書削除ユースケース
+        services.AddScoped<IDeleteBookUsecase, DeleteBookUsecase>();
         return services;
     }
 

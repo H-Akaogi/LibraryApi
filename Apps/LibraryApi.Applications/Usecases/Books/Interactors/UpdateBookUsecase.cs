@@ -27,7 +27,7 @@ public class UpdateBookUsecase : IUpdateBookUsecase
     }
 
     /// <summary>
-    /// 指定ざれた図書の存在有無を調べる
+    /// 指定された図書の存在有無を調べる
     /// </summary>
     /// <param name="bookTitle">図書目</param>
     /// <returns>なし</returns>
@@ -61,7 +61,7 @@ public class UpdateBookUsecase : IUpdateBookUsecase
     }
 
     /// <summary>
-    /// 図書を変更するする
+    /// 図書を変更する
     /// </summary>
     /// <param name="book">変更対象対象図書</param>
     /// <returns>なし</returns>

@@ -27,8 +27,8 @@ public class RegisterBookViewModel
     ErrorMessage = "分類識別IdはUUID形式で指定してください。")]
     public string CategoryId { get; set; } = string.Empty;
 
-    // 分類名
-    //[Required(ErrorMessage = "分類名は必須です。")]
-    //[StringLength(20, ErrorMessage = "分類名は{1}文字以内で入力してください。")]
-    public string CategoryName { get; set; } = string.Empty;
+    // 分類名 
+    [Required(ErrorMessage = "分類名は必須です。")] // なくしたい
+    [StringLength(20, ErrorMessage = "分類名は{1}文字以内で入力してください。")] // なくしたい
+    public string CategoryName { get; set; } = string.Empty; // なくしたい
 }
