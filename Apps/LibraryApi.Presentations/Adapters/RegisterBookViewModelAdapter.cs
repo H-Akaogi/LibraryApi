@@ -15,7 +15,7 @@ public class RegisterBookViewModelAdapter : IRestorer<Book, RegisterBookViewMode
     public Task<Book> RestoreAsync(RegisterBookViewModel target)
     {
         // 分類を生成する
-        var category = new BookCategory(target.CategoryId, target.CategoryName);
+        var category = new BookCategory(target.CategoryId, target.CategoryName); // CategoryNameを入力しない場合は消去する
         // 蔵書数を生成する
         var productStock = new BookStock(target.Stock);
         // 図書を生成する

@@ -98,10 +98,10 @@ public class UpdateBookController : ControllerBase
     [HttpPut("books/{bookId}")]
     [SwaggerOperation(Summary = "図書の変更",
                       Description = "図書を変更する")]
-    [SwaggerResponse(StatusCodes.Status409Conflict, "図書が既に存在する場合{ Conflict(409) } を返す")]
-    [SwaggerResponse(StatusCodes.Status404NotFound, "存在しない場合 { NotFound(404) } を返す")]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "入力内容に誤りがある場合")]
-    [SwaggerResponse(StatusCodes.Status200OK, "存在しない場合 ")]
+    //[SwaggerResponse(StatusCodes.Status409Conflict, "図書が既に存在する場合{ Conflict(409) } を返す")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "指定された図書が存在しない")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー")]
+    [SwaggerResponse(StatusCodes.Status200OK, "図書の変更成功")]
     public async Task<IActionResult> Updated([FromBody] UpdateBookViewModel model)
     {
         // サーバーサイドバリデーション
@@ -142,7 +142,8 @@ public class UpdateBookController : ControllerBase
         catch (ExistsException ex)
         {
             // 図書が既に存在する場合
-            return Conflict(
+            // return Conflict(new { code = "BOOK_ALREADY_EXISTS", message = ex.Message });
+            return BadRequest(
                 new { code = "BOOK_ALREADY_EXISTS", message = ex.Message });
         }
         catch (DomainException ex)

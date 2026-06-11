@@ -73,7 +73,7 @@ public class RegisterBookController : ControllerBase
     /// <returns>
     /// 存在しない場合:Ok(200)、存在する場合:Conflict(409) 
     /// </returns>
-    [HttpGet("book/validate")]
+    [HttpGet("books/validate/book")]
     [SwaggerOperation(Summary = "書名の存在確認",
                       Description = "書名が既に存在するかを検証する")]
     [SwaggerResponse(StatusCodes.Status200OK, "存在しない場合 { exists=false } を返す")]
@@ -100,7 +100,7 @@ public class RegisterBookController : ControllerBase
             { code = "PRODUCT_ALREADY_EXISTS", message = ex.Message });
         }
     }
-    [HttpGet("author/validate")]
+    [HttpGet("books/validate/author")]
     [SwaggerOperation(Summary = "著者名の入力確認",
                       Description = "著者名が入力されたかを検証する")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "著者名が未入力の場合")]
@@ -156,6 +156,7 @@ public class RegisterBookController : ControllerBase
         try
         {
             // 存在しない図書カテゴリを受信した(ミスしている)
+            // var category = GetCategoryByIdAsync(model.CategoryId);
             await _categoryUsecase.GetCategoryByIdAsync(model.CategoryId);
             // 既に登録済みの図書を受信した(ミスしている)
             await _bookUsecase.ExistsByBookTitleAsync(model.Title);
