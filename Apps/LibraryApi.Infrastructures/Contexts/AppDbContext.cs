@@ -29,13 +29,13 @@ public class AppDbContext : DbContext
             e.HasOne(b => b.BookCategory)
                 .WithMany(c => c.Books!)
                 .HasForeignKey(b => b.BookCategoryId)
-                .HasConstraintName("book_ibfk_category")
+                .HasConstraintName("fk_book_category")
                 .OnDelete(DeleteBehavior.Cascade);
 
             e.HasOne(b => b.BookStock)
                 .WithOne(s => s.Book!)
                 .HasForeignKey<BookStockEntity>(s => s.BookId)
-                .HasConstraintName("book_stock_ibfk_book")
+                .HasConstraintName("fk_book_stock_book")
                 .OnDelete(DeleteBehavior.Cascade);
 
             e.Property(b => b.BookUuid)

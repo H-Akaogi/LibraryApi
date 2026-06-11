@@ -33,39 +33,7 @@ public class RegisterBookController : ControllerBase
         _categoryUsecase = categoryUsecase;
         _adapter = adapter;
     }
-    /*
-        /// <summary>
-        /// 図書カテゴリ一覧の取得
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("categories")]
-        public async Task<IActionResult> GetCategories()
-        {
-            var result = await _usecase.GetCategoriesAsync();
-            return Ok(result);
-        }
 
-        /// <summary>
-        /// 選択された図書カテゴリIdで図書カテゴリを取得する
-        /// </summary>
-        /// <param name="categoryId">図書カテゴリId(UUID)</param>
-        /// <returns>該当するカテゴリが存在すればOK(200)、存在しなければNotFound(404)</returns>
-        [HttpGet("categories/{categoryId}")]
-        public async Task<IActionResult> GetCategoryById(string categoryId)
-        {
-            try
-            {
-                var category = await _usecase.GetCategoryByIdAsync(categoryId);
-                return Ok(category);
-            }
-            catch (NotFoundException ex)
-            {
-                // エラーレスポンスを返却する
-                return NotFound(new
-                { code = "CATEGORY_NOT_FOUND", message = ex.Message });
-            }
-        }
-    */
     /// <summary>
     /// 図書が既に存在するかを検証する
     /// </summary>
@@ -169,8 +137,8 @@ public class RegisterBookController : ControllerBase
         catch (ExistsException ex)
         {
             // 既に存在する図書を受信した
-            //return Conflict(new { code = "PRODUCT_ALREADY_EXISTS", message = ex.Message });
-            return BadRequest(new { code = "PRODUCT_ALREADY_EXISTS", message = ex.Message }); // BadRequestに変更
+            //return Conflict(new { code = "BOOK_ALREADY_EXISTS", message = ex.Message });
+            return BadRequest(new { code = "BOOK_ALREADY_EXISTS", message = ex.Message }); // BadRequestに変更
         }
         catch (NotFoundException ex)
         {

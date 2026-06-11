@@ -143,7 +143,6 @@ public class UpdateBookController : ControllerBase
         catch (ExistsException ex)
         {
             // 図書が既に存在する場合
-            // return Conflict(new { code = "BOOK_ALREADY_EXISTS", message = ex.Message });
             return BadRequest(
                 new { code = "BOOK_ALREADY_EXISTS", message = ex.Message });
         }

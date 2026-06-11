@@ -131,7 +131,9 @@ public class BookRepository : IBookRepository
         try
         {
             // 削除対象の商品を取得する
-            var entity = await _context.Books.SingleOrDefaultAsync(p => p.BookUuid == id);
+            var entity = await _context.Books
+            .Include(b => b.BookStock)
+            .SingleOrDefaultAsync(p => p.BookUuid == id);
             if (entity is null)
             {
                 return false; // 該当商品が存在しない場合はfalseを返す
