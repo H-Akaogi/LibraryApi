@@ -96,6 +96,8 @@ public static class ApplicationDependencyExtensions
         services.AddScoped<IPasswordHashingService, PBKDF2PasswordHashingService>();
         // ユースケース:[ユーザーを登録する]を実現するインターフェイス
         services.AddScoped<IRegisterUserUsecase, RegisterUserUsecase>();
+        // JwtSettingsをバインドしてDIに登録する
+        services.Configure<JwtSettings>(config.GetSection("JwtSettings"));
         return services;
     }
 
