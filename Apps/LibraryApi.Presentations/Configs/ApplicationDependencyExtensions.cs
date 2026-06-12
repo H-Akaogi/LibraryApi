@@ -66,6 +66,8 @@ public static class ApplicationDependencyExtensions
         // Unit of Workパターンを利用したトランザクション制御インターフェイス
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+        // ドメインオブジェクト:UserとUserEntityの相互変換クラス
+        services.AddScoped<UserEntityAdapter>();
         return services;
     }
 
