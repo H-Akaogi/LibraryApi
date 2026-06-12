@@ -15,12 +15,13 @@ public class BookRepository : IBookRepository
 {
     private readonly AppDbContext _context;
     private readonly BookFactory _factory;
-
+    private readonly BookEntityAdapter _bookAdapter;
     // コンストラクタ
-    public BookRepository(AppDbContext context, BookFactory factory)
+    public BookRepository(AppDbContext context, BookFactory factory, BookEntityAdapter bookAdapter)
     {
         _context = context;
         _factory = factory;
+        _bookAdapter = bookAdapter;
     }
 
     // 永続化
@@ -98,34 +99,71 @@ public class BookRepository : IBookRepository
     }
 
     // 更新
-    public async Task<bool> UpdateByIdAsync(Book book)
+    public async Task<Book?> UpdateByIdAsync(Book book)
     {
         try
         {
             var entity = await _context.Books
-            .Include(p => p.BookStock)
-            .SingleOrDefaultAsync(p => p.BookUuid == book.BookUuid);
+                .Include(b => b.BookStock)
+                .SingleOrDefaultAsync(b => b.BookUuid == book.BookUuid);
+
             if (entity is null)
             {
-                return false;
+                return null;
             }
-            // 書名と著者名を変更する
+
+            // 入力ViewModelにある項目だけ更新する
             entity.Title = book.Title;
             entity.Author = book.Author;
-            // 蔵書数を変更する
-            entity.BookStock!.Stock = book.Stock!.Stock;
-            // 変更データをデータベースに永続化する
+
+            if (entity.BookStock is null)
+            {
+                throw new InternalException("BookStockが存在しません。");
+            }
+
+            if (book.Stock is null)
+            {
+                throw new InternalException("更新用BookにStockが存在しません。");
+            }
+
+            entity.BookStock.Stock = book.Stock.Stock;
+
             await _context.SaveChangesAsync();
-            return true;
+
+            // レスポンス用に、Category / Stock 込みで取り直す
+            var updatedEntity = await _context.Books
+                .AsNoTracking()
+                .Include(b => b.BookCategory)
+                .Include(b => b.BookStock)
+                .SingleOrDefaultAsync(b => b.BookUuid == book.BookUuid);
+
+            if (updatedEntity is null)
+            {
+                return null;
+            }
+
+            return await _bookAdapter.RestoreCategoryAsync(updatedEntity);
+        }
+        catch (DomainException)
+        {
+            throw;
         }
         catch (Exception ex)
         {
-            // InternalExceptionにラップしてスローする
-            throw new InternalException($"Id:{book.BookUuid}の図書変更中に予期しないエラーが発生しました。", ex);
+            throw new InternalException(
+                $"Id:{book.BookUuid}の図書変更中に予期しないエラーが発生しました。",
+                ex
+            );
         }
     }
 
     // 削除    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalException"></exception>
     public async Task<bool> DeleteByIdAsync(string id)
     {
         try

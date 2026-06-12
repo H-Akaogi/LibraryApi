@@ -36,7 +36,16 @@ public class Book
         ValidateAuthor(author);
         Author = author;
     }
-
+    public Book(string bookUuid, string title, string author, BookCategory category)
+    {
+        ValidateUuid(bookUuid);
+        BookUuid = bookUuid;
+        ValidateTitle(title);
+        Title = title;
+        ValidateAuthor(author);
+        Author = author;
+        Category = category ?? throw new DomainException("分類名は必須です。");
+    }
     // UUIDの形式検証
     private void ValidateUuid(string uuid)
     {

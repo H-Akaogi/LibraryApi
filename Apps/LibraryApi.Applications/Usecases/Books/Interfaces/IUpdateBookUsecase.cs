@@ -29,5 +29,5 @@ public interface IUpdateBookUsecase
     /// <param name="book">変更対象対象商品</param>
     /// <returns>なし</returns>
     /// <exception cref="NotFoundException">商品が存在しない場合にスローされる</exception>
-    Task UpdateBookAsync(Book book);
+    Task<Book> UpdateBookAsync(Book book);
 }

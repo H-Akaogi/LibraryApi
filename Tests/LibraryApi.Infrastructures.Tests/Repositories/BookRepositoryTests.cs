@@ -197,7 +197,7 @@ public class BookRepositoryTests
         Assert.AreEqual(0, books.Count);
     }
     /*
-            [TestMethod("存在する図書を変更するとtrueが返される")]
+        [TestMethod("存在する図書を変更するとtrueが返される")]
         public async Task UpdateBook_WhenBookExists_ShouldReturnTrue()
         {
             // 変更データを準備する
@@ -225,15 +225,15 @@ public class BookRepositoryTests
                     Assert.AreEqual(book.Author, updateResult!.Author);
                     // 図書蔵書数を検証する
                     Assert.AreEqual(book.Stock!.Stock, updateResult.Stock!.Stock);
-            }
-            finally
-            {
-                tx.Rollback(); // トランザクションをロールバックする
-                tx.Dispose();  // トランザクションリソースを開放する
-                _testContext!.WriteLine("トランザクションをロールバックしました。");
-            } 
-        });
-    }
+                }
+                finally
+                {
+                    tx.Rollback(); // トランザクションをロールバックする
+                    tx.Dispose();  // トランザクションリソースを開放する
+                    _testContext!.WriteLine("トランザクションをロールバックしました。");
+                }
+            });
+        }
 
         [TestMethod("存在しない図書を変更するとfalseが返される")]
         public async Task UpdateBook_WhenBookDoesNotExist_ShouldReturnFalse()
@@ -247,5 +247,5 @@ public class BookRepositoryTests
             // falseが返されることを検証する
             Assert.IsFalse(result);
         }
-        */
+    */
 }

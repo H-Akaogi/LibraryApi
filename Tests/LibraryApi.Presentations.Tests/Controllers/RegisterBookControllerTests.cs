@@ -32,7 +32,6 @@ public class RegisterBookControllerTests
     private RegisterBookViewModelAdapter? _adapter;
     // テストターゲット
     private RegisterBookController? _bookController;
-    private CategoryController? _categoryController;
     // BookRepository
     private IBookRepository? _repository;
 
@@ -91,67 +90,7 @@ public class RegisterBookControllerTests
         // スコープドサービスを破棄する
         _scope!.Dispose();
     }
-    /*
-        [TestMethod("分類一覧の取得:OK(200)とList<BookCategory>を返す")]
-        public async Task GetCategories_ShouldReturnOk()
-        {
-            var result = await _controller!.GetCategories();
-            // IActionResultをOkObjectResultに変換する
-            var ok = result as OkObjectResult;
-            // nullでないことを検証する
-            Assert.IsNotNull(ok);
-            // ステータスOK(200)であることを検証する
-            Assert.AreEqual(StatusCodes.Status200OK, ok!.StatusCode);
-            // レスポンスボディを取得する
-            var categories = ok.Value as List<BookCategory>;
-            // nullでないことを検証する
-            Assert.IsNotNull(categories);
-            // 3件であることを検証する
-            Assert.AreEqual(6, categories.Count);
-            foreach (var category in categories)
-            {
-                _testContext!.WriteLine(category.ToString());
-            }
-        }
 
-        [TestMethod("Idに一致する分類の取得:存在する分類Idの場合、Ok(200)と該当する分類が返される   ")]
-        public async Task GetCategoryById_ShouldWork_ForFound()
-        {
-            var response = await _controller!
-                .GetCategoryById("e269c98c-61b7-4ca7-9fae-ecd74234989e");
-            // レスポンスがOkObjectResultであることを検証する
-            Assert.IsInstanceOfType(response, typeof(OkObjectResult));
-            // レスポンスをOkObjectResultに変換する
-            var okObj = response as OkObjectResult;
-            // レスポンスボディを取得する
-            var category = okObj!.Value as BookCategory;
-            // nullでないことを検証する
-            Assert.IsNotNull(category);
-            // 分類Idを検証する
-            Assert.AreEqual("e269c98c-61b7-4ca7-9fae-ecd74234989e", category!.CategoryUuid);
-            Assert.AreEqual("児童書", category!.Name);
-        }
-
-        [TestMethod("Idに一致する分類の取得:存在しない分類Idの場合、NotFiund(404)とエラーが返される")]
-        public async Task GetCategoryById_ShouldWork_ForNotFound()
-        {
-            var response = await _controller!
-                .GetCategoryById("2f5016b6-6f6b-11f0-954a-00155d1bd10a");
-            // レスポンスをNotFoundObjectResultに変換する
-            var notfound = response as NotFoundObjectResult;
-            // nullでないことを検証する
-            Assert.IsNotNull(notfound);
-            // レスポンスボディを取得する
-            var val = notfound!.Value!;
-            var code = val.GetType().GetProperty("code")?.GetValue(val) as string;
-            var msg = val.GetType().GetProperty("message")?.GetValue(val) as string;
-            // エラーコードを検証する
-            Assert.AreEqual("CATEGORY_NOT_FOUND", code);
-            // エラーメッセージを検証する
-            Assert.AreEqual("分類Id:2f5016b6-6f6b-11f0-954a-00155d1bd10aの分類は存在しません。"
-                , msg);
-        }
-    */
     [TestMethod("書名有無チェック:書名が未入力の場合、BadRequest(400)とエラーが返される")]
     public async Task ValidateBook_ShouldReturnBadRequest_WhenNameEmpty()
     {

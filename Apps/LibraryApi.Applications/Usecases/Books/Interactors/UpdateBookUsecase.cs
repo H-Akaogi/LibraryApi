@@ -66,14 +66,14 @@ public class UpdateBookUsecase : IUpdateBookUsecase
     /// <param name="book">変更対象対象図書</param>
     /// <returns>なし</returns>
     /// <exception cref="NotFoundException">図書が存在しない場合にスローされる</exception>
-    public async Task UpdateBookAsync(Book book)
+   /* public async Task UpdateBookAsync(Book book)
     {
         // トランザクションを開始する
         await _unitOfWork.BeginAsync();
         try
         {
             var result = await _bookRepository.UpdateByIdAsync(book);
-            if (result == false)
+            if (result == null)
             {
                 throw new NotFoundException($"図書Id:{book.BookUuid}の図書は存在しないため変更できません。");
             }
@@ -83,6 +83,32 @@ public class UpdateBookUsecase : IUpdateBookUsecase
         catch
         {
             // トランザクションをロールバックする
+            await _unitOfWork.RollbackAsync();
+            throw;
+        }
+    }*/
+
+    public async Task<Book> UpdateBookAsync(Book book)
+    {
+        await _unitOfWork.BeginAsync();
+
+        try
+        {
+            var updatedBook = await _bookRepository.UpdateByIdAsync(book);
+
+            if (updatedBook is null)
+            {
+                throw new NotFoundException(
+                    $"Id:{book.BookUuid}の図書は存在しないため変更できません。"
+                );
+            }
+
+            await _unitOfWork.CommitAsync();
+
+            return updatedBook;
+        }
+        catch
+        {
             await _unitOfWork.RollbackAsync();
             throw;
         }

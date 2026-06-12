@@ -128,11 +128,14 @@ public class UpdateBookController : ControllerBase
         {
             // 書名の存在有無を調べる
             await _usecase.ExistsByBookNameAsync(model.Title);
+
             // UpdateBookViewModelからBookを復元する
             var book = await _adapter.RestoreAsync(bookId, model);
-            // 図書を変更する
-            await _usecase.UpdateBookAsync(book);
-            return Ok(book);
+
+            // 図書を変更し、Category / Stock 込みの更新後Bookを受け取る
+            var updatedBook = await _usecase.UpdateBookAsync(book);
+
+            return Ok(updatedBook);
         }
         catch (NotFoundException ex)
         {

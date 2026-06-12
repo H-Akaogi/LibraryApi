@@ -36,8 +36,15 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// HTTPリクエストをHTTPSへ自動リダイレクトするミドルウェアを有効化
+// 例外ハンドリングを登録する
+app.UseExceptionHandling();
+
+// HTTPリクエストをHTTPSへ自動リダイレクトするKestrelミドルウェアを有効化
 app.UseHttpsRedirection();
+// HSTSを有効化
+app.UseHsts();
+// 認証(Authentication)を有効化する
+app.UseAuthentication();
 // 認可(Authorization)を有効化する
 app.UseAuthorization();
 
