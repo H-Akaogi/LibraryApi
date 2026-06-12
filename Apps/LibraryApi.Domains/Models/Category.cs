@@ -8,7 +8,11 @@ public class BookCategory
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
-    // コンストラクタ
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <param name="categoryUuid"></param>
+    /// <param name="name"></param>
     public BookCategory(string categoryUuid, string name)
     {
         ValidateUuid(categoryUuid);
@@ -17,13 +21,22 @@ public class BookCategory
         Name = name;
     }
 
-    // 新規作成用コンストラクタ
+    /// <summary>
+    /// 新規作成用コンストラクタ
+    /// </summary>
+    /// <param name="name"></param>
     public BookCategory(string name) : this(Guid.NewGuid().ToString(), name) { }
 
-    // 分類名の最大長
+    /// <summary>
+    /// 分類名の最大長
+    /// </summary>
     private const int MaxLength = 20;
 
-    // 分類名のルール検証
+    /// <summary>
+    /// 分類名のルール検証
+    /// </summary>
+    /// <param name="name"></param>
+    /// <exception cref="DomainException"></exception>
     private void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -34,31 +47,48 @@ public class BookCategory
 
     }
 
-    // UUIDの形式検証
+    /// <summary>
+    /// UUIDの形式検証
+    /// </summary>
+    /// <param name="categoryUuid"></param>
+    /// <exception cref="DomainException"></exception>
     private void ValidateUuid(string categoryUuid)
     {
         if (!Guid.TryParse(categoryUuid, out _))
             throw new DomainException("UUIDの形式が正しくありません。");
     }
 
-    // カテゴリ名の変更(プロパティはprivate setにしておいて、変更がある場合はChangeNameメソッドから変更するのがお作法)
+    /// <summary>
+    /// カテゴリ名の変更(プロパティはprivate setにしておいて、変更がある場合はChangeNameメソッドから変更するのがお作法)
+    /// </summary>
+    /// <param name="name"></param>
     public void ChangeName(string name)
     {
         ValidateName(name);
         Name = name;
     }
 
-    // 識別子の等価性判定（オブジェクトクラスのoverride）
+    /// <summary>
+    /// 識別子の等価性判定（オブジェクトクラスのoverride）
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(this, obj)) return true;
         return obj is BookCategory other && CategoryUuid == other.CategoryUuid;
     }
 
-    // （オブジェクトクラスのoverride）
+    /// <summary>
+    /// （オブジェクトクラスのoverride）
+    /// </summary>
+    /// <returns></returns>
     public override int GetHashCode() => CategoryUuid.GetHashCode();
 
-    // インスタンスの内容（オブジェクトクラスのoverride）
+    /// <summary>
+    /// インスタンスの内容（オブジェクトクラスのoverride）
+    /// </summary>
+    /// <returns></returns>
     public override string ToString() => $"{CategoryUuid}: {Name}";
 
 }

@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Authorization; // [Authorize]付加
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using LibraryApi.Domains.Models;
 using LibraryApi.Domains.Exceptions;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
-using LibraryApi.Applications.Usecases.Categories.Interfaces;
 using LibraryApi.Presentations.Adapters;
-using LibraryApi.Presentations.ViewModels;
 namespace LibraryApi.Presentations.Controllers;
 /// <summary>
 /// ユースケース:[図書を削除する]を実現するコントローラ

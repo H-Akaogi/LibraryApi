@@ -10,6 +10,15 @@ public class Book
     public BookCategory? Category { get; private set; }
     public BookStock? Stock { get; private set; }
 
+    /// <summary>
+    /// Bookコンストラクタ(引数5個)
+    /// </summary>
+    /// <param name="bookUuid"></param>
+    /// <param name="title"></param>
+    /// <param name="author"></param>
+    /// <param name="category"></param>
+    /// <param name="stock"></param>
+    /// <exception cref="DomainException"></exception>
     public Book(string bookUuid, string title, string author, BookCategory category, BookStock stock)
     {
         ValidateUuid(bookUuid);
@@ -22,11 +31,22 @@ public class Book
         Stock = stock ?? throw new DomainException("在庫情報は必須です。");
     }
 
-    // 新規作成用コンストラクタ
+    /// <summary>
+    /// 新規作成用コンストラクタ
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="author"></param>
+    /// <param name="category"></param>
+    /// <param name="stock"></param>
     public Book(string title, string author, BookCategory category, BookStock stock)
     : this(Guid.NewGuid().ToString(), title, author, category, stock) { }
 
-    // 再構築・復元用コンストラクタ
+    /// <summary>
+    /// 再構築・復元用コンストラクタ
+    /// </summary>
+    /// <param name="bookUuid"></param>
+    /// <param name="title"></param>
+    /// <param name="author"></param>
     public Book(string bookUuid, string title, string author)
     {
         ValidateUuid(bookUuid);
@@ -36,6 +56,15 @@ public class Book
         ValidateAuthor(author);
         Author = author;
     }
+
+    /// <summary>
+    /// 再構築・復元用コンストラクタ(引数4個)
+    /// </summary>
+    /// <param name="bookUuid"></param>
+    /// <param name="title"></param>
+    /// <param name="author"></param>
+    /// <param name="category"></param>
+    /// <exception cref="DomainException"></exception>
     public Book(string bookUuid, string title, string author, BookCategory category)
     {
         ValidateUuid(bookUuid);
@@ -46,16 +75,28 @@ public class Book
         Author = author;
         Category = category ?? throw new DomainException("分類名は必須です。");
     }
-    // UUIDの形式検証
+
+    /// <summary>
+    /// UUIDの形式検証
+    /// </summary>
+    /// <param name="uuid"></param>
+    /// <exception cref="DomainException"></exception>
     private void ValidateUuid(string uuid)
     {
         if (!Guid.TryParse(uuid, out _))
             throw new DomainException("UUIDの形式が正しくありません。");
     }
 
-    // 書名の最大長
+    /// <summary>
+    /// 書名の最大長
+    /// </summary>
     private const int MaxTitleLength = 50;
-    // 書名の検証
+
+    /// <summary>
+    /// 書名の検証
+    /// </summary>
+    /// <param name="title"></param>
+    /// <exception cref="DomainException"></exception>
     private void ValidateTitle(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
@@ -64,9 +105,16 @@ public class Book
             throw new DomainException($"書名は{MaxTitleLength}文字以内である必要があります。");
     }
 
-    // 著者名の最大長
+    /// <summary>
+    /// 著者名の最大長
+    /// </summary>
     private const int MaxAuthorLength = 30;
-    // 著者名の検証
+
+    /// <summary>
+    /// 著者名の検証
+    /// </summary>
+    /// <param name="author"></param>
+    /// <exception cref="DomainException"></exception>
     private void ValidateAuthor(string author)
     {
         if (string.IsNullOrWhiteSpace(author))
@@ -75,33 +123,51 @@ public class Book
             throw new DomainException($"著者名は{MaxAuthorLength}文字以内である必要があります。");
     }
 
-    // 書名の変更
+    /// <summary>
+    /// 書名の変更
+    /// </summary>
+    /// <param name="title"></param>
     public void ChangeTitle(string title)
     {
         ValidateTitle(title);
         Title = title;
     }
 
-    // 著者名の変更
+    /// <summary>
+    /// 著者名の変更
+    /// </summary>
+    /// <param name="author"></param>
     public void ChangeAuthor(string author)
     {
         ValidateAuthor(author);
         Author = author;
     }
 
-    // 分類名の変更
+    /// <summary>
+    /// 分類名の変更
+    /// </summary>
+    /// <param name="category"></param>
+    /// <exception cref="DomainException"></exception>
     public void ChangeCategory(BookCategory category)
     {
         Category = category ?? throw new DomainException("分類名は必須です。");
     }
 
-    // 在庫の変更
+    /// <summary>
+    /// 在庫の変更
+    /// </summary>
+    /// <param name="stock"></param>
+    /// <exception cref="DomainException"></exception>
     public void ChangeStock(BookStock stock)
     {
         Stock = stock ?? throw new DomainException("在庫情報は必須です。");
     }
 
-    // 識別子の等価性判定
+    /// <summary>
+    /// 識別子の等価性判定
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(this, obj)) return true;

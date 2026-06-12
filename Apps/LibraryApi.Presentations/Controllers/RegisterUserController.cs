@@ -32,6 +32,11 @@ public class RegisterUserController : ControllerBase
         _adapter = adapter;
     }
 
+    /// <summary>
+    /// ユーザーの重複チェック
+    /// </summary>
+    /// <param name="username"></param>
+    /// <returns></returns>
     [AllowAnonymous]
     [HttpGet("users/check")]
     [SwaggerOperation(Summary = "ユーザー名の重複チェック",

@@ -2,19 +2,30 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using LibraryApi.Infrastructures.Entities;
 namespace LibraryApi.Infrastructures.Entities;
-
+/// <summary>
+/// 分類テーブル
+/// </summary>
 [Table("category")]
 public class BookCategoryEntity : ITimestamped
 {
+    /// <summary>
+    /// 分類Id
+    /// </summary>
     [Column("id")]
     [Key]
     public int Id { get; set; }
 
+    /// <summary>
+    /// 分類Id
+    /// </summary>
     [Required]
     [StringLength(36)]
     [Column("category_uuid")]
     public string CategoryUuid { get; set; } = string.Empty;
 
+    /// <summary>
+    /// 分類名
+    /// </summary>
     [Column("name")]
     [Required]
     [StringLength(20)]

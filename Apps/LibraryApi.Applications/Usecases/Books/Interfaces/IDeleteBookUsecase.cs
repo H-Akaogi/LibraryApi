@@ -7,5 +7,10 @@ namespace LibraryApi.Applications.Usecases.Books.Interfaces;
 /// </summary>
 public interface IDeleteBookUsecase
 {
+    /// <summary>
+    /// 図書を削除するインターフェース
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     Task DeleteBookAsync(string id);
 }

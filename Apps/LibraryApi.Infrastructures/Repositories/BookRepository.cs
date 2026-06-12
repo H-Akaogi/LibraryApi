@@ -9,7 +9,9 @@ using LibraryApi.Infrastructures.Contexts;
 
 namespace LibraryApi.Infrastructures.Repositories;
 
-// 商品のCRUD操作
+/// <summary>
+/// 商品のCRUD操作
+/// </summary>
 
 public class BookRepository : IBookRepository
 {
@@ -24,7 +26,12 @@ public class BookRepository : IBookRepository
         _bookAdapter = bookAdapter;
     }
 
-    // 永続化
+    /// <summary>
+    /// 永続化
+    /// </summary>
+    /// <param name="book"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalException"></exception>
     public async Task CreateAsync(Book book)
     {
         try
@@ -50,7 +57,12 @@ public class BookRepository : IBookRepository
             throw new InternalException("図書の永続化中に予期しないエラーが発生しました。", ex);
         }
     }
-
+    /// <summary>
+    /// Idから図書情報（蔵書数・分類）を取得する
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalException"></exception>
     public async Task<Book?> SelectByIdWithBookStockAndBookCategoryAsync(string id)
     {
         try
@@ -75,7 +87,12 @@ public class BookRepository : IBookRepository
             throw new InternalException($"Id:{id}の図書取得時に予期しないエラーが発生しました。", ex);
         }
     }
-
+    /// <summary>
+    /// 書名から図書情報（蔵書数・分類）を取得する
+    /// </summary>
+    /// <param name="keyword"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalException"></exception>
     public async Task<List<Book>> SelectByTitleLikeWithBookStockAndBookCategoryAsync(string keyword)
     {
         try
@@ -98,7 +115,12 @@ public class BookRepository : IBookRepository
         }
     }
 
-    // 更新
+    /// <summary>
+    /// 更新
+    /// </summary>
+    /// <param name="book"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalException"></exception>
     public async Task<Book?> UpdateByIdAsync(Book book)
     {
         try
@@ -157,9 +179,8 @@ public class BookRepository : IBookRepository
         }
     }
 
-    // 削除    
     /// <summary>
-    /// 
+    /// 削除
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -189,7 +210,12 @@ public class BookRepository : IBookRepository
         }
     }
 
-    // 商品名の存在有無
+    /// <summary>
+    /// 商品名の存在有無
+    /// </summary>
+    /// <param name="title"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalException"></exception>
     public async Task<bool> ExistsByTitleAsync(string title)
     {
         try

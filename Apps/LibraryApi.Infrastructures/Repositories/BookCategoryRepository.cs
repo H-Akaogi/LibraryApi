@@ -9,13 +9,19 @@ using LibraryApi.Infrastructures.Contexts;
 
 namespace LibraryApi.Infrastructures.Repositories;
 
-// 分類のCRUD操作
+/// <summary>
+/// 分類のCRUD操作
+/// </summary>
 public class BookCategoryRepository : IBookCategoryRepository
 {
     private readonly AppDbContext _context;
     private readonly BookCategoryEntityAdapter _adapter;
 
-    // コンストラクタ
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="adapter"></param>
     public BookCategoryRepository(
         AppDbContext context,
         BookCategoryEntityAdapter adapter)
@@ -24,7 +30,11 @@ public class BookCategoryRepository : IBookCategoryRepository
         _adapter = adapter;
     }
 
-    // すべての分類を取得する
+    /// <summary>
+    /// すべての分類を取得する
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="InternalException"></exception>
     public async Task<List<BookCategory>> SelectAllAsync()
     {
         try
@@ -46,6 +56,12 @@ public class BookCategoryRepository : IBookCategoryRepository
             throw new InternalException("すべての分類取得時に予期しないエラーが発生しました。", ex);
         }
     }
+    /// <summary>
+    /// Idから分類を取得する
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalException"></exception>
     public async Task<BookCategory?> SelectByIdAsync(string id)
     {
         try

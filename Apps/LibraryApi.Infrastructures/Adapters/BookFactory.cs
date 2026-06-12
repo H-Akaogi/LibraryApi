@@ -10,7 +10,12 @@ public class BookFactory
     private readonly BookCategoryEntityAdapter _bookCategoryEntityAdapter;
     private readonly BookStockEntityAdapter _bookStockEntityAdapter;
 
-    // コンストラクタ
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <param name="bookEntityAdapter"></param>
+    /// <param name="bookCategoryEntityAdapter"></param>
+    /// <param name="bookStockEntityAdapter"></param>
     public BookFactory(
         BookEntityAdapter bookEntityAdapter,
         BookCategoryEntityAdapter bookCategoryEntityAdapter,
@@ -22,6 +27,11 @@ public class BookFactory
         _bookStockEntityAdapter = bookStockEntityAdapter;
     }
 
+    /// <summary>
+    /// DomainからEntityへ変換
+    /// </summary>
+    /// <param name="domain"></param>
+    /// <returns></returns>
     public async Task<BookEntity> ConvertAsync(Book domain)
     {
         var entity = await _bookEntityAdapter.ConvertAsync(domain);
@@ -40,6 +50,11 @@ public class BookFactory
         return entity;
     }
 
+    /// <summary>
+    /// DomainからEntityへ変換
+    /// </summary>
+    /// <param name="domains"></param>
+    /// <returns></returns>
     public async Task<List<BookEntity>> ConvertAsync(List<Book> domains)
     {
         var entities = new List<BookEntity>();
@@ -50,6 +65,11 @@ public class BookFactory
         return entities;
     }
 
+    /// <summary>
+    /// EntityからDomainへ変換
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
     public async Task<Book> RestoreAsync(BookEntity target)
     {
         var book = await _bookEntityAdapter.RestoreAsync(target);
@@ -68,6 +88,11 @@ public class BookFactory
         return book;
     }
 
+    /// <summary>
+    /// EntityからDomainへ変換
+    /// </summary>
+    /// <param name="targets"></param>
+    /// <returns></returns>
     public async Task<List<Book>> RestoreAsync(List<BookEntity> targets)
     {
         var books = new List<Book>();

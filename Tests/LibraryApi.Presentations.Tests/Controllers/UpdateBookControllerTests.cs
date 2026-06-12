@@ -48,6 +48,7 @@ public class UpdateBookControllerTests
             .AddJsonFile("appsettings.json", optional: false).Build();
         // サービスプロバイダ(DIコンテナ)の生成
         _provider = ApplicationDependencyExtensions.BuildAppProvider(config);
+
     }
 
     /// <summary>
@@ -74,6 +75,7 @@ public class UpdateBookControllerTests
         _adapter = _scope.ServiceProvider.GetRequiredService<UpdateBookViewModelAdapter>();
         // テストターゲットを生成する
         _controller = new UpdateBookController(_usecase, _adapter);
+        _repository = _scope.ServiceProvider.GetRequiredService<IBookRepository>();
     }
 
     /// <summary>
@@ -185,24 +187,91 @@ public class UpdateBookControllerTests
         Assert.IsTrue(details!.ContainsKey("Title"));
     }
 
-    [TestMethod("図書変更:存在する書名で変更した場合、Conflict(409)とエラーが返される")]
-    public async Task Updated_ShouldReturnConflict_WhenRenameToExistingTitle()
+    [TestMethod("図書変更:存在する書名で変更した場合、BadRequest(400)とエラーが返される")]
+    public async Task Updated_ShouldReturnBadRequest_WhenRenameToExistingTitle()
     {
-        var bookId = "762fc7cd-3bf8-45a1-bf2b-94fad1731e6f";
-        var viewModel = new UpdateBookViewModel
+        // Arrange
+        var existingBookId = Guid.NewGuid().ToString();
+        var targetBookId = Guid.NewGuid().ToString();
+
+        var existingTitle = $"既存図書{Guid.NewGuid():N}".Substring(0, 15);
+        var targetTitle = $"変更対象{Guid.NewGuid():N}".Substring(0, 15);
+
+        var category = new BookCategory(
+            "e269c98c-61b7-4ca7-9fae-ecd74234989e",
+            "児童書"
+        );
+
+        var existingBook = new Book(
+            existingBookId,
+            existingTitle,
+            "既存著者",
+            category,
+            new BookStock(Guid.NewGuid().ToString(), 5)
+        );
+
+        var targetBook = new Book(
+            targetBookId,
+            targetTitle,
+            "変更前著者",
+            category,
+            new BookStock(Guid.NewGuid().ToString(), 10)
+        );
+
+        try
         {
-            Title = "いないいないばあ",
-            Author = "松谷みよ子",
-            Stock = 5,
-        };
-        var res = await _controller!.Updated(bookId, viewModel);
-        var conflict = res as ConflictObjectResult;
-        Assert.IsNotNull(conflict);
-        var val = conflict!.Value!;
-        var code = (string)val.GetType().GetProperty("code")!.GetValue(val)!;
-        var msg = (string)val.GetType().GetProperty("message")!.GetValue(val)!;
-        Assert.AreEqual("BOOK_ALREADY_EXISTS", code);
-        Assert.AreEqual("書名:いないいないばあは既に存在します。", msg);
+            // すでに存在する書名を持つ図書
+            await _repository!.CreateAsync(existingBook);
+
+            // 変更対象の図書
+            await _repository.CreateAsync(targetBook);
+
+            var viewModel = new UpdateBookViewModel
+            {
+                Title = existingTitle,
+                Author = "変更後著者",
+                Stock = 20,
+            };
+
+            // Act
+            var res = await _controller!.Updated(targetBookId, viewModel);
+
+            // Assert
+            var bad = res as BadRequestObjectResult;
+            Assert.IsNotNull(
+                bad,
+                $"想定外のレスポンス型です: {res.GetType().Name}"
+            );
+            Assert.AreEqual(StatusCodes.Status400BadRequest, bad!.StatusCode);
+            Assert.IsNotNull(bad.Value);
+
+            var val = bad.Value!;
+            var code = val.GetType().GetProperty("code")?.GetValue(val) as string;
+            var msg = val.GetType().GetProperty("message")?.GetValue(val) as string;
+
+            Assert.AreEqual("BOOK_ALREADY_EXISTS", code);
+            Assert.AreEqual($"書名:{existingTitle}は既に存在します。", msg);
+        }
+        finally
+        {
+            if (_repository is not null)
+            {
+                var existing = await _repository
+                    .SelectByIdWithBookStockAndBookCategoryAsync(existingBookId);
+
+                if (existing is not null)
+                {
+                    await _repository.DeleteByIdAsync(existingBookId);
+                }
+                var target = await _repository
+                    .SelectByIdWithBookStockAndBookCategoryAsync(targetBookId);
+
+                if (target is not null)
+                {
+                    await _repository.DeleteByIdAsync(targetBookId);
+                }
+            }
+        }
     }
 
     [TestMethod("図書変更:業務ルール違反の場合、BadRequest(400)とエラーが返される")]

@@ -4,6 +4,9 @@ namespace LibraryApi.Domains.Exceptions;
 /// </summary>
 public class PasswordRehashNeededException : Exception
 {
+    /// <summary>
+    /// 再ハッシュが必要な場合の例外
+    /// </summary>
     public PasswordRehashNeededException() { }
 
     public PasswordRehashNeededException(string message)

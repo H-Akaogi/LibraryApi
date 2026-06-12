@@ -5,18 +5,27 @@ namespace LibraryApi.Infrastructures.Contexts;
 
 public class AppDbContext : DbContext
 {
-    // コンストラクタ
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <param name="options"></param>
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
-    // 図書テーブルアクセスプロパティ
+    /// <summary>
+    /// 図書テーブルアクセスプロパティ
+    /// </summary>
     public DbSet<BookEntity> Books => Set<BookEntity>();
 
-    // 分類テーブルアクセスプロパティ
+    /// <summary>
+    /// 分類テーブルアクセスプロパティ
+    /// </summary>
     public DbSet<BookCategoryEntity> BookCategories => Set<BookCategoryEntity>();
 
-    // 蔵書テーブルアクセスプロパティ
+    /// <summary>
+    /// 蔵書テーブルアクセスプロパティ
+    /// </summary>
     public DbSet<BookStockEntity> BookStocks => Set<BookStockEntity>();
 
     /// <summary>
@@ -24,7 +33,10 @@ public class AppDbContext : DbContext
     /// </summary>
     public DbSet<UserEntity> Users => Set<UserEntity>();
 
-    // Fluent APIでマッピング定義
+    /// <summary>
+    /// Fluent APIでマッピング定義
+    /// </summary>
+    /// <param name="modelBuilder"></param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BookEntity>(e =>
@@ -49,7 +61,7 @@ public class AppDbContext : DbContext
             //UserEntity
         });
 
-        // 分類の動作設定
+        /// 分類の動作設定
         modelBuilder.Entity<BookCategoryEntity>(e =>
         {
             e.HasIndex(c => c.CategoryUuid).IsUnique();

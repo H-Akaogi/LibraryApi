@@ -7,6 +7,12 @@ namespace LibraryApi.Infrastructures.Adapters;
 
 public class BookCategoryEntityAdapter : IConverter<BookCategory, BookCategoryEntity>, IRestorer<BookCategory, BookCategoryEntity>
 {
+    /// <summary>
+    /// DomainからEntityへの変換
+    /// </summary>
+    /// <param name="domain"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalException"></exception>
     public Task<BookCategoryEntity> ConvertAsync(BookCategory domain)
     {
         _ = domain ?? throw new InternalException("引数domainがnullです。");
@@ -16,6 +22,12 @@ public class BookCategoryEntityAdapter : IConverter<BookCategory, BookCategoryEn
         return Task.FromResult(entity);
     }
 
+    /// <summary>
+    /// EntityからDomainへの変換
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalException"></exception>
     public Task<BookCategory> RestoreAsync(BookCategoryEntity target)
     {
         _ = target ?? throw new InternalException("引数targetがnullです。");

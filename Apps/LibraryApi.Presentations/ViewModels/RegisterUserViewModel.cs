@@ -12,6 +12,7 @@ public class RegisterUserViewModel
     [StringLength(30, MinimumLength = 3
         , ErrorMessage = "ユーザー名は{2}文字以上、{1}文字以内で入力してください。")]
     public string Username { get; init; } = string.Empty;
+
     /// <summary>
     /// 平文パスワード（8〜12文字）
     /// </summary>

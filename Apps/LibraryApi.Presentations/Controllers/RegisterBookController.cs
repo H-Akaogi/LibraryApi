@@ -73,6 +73,11 @@ public class RegisterBookController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// 著者名の入力確認
+    /// </summary>
+    /// <param name="author"></param>
+    /// <returns></returns>
     [Authorize]
     [HttpGet("books/validate/author")]
     [SwaggerOperation(Summary = "著者名の入力確認",

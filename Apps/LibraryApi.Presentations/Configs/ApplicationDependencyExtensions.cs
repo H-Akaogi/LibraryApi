@@ -44,7 +44,12 @@ public static class ApplicationDependencyExtensions
         return services;
     }
 
-    // インフラストラクチャ層
+    /// <summary>
+    /// インフラストラクチャ層
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="config"></param>
+    /// <returns></returns>
     private static IServiceCollection AddInfrastructureDependencies(
     this IServiceCollection services, IConfiguration config)
     {// PostgreSQLの接続文字列を設定ファイルから取得する
@@ -82,7 +87,12 @@ public static class ApplicationDependencyExtensions
         return services;
     }
 
-    // アプリケーション層
+    /// <summary>
+    /// アプリケーション層
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="config"></param>
+    /// <returns></returns>
     private static IServiceCollection AddApplicationLayerDependencies(
     this IServiceCollection services, IConfiguration config)
     {
@@ -109,14 +119,24 @@ public static class ApplicationDependencyExtensions
         return services;
     }
 
-    // ドメイン層
+    /// <summary>
+    /// ドメイン層
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="config"></param>
+    /// <returns></returns>
     private static IServiceCollection AddDomainLayerDependencies(
         this IServiceCollection services, IConfiguration config)
     {
         return services;
     }
 
-    // プレゼンテーション層
+    /// <summary>
+    /// プレゼンテーション層
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="config"></param>
+    /// <returns></returns>
     private static IServiceCollection AddPresentationLayerDependencies(
     this IServiceCollection services, IConfiguration config)
     {
