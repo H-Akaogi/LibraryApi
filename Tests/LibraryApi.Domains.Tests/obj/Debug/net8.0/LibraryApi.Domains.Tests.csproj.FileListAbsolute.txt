@@ -117,3 +117,12 @@
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/obj/Debug/net8.0/LibraryApi.Domains.Tests.genruntimeconfig.cache
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/obj/Debug/net8.0/ref/LibraryApi.Domains.Tests.dll
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/obj/Debug/net8.0/LibraryApi.Domains.Tests.sourcelink.json
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/bin/Debug/net8.0/Microsoft.Extensions.Identity.Core.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/bin/Debug/net8.0/Microsoft.Extensions.Logging.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Domains.Tests/bin/Debug/net8.0/Microsoft.Extensions.Primitives.dll

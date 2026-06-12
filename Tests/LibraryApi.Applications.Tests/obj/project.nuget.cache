@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "N8FYrWzl9mM=",
+  "dgSpecHash": "kfaL7uPlG8o=",
   "success": true,
   "projectFilePath": "/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Applications.Tests/LibraryApi.Applications.Tests.csproj",
   "expectedPackageFiles": [
     "/home/fullness/.nuget/packages/castle.core/5.1.1/castle.core.5.1.1.nupkg.sha512",
     "/home/fullness/.nuget/packages/coverlet.collector/6.0.0/coverlet.collector.6.0.0.nupkg.sha512",
+    "/home/fullness/.nuget/packages/microsoft.aspnetcore.cryptography.internal/8.0.0/microsoft.aspnetcore.cryptography.internal.8.0.0.nupkg.sha512",
+    "/home/fullness/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/8.0.0/microsoft.aspnetcore.cryptography.keyderivation.8.0.0.nupkg.sha512",
     "/home/fullness/.nuget/packages/microsoft.aspnetcore.openapi/8.0.26/microsoft.aspnetcore.openapi.8.0.26.nupkg.sha512",
     "/home/fullness/.nuget/packages/microsoft.codecoverage/17.8.0/microsoft.codecoverage.17.8.0.nupkg.sha512",
     "/home/fullness/.nuget/packages/microsoft.entityframeworkcore/8.0.0/microsoft.entityframeworkcore.8.0.0.nupkg.sha512",
@@ -24,6 +26,7 @@
     "/home/fullness/.nuget/packages/microsoft.extensions.fileproviders.abstractions/10.0.9/microsoft.extensions.fileproviders.abstractions.10.0.9.nupkg.sha512",
     "/home/fullness/.nuget/packages/microsoft.extensions.fileproviders.physical/10.0.9/microsoft.extensions.fileproviders.physical.10.0.9.nupkg.sha512",
     "/home/fullness/.nuget/packages/microsoft.extensions.filesystemglobbing/10.0.9/microsoft.extensions.filesystemglobbing.10.0.9.nupkg.sha512",
+    "/home/fullness/.nuget/packages/microsoft.extensions.identity.core/8.0.0/microsoft.extensions.identity.core.8.0.0.nupkg.sha512",
     "/home/fullness/.nuget/packages/microsoft.extensions.logging/8.0.0/microsoft.extensions.logging.8.0.0.nupkg.sha512",
     "/home/fullness/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
     "/home/fullness/.nuget/packages/microsoft.extensions.options/8.0.0/microsoft.extensions.options.8.0.0.nupkg.sha512",
