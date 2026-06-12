@@ -15,6 +15,8 @@ using LibraryApi.Applications.Usecases.Books.Interfaces;
 using LibraryApi.Applications.Usecases.Books.Interactors;
 using LibraryApi.Applications.Usecases.Categories.Interfaces;
 using LibraryApi.Applications.Usecases.Categories.Interactors;
+using LibraryApi.Applications.Usecases.Users.Interfaces;
+using LibraryApi.Applications.Usecases.Users.Interactors;
 using LibraryApi.Applications.Security;
 
 using LibraryApi.Presentations.ViewModels;
@@ -92,6 +94,8 @@ public static class ApplicationDependencyExtensions
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
         // PBKDF2アルゴリズムを利用したパスワードハッシュ化・検証機能
         services.AddScoped<IPasswordHashingService, PBKDF2PasswordHashingService>();
+        // ユースケース:[ユーザーを登録する]を実現するインターフェイス
+        services.AddScoped<IRegisterUserUsecase, RegisterUserUsecase>();
         return services;
     }
 
