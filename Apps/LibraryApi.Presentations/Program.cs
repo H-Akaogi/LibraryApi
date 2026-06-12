@@ -1,6 +1,5 @@
-using System.Reflection;
+// using System.Reflection;
 using LibraryApi.Presentations.Configs;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // 依存関係(DI)の設定
@@ -10,8 +9,11 @@ ApplicationDependencyExtensions
 /*--- 追加 --*/
 // JWT認証ミドルウェアをサービス登録する
 builder.Services.AddJwtAuthentication(builder.Configuration);
+// Swagger(Open API)のサービス登録する
+builder.Services.AddSwaggerWithJwt();
 /*--- 追加 --*/
 
+/*
 // Swaggerを有効化する
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -23,7 +25,7 @@ builder.Services.AddSwaggerGen(c =>
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
-
+*/
 // WebApplicationを生成する
 var app = builder.Build();
 
