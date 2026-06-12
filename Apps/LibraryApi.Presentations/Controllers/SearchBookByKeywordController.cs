@@ -34,6 +34,8 @@ public class SearchBookByKeywordController : ControllerBase
     [HttpGet("books")]
     [SwaggerResponse(StatusCodes.Status200OK, "図書検索成功", typeof(List<Book>))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public async Task<IActionResult> Search([FromQuery] string? keyword)
     {
         // 未入力チェック

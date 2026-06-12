@@ -40,8 +40,9 @@ public class UpdateBookController : ControllerBase
     [SwaggerOperation(Summary = "図書の取得",
                       Description = "図書の詳細を取得する")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "指定された図書が存在しない")]
-    //[SwaggerResponse(StatusCodes.Status400BadRequest, "書名が未入力の場合")]
     [SwaggerResponse(StatusCodes.Status200OK, "図書の詳細取得成功")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public async Task<IActionResult> GetBookById(string bookId)
     {
         try
@@ -71,6 +72,8 @@ public class UpdateBookController : ControllerBase
     [SwaggerResponse(StatusCodes.Status409Conflict, "図書が既に存在する場合{ Conflict(409) } を返す")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "書名が未入力の場合")]
     [SwaggerResponse(StatusCodes.Status200OK, "存在しない場合 ")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public async Task<IActionResult> ValidateBook([FromQuery] string bookName)
     {
         // 書名がnullか空白
@@ -107,6 +110,8 @@ public class UpdateBookController : ControllerBase
     [SwaggerResponse(StatusCodes.Status404NotFound, "指定された図書が存在しない")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー")]
     [SwaggerResponse(StatusCodes.Status200OK, "図書の変更成功")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public async Task<IActionResult> Updated([FromRoute] string bookId, [FromBody] UpdateBookViewModel model)
     {
         // サーバーサイドバリデーション

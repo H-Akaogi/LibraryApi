@@ -13,7 +13,7 @@ namespace LibraryApi.Presentations.Controllers;
 /// ユースケース:[ユーザーを登録する]を実現するコントローラ
 /// </summary>
 [ApiController]
-[Route("api/users/register")]
+[Route("library/api")]
 [SwaggerTag("ユーザー登録API")]
 public class RegisterUserController : ControllerBase
 {
@@ -32,20 +32,20 @@ public class RegisterUserController : ControllerBase
         _adapter = adapter;
     }
 
-    [Authorize]
-    [HttpGet("check")]
+    [AllowAnonymous]
+    [HttpGet("users/check")]
     [SwaggerOperation(Summary = "ユーザー名の重複チェック",
-                          Description = "ユーザー名の存在を検証する")]
+                      Description = "ユーザー名の存在を検証する")]
     [SwaggerResponse(StatusCodes.Status200OK, "存在しない場合 { exists=false } を返す")]
-    [SwaggerResponse(StatusCodes.Status409Conflict, "既に存在する場合")]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "ユーザー名が未入力の場合")]
+    [SwaggerResponse(StatusCodes.Status409Conflict, "ユーザー名の重複")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー")]
     public async Task<IActionResult> CheckDuplicate(
-            [FromQuery] string? username)
+        [FromQuery] string? username)
     {
         // ユーザー名もメールアドレスも入力?
         if (string.IsNullOrWhiteSpace(username))
         {
-            return BadRequest(new { message = "usernameを指定してください。" });
+            return BadRequest(new { message = "ユーザー名は1~30文字で入力してください" });
         }
         try
         {
@@ -54,9 +54,9 @@ public class RegisterUserController : ControllerBase
         }
         catch (ExistsException ex)
         {
-            // ユーザー名、メールアドレスが既に存在する場合
+            // ユーザー名が既に存在する場合
             return Conflict(new
-            { code = "USER_ALREADY_EXISTS", message = ex.Message });
+            { code = "DuplicateUsername", message = ex.Message });
         }
     }
 
@@ -65,15 +65,15 @@ public class RegisterUserController : ControllerBase
     /// </summary>
     /// <param name="viewModel">ユースケース:[ユーザーを登録する]を実現するViewModel</param>
     /// <returns></returns>
-    [Authorize]
-    [HttpPost]
+    [AllowAnonymous]
+    [HttpPost("users")]
     [SwaggerOperation(Summary = "ユーザーを登録",
-                      Description = "ユーザー情報を受け取り、ユーザーを登録する")]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "バリデーションエラーまたは業務ルール違反")]
-    [SwaggerResponse(StatusCodes.Status409Conflict, "ユーザーが既に存在する場合")]
-    [SwaggerResponse(StatusCodes.Status201Created, "登録成功", typeof(User))]
+                  Description = "ユーザー情報を受け取り、ユーザーを登録する")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー")]
+    [SwaggerResponse(StatusCodes.Status409Conflict, "ユーザー名の重複")]
+    [SwaggerResponse(StatusCodes.Status201Created, "ユーザー登録成功", typeof(RegisterUserResponse))]
     public async Task<IActionResult> Register(
-        [FromBody, SwaggerRequestBody("ユーザー登録用ViewModel", Required = true)]
+    [FromBody, SwaggerRequestBody("ユーザー登録用ViewModel", Required = true)]
         RegisterUserViewModel viewModel)
     {
         // サーバーサイドバリデーション
@@ -93,7 +93,7 @@ public class RegisterUserController : ControllerBase
                         .ToArray()
                 );
             return BadRequest(new
-            { code = "VALIDATION_ERROR", message = "入力内容に誤りがあります。", details });
+            { code = "ValidationError", message = "入力内容に誤りがあります。", details });
         }
         try
         {
@@ -103,12 +103,16 @@ public class RegisterUserController : ControllerBase
             var user = await _adapter.RestoreAsync(viewModel);
             // ユーザーを登録する
             await _usecase.RegisterUserAsync(user);
-            return Created($"/api/users/{user.UserUuid}", user);
+            return Created($"/library/api/users/{user.UserUuid}", new RegisterUserResponse
+            {
+                UserUuid = user.UserUuid,
+                Username = user.Username
+            });
         }
         catch (ExistsException ex)
         {
             // 既に存在するユーザーを受信した
-            return Conflict(new { code = "USER_ALREADY_EXISTS", message = ex.Message });
+            return Conflict(new { code = "DuplicateUsername", message = ex.Message });
         }
         catch (DomainException ex)
         {

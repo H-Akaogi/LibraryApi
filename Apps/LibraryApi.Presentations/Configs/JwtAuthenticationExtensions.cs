@@ -69,6 +69,22 @@ public static class JwtAuthenticationExtensions
                 IssuerSigningKey = BuildSecurityKey(jwt.SecretKey), // 検証用の秘密鍵
                 ValidateLifetime = true,             // 有効期限を検証
                 ClockSkew = TimeSpan.Zero,// トークン有効期限チェック時の許容誤差
+
+            };
+            // CookieからJWTを取得する
+            options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
+                {
+                    var token = context.Request.Cookies["access_token"];
+
+                    if (!string.IsNullOrWhiteSpace(token))
+                    {
+                        context.Token = token;
+                    }
+
+                    return Task.CompletedTask;
+                }
             };
         });
         return services;

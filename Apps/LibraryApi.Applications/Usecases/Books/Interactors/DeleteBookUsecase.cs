@@ -40,7 +40,7 @@ public class DeleteBookUsecase : IDeleteBookUsecase
             var result = await _bookRepository.DeleteByIdAsync(id);
             if (result == false)
             {
-                throw new NotFoundException($"図書Id:{id}の図書は存在しないため削除できません。");
+                throw new NotFoundException($"指定された図書が存在しません");
             }
             // トランザクションをコミットする
             await _unitOfWork.CommitAsync();

@@ -49,6 +49,8 @@ public class RegisterBookController : ControllerBase
     [SwaggerResponse(StatusCodes.Status200OK, "存在しない場合 { exists=false } を返す")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "書名が未入力の場合")]
     [SwaggerResponse(StatusCodes.Status409Conflict, "書名が既に存在する場合")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public async Task<IActionResult> ValidateBook([FromQuery] string bookTitle)
     {
         // 書名がnullか空白
@@ -76,6 +78,8 @@ public class RegisterBookController : ControllerBase
     [SwaggerOperation(Summary = "著者名の入力確認",
                       Description = "著者名が入力されたかを検証する")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "著者名が未入力の場合")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     // 著者名
     public async Task<IActionResult> ValidateAuthor([FromQuery] string author)
     {
@@ -102,8 +106,8 @@ public class RegisterBookController : ControllerBase
                       Description = "新しい図書を登録する")]
     [SwaggerResponse(StatusCodes.Status201Created, "図書登録成功", typeof(Book))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー、または分類が存在しない")]
-    // [SwaggerResponse(StatusCodes.Status404NotFound, "分類Idが存在しない場合")]
-    // [SwaggerResponse(StatusCodes.Status409Conflict, "図書が既に存在する場合")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public async Task<IActionResult> Register(
         RegisterBookViewModel model)
     {

@@ -39,12 +39,12 @@ public class AuthenticateUserUsecase : IAuthenticateUserUsecase
         var user = await _repository.SelectByUsernameAsync(usernameOrEmail);
         if (user == null)
         {
-            throw new AuthenticationException("ユーザーが存在しません。");
+            throw new AuthenticationException("ユーザー名またはパスワードが正しくありません");
         }
         // パスワードを検証する
         if (!_service.Verify(user.Password, password))
         {
-            throw new AuthenticationException("パスワードが一致しません。");
+            throw new AuthenticationException("ユーザー名またはパスワードが正しくありません");
         }
         return user; // ユーザーを返す
     }

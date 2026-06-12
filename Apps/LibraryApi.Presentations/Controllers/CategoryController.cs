@@ -45,6 +45,8 @@ public class CategoryController : ControllerBase
     [SwaggerOperation(Summary = "分類の取得",
                       Description = "図書の分類一覧を取得する")]
     [SwaggerResponse(StatusCodes.Status200OK, "分類一覧の取得成功")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public async Task<IActionResult> GetCategories()
     {
         var result = await _categoryUsecase.GetCategoriesAsync();
@@ -61,8 +63,9 @@ public class CategoryController : ControllerBase
     [SwaggerOperation(Summary = "分類の取得",
                       Description = "選択された分類識別Idで該当する分類を取得する")]
     [SwaggerResponse(StatusCodes.Status409Conflict, "分類が存在しない場合 { NotFound(404) } を返す")]
-    //[SwaggerResponse(StatusCodes.Status400BadRequest, "書名が未入力の場合")]
     [SwaggerResponse(StatusCodes.Status200OK, "分類が既に存在する場合")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public async Task<IActionResult> GetCategoryById(string categoryId)
     {
         try

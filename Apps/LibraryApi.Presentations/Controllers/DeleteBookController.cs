@@ -42,6 +42,8 @@ public class DeleteBookController : ControllerBase
                       Description = "図書を削除する")]
     [SwaggerResponse(StatusCodes.Status201Created, "図書削除成功")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "指定された図書が存在しない")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public async Task<IActionResult> Delete([FromRoute] string bookId)
     {
         try

@@ -39,7 +39,7 @@ public class RegisterUserUsecase : IRegisterUserUsecase
         if (result == true)
         {
             throw new
-            ExistsException($"ユーザー名:{username}のユーザーは既に存在します。");
+            ExistsException($"指定されたユーザー名は既に使用されています");
         }
     }
 

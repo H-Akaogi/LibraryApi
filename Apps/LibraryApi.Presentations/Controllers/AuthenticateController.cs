@@ -12,7 +12,7 @@ namespace LibraryApi.Presentations.Controllers;
 /// ユースケース:[ログイン/ログアウト]を実現するコントローラ
 /// </summary>
 [ApiController]
-[Route("api/auth")]
+[Route("library/api/auth")]
 [SwaggerTag("ユーザー認証（ログイン/ログアウト）処理")]
 public class AuthenticateController : ControllerBase
 {
@@ -40,25 +40,52 @@ public class AuthenticateController : ControllerBase
     [HttpPost("login")]
     [SwaggerOperation(
         Summary = "ユーザーのログイン認証",
-        Description = "ユーザー名とパスワードでログインを行い、JWTトークンを発行します。")]
-    [SwaggerResponse(StatusCodes.Status200OK, "認証成功（JWTトークン返却）", typeof(TokenResponse))]
-    [SwaggerResponse(StatusCodes.Status401Unauthorized, "認証失敗（ユーザーが存在しない、またはパスワード不一致）")]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "バリデーションエラー")]
+        Description = "ユーザー名とパスワードでログインを行い、JWTトークンを発行")]
+    [SwaggerResponse(StatusCodes.Status200OK, "ログイン成功")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "認証失敗(ユーザー未登録、またはパスワード不一致)")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public async Task<IActionResult> Login([FromBody] LoginViewModel model)
     {
+        if (model.Username == null)
+        {
+            return BadRequest(
+           new { error = "ValidationError", message = "ユーザー名は必須項目です" });
+        }
+        if (model.Password == null)
+        {
+            return BadRequest(
+           new { error = "ValidationError", message = "パスワードは必須項目です" });
+        }
         try
         {
             // 認証ユーザーを取得する
             var user = await _usecase.AuthenticateAsync(model.Username, model.Password);
             // JWTトークンを発行する
             var token = _provider.IssueAccessToken(user);
-            // 発行したトークンをレスポンスボディで返す
-            return Ok(new TokenResponse { Token = token });
+
+            // JWTトークンをHttpOnly Cookieにセットする
+            Response.Cookies.Append(
+                "access_token",
+                token,
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddHours(1)
+                });
+            new TokenResponse { Token = token };
+            // レスポンスボディにはトークンを含めない
+            return Ok(new
+            {
+                message = "ログインに成功しました。"
+            });
         }
         catch (AuthenticationException ex)
         {
             // 認証失敗
-            return Unauthorized(new { message = ex.Message });
+            return Unauthorized(new { error = "AuthenticationFailed", message = ex.Message });
         }
     }
 
@@ -71,9 +98,22 @@ public class AuthenticateController : ControllerBase
     [SwaggerOperation(
         Summary = "ユーザーのログアウト",
         Description = "JWTはステートレスなため、バックエンド側で無効化処理は行いません。クライアント側でトークンを破棄してください。")]
-    [SwaggerResponse(StatusCodes.Status204NoContent, "ログアウト成功（処理なし）")]
+    [SwaggerResponse(StatusCodes.Status200OK, "ログアウト成功")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
+    [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
     public IActionResult Logout()
     {
-        return NoContent();
+        Response.Cookies.Delete(
+    "access_token",
+    new CookieOptions
+    {
+        HttpOnly = true,
+        Secure = true,
+        SameSite = SameSiteMode.Strict
+    });
+        return Ok(new
+        {
+            message = "ログアウトに成功しました"
+        });
     }
 }

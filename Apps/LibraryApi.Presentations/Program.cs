@@ -13,19 +13,6 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddSwaggerWithJwt();
 /*--- 追加 --*/
 
-/*
-// Swaggerを有効化する
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    // アノテーションを有効化（SwaggerTagやSwaggerResponseを反映）
-    c.EnableAnnotations();
-
-    // XMLコメントをSwaggerに取り込む（<summary>などを反映）
-    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-});
-*/
 // WebApplicationを生成する
 var app = builder.Build();
 
