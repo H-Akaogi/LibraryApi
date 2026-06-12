@@ -34,11 +34,11 @@ public class BookEntityAdapter : IConverter<Book, BookEntity>, IRestorer<Book, B
 
         // BookStockを生成する
         var stock = new BookStock(
-           target.BookStock.StockUuid,
+           target.BookStock!.StockUuid,
            target.BookStock.Stock
        );
         var bookCategory = new BookCategory(
-            target.BookCategory.CategoryUuid,
+            target.BookCategory!.CategoryUuid,
             target.BookCategory.Name
         );
         var domain = new Book(
