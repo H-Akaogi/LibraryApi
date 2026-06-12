@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization; // [Authorize]付加
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using LibraryApi.Domains.Models;
@@ -31,14 +32,15 @@ public class RegisterUserController : ControllerBase
         _adapter = adapter;
     }
 
+    [Authorize]
     [HttpGet("check")]
     [SwaggerOperation(Summary = "ユーザー名の重複チェック",
-                      Description = "ユーザー名の存在を検証する")]
+                          Description = "ユーザー名の存在を検証する")]
     [SwaggerResponse(StatusCodes.Status200OK, "存在しない場合 { exists=false } を返す")]
     [SwaggerResponse(StatusCodes.Status409Conflict, "既に存在する場合")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "ユーザー名が未入力の場合")]
     public async Task<IActionResult> CheckDuplicate(
-        [FromQuery] string? username)
+            [FromQuery] string? username)
     {
         // ユーザー名もメールアドレスも入力?
         if (string.IsNullOrWhiteSpace(username))
@@ -63,6 +65,7 @@ public class RegisterUserController : ControllerBase
     /// </summary>
     /// <param name="viewModel">ユースケース:[ユーザーを登録する]を実現するViewModel</param>
     /// <returns></returns>
+    [Authorize]
     [HttpPost]
     [SwaggerOperation(Summary = "ユーザーを登録",
                       Description = "ユーザー情報を受け取り、ユーザーを登録する")]

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization; // [Authorize]付加
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using LibraryApi.Domains.Models;
@@ -34,6 +35,7 @@ public class UpdateBookController : ControllerBase
     /// </summary>
     /// <param name="bookId">図書Id(UUID)</param>
     /// <returns>該当する図書が存在すればOK(200)、存在しなければNotFound(404)</returns>
+    [Authorize]
     [HttpGet("books/{bookId}")]
     [SwaggerOperation(Summary = "図書の取得",
                       Description = "図書の詳細を取得する")]
@@ -62,6 +64,7 @@ public class UpdateBookController : ControllerBase
     /// <returns>
     /// 存在しない場合:Ok(200)、存在する場合:Conflict(409) 
     /// </returns>
+    [Authorize]
     [HttpGet("validate")]
     [SwaggerOperation(Summary = "図書の検証",
                       Description = "図書が既に存在するかを検証する")]
@@ -96,6 +99,7 @@ public class UpdateBookController : ControllerBase
     /// <param name="bookId"></param>
     /// <param name="model">図書変更用ViewModel</param>
     /// <returns></returns>
+    [Authorize]
     [HttpPut("books/{bookId}")]
     [SwaggerOperation(Summary = "図書の変更",
                       Description = "図書を変更する")]

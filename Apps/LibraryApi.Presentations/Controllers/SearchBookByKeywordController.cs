@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization; // [Authorize]付加
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using LibraryApi.Domains.Models;
@@ -29,6 +30,7 @@ public class SearchBookByKeywordController : ControllerBase
     /// </summary>
     /// <param name="keyword">検索キーワード</param>
     /// <returns>検索結果の図書一覧</returns>
+    [Authorize]
     [HttpGet("books")]
     [SwaggerResponse(StatusCodes.Status200OK, "図書検索成功", typeof(List<Book>))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー")]

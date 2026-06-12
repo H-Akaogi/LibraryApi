@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization; // [Authorize]付加
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using LibraryApi.Domains.Models;
@@ -35,6 +36,7 @@ public class DeleteBookController : ControllerBase
     /// </summary>
     /// <param name="bookId"></param>
     /// <returns></returns>
+    [Authorize]
     [HttpDelete("books/{bookId}")]
     [SwaggerOperation(Summary = "図書削除",
                       Description = "図書を削除する")]

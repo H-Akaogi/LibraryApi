@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization; // [Authorize]付加
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using LibraryApi.Domains.Models;
@@ -41,6 +42,7 @@ public class RegisterBookController : ControllerBase
     /// <returns>
     /// 存在しない場合:Ok(200)、存在する場合:Conflict(409) 
     /// </returns>
+    [Authorize]
     [HttpGet("books/validate/book")]
     [SwaggerOperation(Summary = "書名の存在確認",
                       Description = "書名が既に存在するかを検証する")]
@@ -68,6 +70,8 @@ public class RegisterBookController : ControllerBase
             { code = "PRODUCT_ALREADY_EXISTS", message = ex.Message });
         }
     }
+
+    [Authorize]
     [HttpGet("books/validate/author")]
     [SwaggerOperation(Summary = "著者名の入力確認",
                       Description = "著者名が入力されたかを検証する")]
@@ -92,6 +96,7 @@ public class RegisterBookController : ControllerBase
     /// </summary>
     /// <param name="model">図書登録用ViewModel</param>
     /// <returns></returns>
+    [Authorize]
     [HttpPost("books")]
     [SwaggerOperation(Summary = "図書登録",
                       Description = "新しい図書を登録する")]

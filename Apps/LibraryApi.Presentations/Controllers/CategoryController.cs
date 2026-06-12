@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization; // [Authorize]付加
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using LibraryApi.Domains.Models;
 using LibraryApi.Domains.Exceptions;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
+
 using LibraryApi.Applications.Usecases.Categories.Interfaces;
 using LibraryApi.Presentations.Adapters;
 using LibraryApi.Presentations.ViewModels;
@@ -38,6 +40,7 @@ public class CategoryController : ControllerBase
     /// 図書カテゴリ一覧の取得
     /// </summary>
     /// <returns></returns>
+    [Authorize]
     [HttpGet("categories")]
     [SwaggerOperation(Summary = "分類の取得",
                       Description = "図書の分類一覧を取得する")]
@@ -53,6 +56,7 @@ public class CategoryController : ControllerBase
     /// </summary>
     /// <param name="categoryId">図書カテゴリId(UUID)</param>
     /// <returns>該当するカテゴリが存在すればOK(200)、存在しなければNotFound(404)</returns>
+    [Authorize]
     [HttpGet("categories/{categoryId}")]
     [SwaggerOperation(Summary = "分類の取得",
                       Description = "選択された分類識別Idで該当する分類を取得する")]
