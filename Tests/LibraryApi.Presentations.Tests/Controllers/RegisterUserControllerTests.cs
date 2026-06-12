@@ -90,7 +90,7 @@ public class RegisterUserControllerTests
     [TestMethod("ユーザー重複チェック:usernameとemailが両方nullの場合、BadRequest(400)が返される")]
     public async Task CheckDuplicate_ShouldReturnBadRequest_WhenNoParams()
     {
-        var response = await _controller!.CheckDuplicate(null, null);
+        var response = await _controller!.CheckDuplicate(null);
         // IActionResultをBadRequestObjectResultに変換する
         var bad = response as BadRequestObjectResult;
         // nullでないことを検証する
@@ -106,7 +106,7 @@ public class RegisterUserControllerTests
     [TestMethod("ユーザー重複チェック:存在しないユーザーの場合、OK(200)とexists=falseが返される")]
     public async Task CheckDuplicate_ShouldReturnOk_WhenNotExists()
     {
-        var response = await _controller!.CheckDuplicate("notexists", "notexists@example.com");
+        var response = await _controller!.CheckDuplicate("notexists");
         // IActionResultをOkObjectResultに変換する
         var ok = response as OkObjectResult;
         // nullでないことを検証する

@@ -32,13 +32,13 @@ public class RegisterUserController : ControllerBase
     }
 
     [HttpGet("check")]
-    [SwaggerOperation(Summary = "ユーザー名、メールアドレスの重複チェック",
-                      Description = "ユーザー名、メールアドレスの存在を検証する")]
+    [SwaggerOperation(Summary = "ユーザー名の重複チェック",
+                      Description = "ユーザー名の存在を検証する")]
     [SwaggerResponse(StatusCodes.Status200OK, "存在しない場合 { exists=false } を返す")]
     [SwaggerResponse(StatusCodes.Status409Conflict, "既に存在する場合")]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "ユーザー名、メールアドレスが未入力の場合")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "ユーザー名が未入力の場合")]
     public async Task<IActionResult> CheckDuplicate(
-        [FromQuery] string? username, [FromQuery, EmailAddress] string? email)
+        [FromQuery] string? username)
     {
         // ユーザー名もメールアドレスも入力?
         if (string.IsNullOrWhiteSpace(username))
