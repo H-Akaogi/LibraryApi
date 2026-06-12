@@ -19,6 +19,11 @@ public class AppDbContext : DbContext
     // 蔵書テーブルアクセスプロパティ
     public DbSet<BookStockEntity> BookStocks => Set<BookStockEntity>();
 
+    /// <summary>
+    /// ユーザーテーブルアクセスプロパティ
+    /// </summary>
+    public DbSet<UserEntity> Users => Set<UserEntity>();
+
     // Fluent APIでマッピング定義
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -64,6 +69,20 @@ public class AppDbContext : DbContext
             // C#のstring ⇔ PostgreSQLのuuidを自動変換する
             e.Property(s => s.StockUuid)
                 .HasMaxLength(36);
+        });
+
+        // UserEntityの制約（ユニークインデックスなど）を定義可能
+        modelBuilder.Entity<UserEntity>(e =>
+        {
+            e.HasIndex(u => u.UserUuid).IsUnique();
+            e.HasIndex(u => u.Username).IsUnique();
+
+            // C#のstring ⇔ PostgreSQLのuuidを自動変換する
+            e.Property(u => u.UserUuid)
+             .HasConversion(
+                 v => Guid.Parse(v),
+                 v => v.ToString()
+             );
         });
     }
 
