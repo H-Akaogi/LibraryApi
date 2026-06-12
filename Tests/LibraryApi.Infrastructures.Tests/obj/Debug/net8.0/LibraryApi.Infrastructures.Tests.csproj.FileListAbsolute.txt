@@ -149,3 +149,11 @@
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/LibraryApi.Presentations.pdb
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Swashbuckle.AspNetCore.Annotations.dll
 /home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/LibraryApi.Presentations.xml
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/fullness/CS_Training/LibraryApi/Tests/LibraryApi.Infrastructures.Tests/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

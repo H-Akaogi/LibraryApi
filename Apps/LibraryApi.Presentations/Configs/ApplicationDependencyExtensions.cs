@@ -10,6 +10,8 @@ using LibraryApi.Infrastructures.Adapters;
 using LibraryApi.Infrastructures.Entities;
 using LibraryApi.Infrastructures.Repositories;
 using LibraryApi.Infrastructures.Shared;
+using LibraryApi.Infrastructures.Security;
+
 using LibraryApi.Applications.Usecases;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
 using LibraryApi.Applications.Usecases.Books.Interactors;
@@ -73,6 +75,8 @@ public static class ApplicationDependencyExtensions
         services.AddScoped<UserEntityAdapter>();
         // ドメインオブジェクト:User(ユーザー)のCRUD操作インターフェイスの実装
         services.AddScoped<IUserRepository, UserRepository>();
+        // JWTの発行・検証インターフェイスの実装
+        services.AddSingleton<IJwtTokenProvider, JwtTokenProvider>();
         return services;
     }
 
