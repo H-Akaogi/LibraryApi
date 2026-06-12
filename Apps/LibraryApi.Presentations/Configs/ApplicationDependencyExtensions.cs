@@ -118,6 +118,8 @@ public static class ApplicationDependencyExtensions
 
         // UpdateBookViewModelからドメインオブジェクト:Bookへ変換するアダプタ
         services.AddScoped<UpdateBookViewModelAdapter>();
+        // RegisterUserViewModelからドメインオブジェクト:Userへ変換するアダプタ
+        services.AddScoped<RegisterUserViewModelAdapter>();
         return services;
     }
 
