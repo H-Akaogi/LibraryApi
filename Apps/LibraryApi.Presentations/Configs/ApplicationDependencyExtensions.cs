@@ -19,6 +19,8 @@ using LibraryApi.Applications.Usecases.Categories.Interfaces;
 using LibraryApi.Applications.Usecases.Categories.Interactors;
 using LibraryApi.Applications.Usecases.Users.Interfaces;
 using LibraryApi.Applications.Usecases.Users.Interactors;
+using LibraryApi.Applications.Usecases.Authenticate.Interfaces;
+using LibraryApi.Applications.Usecases.Authenticate.Interactors;
 using LibraryApi.Applications.Security;
 
 using LibraryApi.Presentations.ViewModels;
@@ -102,6 +104,8 @@ public static class ApplicationDependencyExtensions
         services.AddScoped<IRegisterUserUsecase, RegisterUserUsecase>();
         // JwtSettingsをバインドしてDIに登録する
         services.Configure<JwtSettings>(config.GetSection("JwtSettings"));
+        // ユースケース:[ログインする]を実現するインターフェイス
+        services.AddScoped<IAuthenticateUserUsecase, AuthenticateUserUsecase>();
         return services;
     }
 
