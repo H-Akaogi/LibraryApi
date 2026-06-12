@@ -79,10 +79,7 @@ public class AppDbContext : DbContext
 
             // C#のstring ⇔ PostgreSQLのuuidを自動変換する
             e.Property(u => u.UserUuid)
-             .HasConversion(
-                 v => Guid.Parse(v),
-                 v => v.ToString()
-             );
+                  .HasMaxLength(36);
         });
     }
 

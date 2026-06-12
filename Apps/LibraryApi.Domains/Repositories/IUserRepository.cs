@@ -17,7 +17,7 @@ public interface IUserRepository
     /// </summary>
     /// <param name="username">ユーザー名</param>
     /// <returns>true:存在する false:存在しない</returns>
-    Task<bool> ExistsByUsernameOrEmailAsync(string username);
+    Task<bool> ExistsByUsernameAsync(string username);
 
     /// <summary>
     /// ユーザーId(UUID)からユーザーを取得する

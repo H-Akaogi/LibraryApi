@@ -77,7 +77,7 @@ public class UserEntityAdapterTests
         // ユーザー名を検証する
         Assert.AreEqual("Taro", entity.Username);
         // パスワードを検証する
-        Assert.AreEqual("hashedpwd", entity.PasswordHash);
+        Assert.AreEqual("hashedpwd", entity.Password);
     }
 
     [TestMethod("nullを渡すとInternalExceptionをスローする")]
@@ -99,7 +99,7 @@ public class UserEntityAdapterTests
         {
             UserUuid = uuid,
             Username = "Hanako",
-            PasswordHash = "securehash"
+            Password = "securehash"
         };
 
         // UserEntityからUserを復元する

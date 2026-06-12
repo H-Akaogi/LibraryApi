@@ -25,7 +25,7 @@ IConverter<User, UserEntity>, IRestorer<User, UserEntity>
         var entity = new UserEntity();
         entity.UserUuid = domain.UserUuid;
         entity.Username = domain.Username;
-        entity.PasswordHash = domain.Password;
+        entity.Password = domain.Password;
         return Task.FromResult(entity);
     }
 
@@ -43,7 +43,7 @@ IConverter<User, UserEntity>, IRestorer<User, UserEntity>
         var domain = new User(
             target.UserUuid.ToString(),
             target.Username,
-            target.PasswordHash);
+            target.Password);
         return Task.FromResult(domain);
     }
 }

@@ -11,7 +11,7 @@ public class UserEntity : ITimestamped
     /// オートインクリメントの主キー（内部用）
     /// </summary>
     [Key]
-    [Column("user_id")]
+    [Column("id")]
     public int UserId { get; set; }
 
     /// <summary>
@@ -34,24 +34,22 @@ public class UserEntity : ITimestamped
     /// パスワードのハッシュ
     /// </summary>
     [Required]
-    [Column("password_hash")]
+    [Column("password")]
     [StringLength(255)]
-    public string PasswordHash { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 
     /// <summary>
-    /// 登録日時
+    /// レコード作成日時
     /// </summary>
     [Required]
     [Column("created_at")]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime CreatedAt { get; set; }
 
     /// <summary>
-    /// 更新日時
+    /// レコード変更日時
     /// </summary>
     [Required]
     [Column("updated_at")]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime UpdatedAt { get; set; }
 
     public override string ToString()

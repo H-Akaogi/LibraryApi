@@ -68,6 +68,8 @@ public static class ApplicationDependencyExtensions
 
         // ドメインオブジェクト:UserとUserEntityの相互変換クラス
         services.AddScoped<UserEntityAdapter>();
+        // ドメインオブジェクト:User(ユーザー)のCRUD操作インターフェイスの実装
+        services.AddScoped<IUserRepository, UserRepository>();
         return services;
     }
 
