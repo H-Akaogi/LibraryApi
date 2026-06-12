@@ -84,23 +84,44 @@ public class DeleteBookUsecaseTests
         // スコープドサービスを破棄する
         _scope!.Dispose();
     }
-    [TestMethod("図書の変更:存在する図書の場合、図書を削除できる")]
-    public async Task DeleteBookAsync_ShouldUpdateBook_WhenBookExists()
+    [TestMethod("図書の削除:存在する図書の場合、図書を削除できる")]
+    public async Task DeleteBookAsync_ShouldDeleteBook_WhenBookExists()
     {
-        const string id = "94399b5c-7223-48c1-aab3-ea62378bdc13";
+        // Arrange
+        var bookId = Guid.NewGuid().ToString();
+        var title = $"テスト図書{Guid.NewGuid():N}".Substring(0, 15);
 
-        // 図書を変更する
-        await _deleteUsecase!.DeleteBookAsync(id);
+        var category = new BookCategory(
+            "e269c98c-61b7-4ca7-9fae-ecd74234989e",
+            "児童書"
+        );
 
-        // 変更データを取得する
+        var stock = new BookStock(
+            Guid.NewGuid().ToString(),
+            10
+        );
+
+        var book = new Book(
+            bookId,
+            title,
+            "テスト著者",
+            category,
+            stock
+        );
+
+        await _repository!.CreateAsync(book);
+
+        // Act
+        await _deleteUsecase!.DeleteBookAsync(bookId);
+
+        // Assert
         var ex = await Assert.ThrowsExceptionAsync<NotFoundException>(async () =>
         {
-            await _updateUsecase!.GetBookByIdAsync("94399b5c-7223-48c1-aab3-ea62378bdc13");
+            await _updateUsecase!.GetBookByIdAsync(bookId);
         });
-        // nullでないことを検証する
+
         Assert.IsNotNull(ex);
-        // 例外メッセージを検証する
-        Assert.AreEqual("図書Id:94399b5c-7223-48c1-aab3-ea62378bdc13の図書は存在しません。", ex.Message);
+        Assert.AreEqual($"図書Id:{bookId}の図書は存在しません。", ex.Message);
     }
 
     [TestMethod("図書の変更:存在しない図書Idの場合、NotFoundExceptionがスローされる")]
@@ -116,6 +137,6 @@ public class DeleteBookUsecaseTests
         // nullでないことを検証する
         Assert.IsNotNull(ex);
         // 例外メッセージを検証する
-        Assert.AreEqual("図書Id:79023e82-9197-40a5-b236-26487f404be5の図書は存在しないため削除できません。", ex.Message);
+        Assert.AreEqual("指定された図書が存在しません", ex.Message);
     }
 }

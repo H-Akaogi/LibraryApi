@@ -112,7 +112,7 @@ public class RegisterUserUsecaseTests
             {
                 await _usecase!.ExistsByUsernameAsync("jiro");
             });
-            Assert.AreEqual($"ユーザー名:jiroのユーザーは既に存在します。"
+            Assert.AreEqual($"指定されたユーザー名は既に使用されています"
             , ex.Message);
         }
         finally

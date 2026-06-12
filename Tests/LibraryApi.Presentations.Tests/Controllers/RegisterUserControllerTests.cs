@@ -100,7 +100,7 @@ public class RegisterUserControllerTests
         // エラーメッセージを取得する
         var msg = val.GetType().GetProperty("message")?.GetValue(val) as string;
         // エラーメッセージを検証する
-        Assert.AreEqual("usernameを指定してください。", msg);
+        Assert.AreEqual("ユーザー名は1~30文字で入力してください", msg);
     }
 
     [TestMethod("ユーザー重複チェック:存在しないユーザーの場合、OK(200)とexists=falseが返される")]
@@ -183,9 +183,9 @@ public class RegisterUserControllerTests
             var code = val.GetType().GetProperty("code")?.GetValue(val) as string;
             var message = val.GetType().GetProperty("message")?.GetValue(val) as string;
 
-            Assert.AreEqual("USER_ALREADY_EXISTS", code);
+            Assert.AreEqual("DuplicateUsername", code);
             Assert.AreEqual(
-                $"ユーザー名:{username}のユーザーは既に存在します。",
+                $"指定されたユーザー名は既に使用されています",
                 message);
         }
         finally

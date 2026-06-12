@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Microsoft.EntityFrameworkCore;
+using LibraryApi.Infrastructures.Contexts;
 using LibraryApi.Domains.Models;
 using LibraryApi.Domains.Repositories;
 using LibraryApi.Applications.Usecases.Books.Interfaces;
@@ -21,6 +22,7 @@ public class RegisterBookControllerTests
 {
     // MSTestテスト用ログ出力ハンドル
     private static TestContext? _testContext;
+    private static AppDbContext? _dbContext;
     // サービスプロバイダ(DIコンテナ)
     private static ServiceProvider? _provider;
     // スコープドサービス
@@ -170,28 +172,66 @@ public class RegisterBookControllerTests
         CollectionAssert.Contains(details["Name"], "書名は必須です。");
     }
 
-    [TestMethod("図書登録:既に存在する書名の場合、Conflict(Conflict)とエラーが返される")]
-    public async Task Register_ShouldReturnConflict_WhenAlreadyExists()
+    [TestMethod("図書登録:既に存在する書名の場合、BadRequest(400)とエラーが返される")]
+    public async Task Register_ShouldReturnBadRequest_WhenAlreadyExists()
     {
+        // Arrange
+        var title = $"テスト図書{Guid.NewGuid():N}".Substring(0, 15);
+
         var viewModel = new RegisterBookViewModel
         {
-            Title = "ハリー・ポッター",
-            Author = "J.K.ローリング",
+            Title = title,
+            Author = "テスト著者",
             Stock = 10,
             CategoryId = "e269c98c-61b7-4ca7-9fae-ecd74234989e",
             CategoryName = "児童書"
         };
-        var response = await _bookController!.Register(viewModel);
-        // レスポンスをConflictObjectResultに変換する
-        var conflict = response as ConflictObjectResult;
-        // レスポンスボディを取得する
-        var val = conflict!.Value!;
-        var code = val.GetType().GetProperty("code")?.GetValue(val) as string;
-        var msg = val.GetType().GetProperty("message")?.GetValue(val) as string;
-        Assert.AreEqual("PRODUCT_ALREADY_EXISTS", code);
-        Assert.AreEqual("書名:ハリー・ポッターは既に存在します。", msg);
-    }
 
+        try
+        {
+            // 1回目: 登録成功させる
+            var firstResponse = await _bookController!.Register(viewModel);
+
+            var created = firstResponse as CreatedResult;
+
+            Assert.IsNotNull(created);
+            Assert.AreEqual(StatusCodes.Status201Created, created!.StatusCode);
+
+            // Act
+            // 2回目: 同じ書名で登録する
+            var secondResponse = await _bookController.Register(viewModel);
+
+            // Assert
+            var bad = secondResponse as BadRequestObjectResult;
+
+            Assert.IsNotNull(bad);
+            Assert.AreEqual(StatusCodes.Status400BadRequest, bad!.StatusCode);
+
+            var val = bad.Value!;
+
+            var code = val.GetType().GetProperty("code")?.GetValue(val) as string;
+            var msg = val.GetType().GetProperty("message")?.GetValue(val) as string;
+
+            Assert.AreEqual("BOOK_ALREADY_EXISTS", code);
+            Assert.AreEqual($"書名:{title}は既に存在します。", msg);
+        }
+        finally
+        {
+            // Cleanup
+            if (_repository is not null)
+            {
+                var books = await _repository
+                    .SelectByTitleLikeWithBookStockAndBookCategoryAsync(title);
+
+                var createdBook = books.FirstOrDefault(b => b.Title == title);
+
+                if (createdBook is not null)
+                {
+                    await _repository.DeleteByIdAsync(createdBook.BookUuid);
+                }
+            }
+        }
+    }
     [TestMethod("著者名有無チェック:著者名が未入力の場合、BadRequest(400)とエラーが返される")]
     public async Task ValidateAuthor_ShouldReturnBadRequest_WhenAuthorEmpty()
     {
@@ -211,56 +251,73 @@ public class RegisterBookControllerTests
     [TestMethod("図書登録(Author):バリデーションエラーの場合、BadRequest(400)とエラーが返される")]
     public async Task Register_ShouldReturnBadRequest_WhenModelInvalid_Author()
     {
+        // Arrange
+        var title = $"テスト図書{Guid.NewGuid():N}".Substring(0, 15);
+
         // 自動バリデーション機能が利用できないので、予めエラーメッセージを設定する
         _bookController!.ModelState.AddModelError("Author", "著者名は必須です。");
+
         var viewModel = new RegisterBookViewModel
         {
-            Title = "ハリー・ポッター",
+            Title = title,
             Author = " ",
             Stock = 10,
             CategoryId = "e269c98c-61b7-4ca7-9fae-ecd74234989e",
             CategoryName = "児童書"
         };
-        // 図書登録を実行する
+
+        // Act
         var response = await _bookController.Register(viewModel);
-        // レスポンスをBadRequestObjectResultに変換する
+
+        // Assert
         var bad = response as BadRequestObjectResult;
-        // nullでないことを検証する
+
         Assert.IsNotNull(bad);
-        // レスポンスボディを取得する
-        var val = bad!.Value!;
+        Assert.AreEqual(StatusCodes.Status400BadRequest, bad!.StatusCode);
+
+        var val = bad.Value!;
+
         var code = val.GetType().GetProperty("code")?.GetValue(val) as string;
+        var message = val.GetType().GetProperty("message")?.GetValue(val) as string;
         var detailsObj = val.GetType().GetProperty("details")!.GetValue(val)!;
         var details = detailsObj as Dictionary<string, string[]>;
-        // メッセージがnullでないことを検証する
+
+        Assert.AreEqual("VALIDATION_ERROR", code);
+        Assert.AreEqual("入力内容に誤りがあります。", message);
+
         Assert.IsNotNull(details);
-        // Nameプロパティの値がエラーであることを検証する
         Assert.IsTrue(details!.ContainsKey("Author"));
-        // エラーメッセージを検証する
         CollectionAssert.Contains(details["Author"], "著者名は必須です。");
     }
 
-    [TestMethod("図書登録:図書分類が存在しない場合、NotFound(404)とエラーが返される")]
-    public async Task Register_ShouldReturnNotFound_WhenCategoryMissing()
+    [TestMethod("図書登録:図書分類が存在しない場合、BadRequest(400)とエラーが返される")]
+    public async Task Register_ShouldReturnBadRequest_WhenCategoryMissing()
     {
+        // Arrange
         var viewModel = new RegisterBookViewModel
         {
-            Title = "ハリー・ポッター",
-            Author = "J.K.ローリング",
+            Title = $"テスト図書{Guid.NewGuid():N}".Substring(0, 15),
+            Author = "テスト著者",
             Stock = 10,
             CategoryId = Guid.NewGuid().ToString(), // 存在しない図書分類Id
             CategoryName = "ダミー"
         };
+
+        // Act
         var res = await _bookController!.Register(viewModel);
-        var notfound = res as NotFoundObjectResult;
-        Assert.IsNotNull(notfound);
-        // レスポンスボディを取得する
-        var val = notfound!.Value!;
+
+        // Assert
+        var bad = res as BadRequestObjectResult;
+
+        Assert.IsNotNull(bad);
+        Assert.AreEqual(StatusCodes.Status400BadRequest, bad!.StatusCode);
+
+        var val = bad.Value!;
         var code = val.GetType().GetProperty("code")?.GetValue(val) as string;
         var msg = val.GetType().GetProperty("message")?.GetValue(val) as string;
+
         Assert.AreEqual("CATEGORY_NOT_FOUND", code);
-        Assert.AreEqual($"分類Id:{viewModel.CategoryId}の分類は存在しません。"
-            , msg);
+        Assert.AreEqual($"分類Id:{viewModel.CategoryId}の分類は存在しません。", msg);
     }
 
     [TestMethod("図書登録:矛盾の無いデータの場合、Created(201)とLocationが返される")]

@@ -117,7 +117,7 @@ public class AuthenticateUserUsecaseTests
             await _usecase!.AuthenticateAsync("not-found-user", "any");
         });
         // メッセージを検証する
-        Assert.AreEqual("ユーザーが存在しません。", ex.Message);
+        Assert.AreEqual("ユーザー名またはパスワードが正しくありません", ex.Message);
     }
 
     [TestMethod("パスワードが不一致の場合、AuthenticationExceptionがスローされる")]
@@ -135,7 +135,7 @@ public class AuthenticateUserUsecaseTests
                 await _usecase!.AuthenticateAsync("hanako", "WrongPassword");
             });
             // メッセージを検証する
-            Assert.AreEqual("パスワードが一致しません。", ex.Message);
+            Assert.AreEqual("ユーザー名またはパスワードが正しくありません", ex.Message);
         }
         finally
         {

@@ -48,34 +48,7 @@ public class RegisterBookUsecase : IRegisterBookUsecase
             throw new ExistsException($"書名:{bookTitle}は既に存在します。");
         }
     }
-    /*
-        /// <summary>
-        /// すべての分類を取得する
-        /// クライアント側の[入力画面]で利用するプルダウンを作成するため
-        /// </summary>
-        /// <returns>BookCategoryのリスト</returns>
-        public async Task<List<BookCategory>> GetCategoriesAsync()
-        {
-            return await _bookCategoryRepository.SelectAllAsync();
-        }
 
-        /// <summary>
-        /// 指定された分類Idの分類を取得する
-        /// クライアント側の[確認画面]で利用するため
-        /// </summary>
-        /// <param name="id">分類Id</param>
-        /// <returns>該当分類</returns>
-        /// <exception cref="NotFoundException">該当データが存在しない場合にスローされる</exception>
-        public async Task<BookCategory> GetCategoryByIdAsync(string id)
-        {
-            var result = await _bookCategoryRepository.SelectByIdAsync(id);
-            if (result is null)
-            {
-                throw new NotFoundException($"分類Id:{id}の分類は存在しません。");
-            }
-            return result!;
-        }
-    */
     /// <summary>
     /// 新図書を登録する
     /// </summary>

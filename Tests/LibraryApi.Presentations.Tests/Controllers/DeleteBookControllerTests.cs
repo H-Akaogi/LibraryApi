@@ -102,16 +102,61 @@ public class DeleteBookControllerTests
         var code = (string)val.GetType().GetProperty("code")!.GetValue(val)!;
         var msg = (string)val.GetType().GetProperty("message")!.GetValue(val)!;
         Assert.AreEqual("BOOK_NOT_FOUND", code);
-        Assert.AreEqual($"図書Id:{id}の図書は存在しないため削除できません。", msg);
+        Assert.AreEqual($"指定された図書が存在しません", msg);
     }
 
     [TestMethod("存在する図書Idの場合、Okが返される")]
     public async Task Delete_ShouldReturnOk_WhenExists()
     {
-        var id = "90582274-3ff0-40b6-b2ec-beed51b24f56";
-        var response = await _deleteBookController!.Delete(id);
-        var ok = response as OkResult;
-        Assert.IsNotNull(ok);
-        Assert.AreEqual(StatusCodes.Status200OK, ok.StatusCode);
+        // Arrange
+        var bookId = Guid.NewGuid().ToString();
+        var title = $"テスト図書{Guid.NewGuid():N}".Substring(0, 15);
+
+        var category = new BookCategory(
+            "e269c98c-61b7-4ca7-9fae-ecd74234989e",
+            "児童書"
+        );
+
+        var stock = new BookStock(
+            Guid.NewGuid().ToString(),
+            10
+        );
+
+        var book = new Book(
+            bookId,
+            title,
+            "テスト著者",
+            category,
+            stock
+        );
+
+        try
+        {
+            await _repository!.CreateAsync(book);
+
+            // Act
+            var response = await _deleteBookController!.Delete(bookId);
+
+            // Assert
+            var ok = response as OkResult;
+            Assert.IsNotNull(ok);
+            Assert.AreEqual(StatusCodes.Status200OK, ok!.StatusCode);
+
+            var deleted = await _repository
+                .SelectByIdWithBookStockAndBookCategoryAsync(bookId);
+
+            Assert.IsNull(deleted);
+        }
+        finally
+        {
+            // 削除に失敗した場合の後片付け
+            var exists = await _repository!
+                .SelectByIdWithBookStockAndBookCategoryAsync(bookId);
+
+            if (exists is not null)
+            {
+                await _repository.DeleteByIdAsync(bookId);
+            }
+        }
     }
 }

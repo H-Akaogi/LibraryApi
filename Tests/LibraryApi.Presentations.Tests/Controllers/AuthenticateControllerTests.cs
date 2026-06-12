@@ -69,6 +69,11 @@ public class AuthenticateControllerTests
         _hashing = _scope.ServiceProvider.GetRequiredService<IPasswordHashingService>();
 
         _controller = new AuthenticateController(_usecase!, _tokenProvider!);
+
+        _controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = new DefaultHttpContext()
+        };
     }
 
     /// <summary>テスト後処理</summary>
@@ -94,10 +99,10 @@ public class AuthenticateControllerTests
         // nullでないことを検証する
         Assert.IsNotNull(unauthorized);
     }
-    [TestMethod("存在するユーザーとパスワードの場合、Ok(200)とJWTトークンが返される")]
-    public async Task Login_ShouldReturnOk_WithToken_WhenSuccess()
+    [TestMethod("存在するユーザーとパスワードの場合、Ok(200)とログイン成功メッセージが返され、CookieにJWTがセットされる")]
+    public async Task Login_ShouldReturnOk_AndSetCookie_WhenSuccess()
     {
-        // テストデータを用意する
+        // Arrange
         var username = $"user_{Guid.NewGuid():N}".Substring(0, 12);
         var rawPassword = "P@ssw0rd123!";
         var hashed = _hashing!.Hash(rawPassword);
@@ -105,40 +110,42 @@ public class AuthenticateControllerTests
 
         try
         {
-            // テストデータを登録する
             await _userRepository!.CreateAsync(user);
 
-            // ログインデータを用意する
             var viewModel = new LoginViewModel
             {
                 Username = username,
                 Password = rawPassword
             };
 
-            // ログイン認証する
+            // Act
             var response = await _controller!.Login(viewModel);
 
-            // responseをOkObjectResultに変換する
+            // Assert
             var ok = response as OkObjectResult;
 
-            // nullでないことを検証する
             Assert.IsNotNull(ok);
+            Assert.AreEqual(StatusCodes.Status200OK, ok!.StatusCode);
 
-            // レスポンスボディを取得する
-            var body = ok!.Value!;
+            var body = ok.Value!;
 
-            // プロパティを取得する
+            var message = body.GetType().GetProperty("message")?.GetValue(body) as string;
+
+            Assert.AreEqual("ログインに成功しました。", message);
+
+            // レスポンスボディにTokenが含まれていないことを確認
             var tokenProp = body.GetType().GetProperty("Token");
+            Assert.IsNull(tokenProp);
 
-            // トークンを取得する
-            var token = tokenProp?.GetValue(body) as string;
+            // Cookieにaccess_tokenがセットされたことを確認
+            var setCookie = _controller.HttpContext.Response.Headers["Set-Cookie"].ToString();
 
-            // nullや空白でないことを検証する
-            Assert.IsFalse(string.IsNullOrWhiteSpace(token));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(setCookie));
+            StringAssert.Contains(setCookie, "access_token=");
+            StringAssert.Contains(setCookie, "httponly");
         }
         finally
         {
-            // クリーニング
             var registeredUser = await _userRepository!.SelectByUsernameAsync(username);
 
             if (registeredUser is not null)
@@ -147,18 +154,19 @@ public class AuthenticateControllerTests
             }
         }
     }
-    [TestMethod("ログアウトすると、NoContent(204)が返される")]
-    public void Logout_ShouldReturnNoContent_WhenAuthenticated()
+    [TestMethod("ログアウトすると、Ok(200)とログアウト成功メッセージが返される")]
+    public void Logout_ShouldReturnOk_WhenAuthenticated()
     {
-        // 認証済みユーザーを偽装してControllerContextに設定する
+        // Arrange
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString("N")),
-            new Claim(ClaimTypes.Name, "tester")
-        };
+        new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
+        new Claim(ClaimTypes.Name, "tester")
+    };
+
         var identity = new ClaimsIdentity(claims, authenticationType: "TestAuth");
         var principal = new ClaimsPrincipal(identity);
-        // ログアウト用コントローラを用意する
+
         _controller!.ControllerContext = new ControllerContext
         {
             HttpContext = new DefaultHttpContext
@@ -166,13 +174,24 @@ public class AuthenticateControllerTests
                 User = principal
             }
         };
-        // ログアウトする
+
+        // Act
         var response = _controller.Logout();
-        // responseをNoContentResultに変換する
-        var noContent = response as NoContentResult;
-        // nullでないことを検証する
-        Assert.IsNotNull(noContent);
-        // ステータスを検証する
-        Assert.AreEqual(StatusCodes.Status204NoContent, noContent!.StatusCode);
+
+        // Assert
+        var ok = response as OkObjectResult;
+
+        Assert.IsNotNull(ok);
+        Assert.AreEqual(StatusCodes.Status200OK, ok!.StatusCode);
+
+        var body = ok.Value!;
+        var message = body.GetType().GetProperty("message")?.GetValue(body) as string;
+
+        Assert.AreEqual("ログアウトに成功しました", message);
+
+        var setCookie = _controller.HttpContext.Response.Headers["Set-Cookie"].ToString();
+
+        Assert.IsFalse(string.IsNullOrWhiteSpace(setCookie));
+        StringAssert.Contains(setCookie, "access_token=");
     }
 }

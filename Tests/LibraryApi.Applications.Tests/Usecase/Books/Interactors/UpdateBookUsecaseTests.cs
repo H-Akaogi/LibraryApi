@@ -143,30 +143,72 @@ public class UpdateBookUsecaseTests
     [TestMethod("図書の変更:存在する図書の場合、図書を変更できる")]
     public async Task UpdateBookAsync_ShouldUpdateBook_WhenBookExists()
     {
-        const string id = "94399b5c-7223-48c1-aab3-ea62378bdc13";
-        // 変更データを用意する
-        var book = new Book(id, "リーダブルコード", "Dustin Boswell");
-        var bookStock = new BookStock("d1a3c77a-b148-4162-8dde-e5229f26cd48", 5);
-        book.ChangeStock(bookStock);
+        // Arrange
+        var bookId = Guid.NewGuid().ToString();
 
-        // 図書を変更する
-        await _updateUsecase!.UpdateBookAsync(book);
+        var beforeTitle = $"更新前図書{Guid.NewGuid():N}".Substring(0, 15);
+        var afterTitle = $"更新後図書{Guid.NewGuid():N}".Substring(0, 15);
 
-        // 変更データを取得する
-        var changeBook = await _repository!
-            .SelectByIdWithBookStockAndBookCategoryAsync(id);
-        // 書名を検証する
-        Assert.AreEqual("リーダブルコード2", changeBook!.Title);
-        // 著者名を検証する
-        Assert.AreEqual("Dustin Boswell2", changeBook!.Author);
-        // 図書在庫を検証する
-        Assert.AreEqual(15, changeBook.Stock!.Stock);
+        var category = new BookCategory(
+            "e269c98c-61b7-4ca7-9fae-ecd74234989e",
+            "児童書"
+        );
 
-        // クリーニング：変更データを復元する
-        book.ChangeTitle("リーダブルコード");
-        book.ChangeAuthor("Dustin Boswell");
-        book.Stock!.ChangeStock(5);
-        await _updateUsecase.UpdateBookAsync(book);
+        var beforeStock = new BookStock(
+            Guid.NewGuid().ToString(),
+            5
+        );
+
+        var createBook = new Book(
+            bookId,
+            beforeTitle,
+            "更新前著者",
+            category,
+            beforeStock
+        );
+
+        try
+        {
+            // 先に更新対象の図書を登録する
+            await _repository!.CreateAsync(createBook);
+
+            // 変更データを用意する
+            var updateBook = new Book(
+                bookId,
+                afterTitle,
+                "更新後著者"
+            );
+
+            var updateStock = new BookStock(
+                Guid.NewGuid().ToString(),
+                15
+            );
+
+            updateBook.ChangeStock(updateStock);
+
+            // Act
+            await _updateUsecase!.UpdateBookAsync(updateBook);
+
+            // Assert
+            var changedBook = await _repository
+                .SelectByIdWithBookStockAndBookCategoryAsync(bookId);
+
+            Assert.IsNotNull(changedBook);
+            Assert.AreEqual(afterTitle, changedBook!.Title);
+            Assert.AreEqual("更新後著者", changedBook.Author);
+            Assert.IsNotNull(changedBook.Stock);
+            Assert.AreEqual(15, changedBook.Stock!.Stock);
+        }
+        finally
+        {
+            // Cleanup
+            var exists = await _repository!.SelectByIdWithBookStockAndBookCategoryAsync(bookId);
+
+            if (exists is not null)
+            {
+                await _repository.DeleteByIdAsync(bookId);
+            }
+        }
     }
 
     [TestMethod("図書の変更:存在しない図書Idの場合、NotFoundExceptionがスローされる")]
@@ -185,6 +227,6 @@ public class UpdateBookUsecaseTests
         // nullでないことを検証する
         Assert.IsNotNull(ex);
         // 例外メッセージを検証する
-        Assert.AreEqual("図書Id:79023e82-9197-40a5-b236-26487f404be5の図書は存在しないため変更できません。", ex.Message);
+        Assert.AreEqual("Id:79023e82-9197-40a5-b236-26487f404be5の図書は存在しないため変更できません。", ex.Message);
     }
 }

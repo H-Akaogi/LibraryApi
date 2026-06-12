@@ -31,6 +31,7 @@ public class UpdateBookControllerTests
     private UpdateBookViewModelAdapter? _adapter;
     // テストターゲット
     private UpdateBookController? _controller;
+    private IBookRepository? _repository;
 
     /// <summary>
     /// テストクラスの初期化
@@ -227,38 +228,74 @@ public class UpdateBookControllerTests
     [TestMethod("図書変更:矛盾のない値の場合、Ok(200)と変更された図書が返される")]
     public async Task Updated_ShouldReturnOk_WhenSuccess()
     {
-        var bookId = "90582274-3ff0-40b6-b2ec-beed51b24f56";
-        var originViewModel = new UpdateBookViewModel
-        {
-            Title = "ハリー・ポッター",
-            Author = "J.K.ローリング",
-            Stock = 10,
-        };
+        // Arrange
+        var bookId = Guid.NewGuid().ToString();
+
+        var beforeTitle = $"更新前図書{Guid.NewGuid():N}".Substring(0, 15);
+        var afterTitle = $"更新後図書{Guid.NewGuid():N}".Substring(0, 15);
+
+        var category = new BookCategory(
+            "e269c98c-61b7-4ca7-9fae-ecd74234989e",
+            "児童書"
+        );
+
+        var stock = new BookStock(
+            Guid.NewGuid().ToString(),
+            10
+        );
+
+        var book = new Book(
+            bookId,
+            beforeTitle,
+            "更新前著者",
+            category,
+            stock
+        );
+
         var updateViewModel = new UpdateBookViewModel
         {
-
-            Title = "ハリー・ポッターと秘密の部屋",
-            Author = "J.K.ローリング",
+            Title = afterTitle,
+            Author = "更新後著者",
             Stock = 30,
         };
 
-        var response = await _controller!.Updated(bookId, updateViewModel);
-        var ok = response as OkObjectResult;
-        // nullでないことを検証する
-        Assert.IsNotNull(ok);
-        // リクエストボディから図書を取得する
-        var book = ok!.Value as Book;
-        // nullでないことを検証する
-        Assert.IsNotNull(book);
-        // 図書Idを検証する
-        Assert.AreEqual(bookId, book!.BookUuid);
-        // 著者名を検証する
-        Assert.AreEqual(updateViewModel.Author, book.Author);
-        // 蔵書数を検証する
-        Assert.AreEqual(updateViewModel.Stock, book.Stock!.Stock);
-        // 書名を検証する
-        Assert.AreEqual(updateViewModel.Title, book.Title);
-        // 変更データを復元する
-        await _controller!.Updated(bookId, originViewModel);
+        try
+        {
+            // 更新対象の図書を先に登録する
+            await _repository!.CreateAsync(book);
+
+            // Act
+            var response = await _controller!.Updated(bookId, updateViewModel);
+
+            // Assert
+            var ok = response as OkObjectResult;
+
+            Assert.IsNotNull(ok);
+            Assert.AreEqual(StatusCodes.Status200OK, ok!.StatusCode);
+
+            var updatedBook = ok.Value as Book;
+
+            Assert.IsNotNull(updatedBook);
+            Assert.AreEqual(bookId, updatedBook!.BookUuid);
+            Assert.AreEqual(updateViewModel.Title, updatedBook.Title);
+            Assert.AreEqual(updateViewModel.Author, updatedBook.Author);
+            Assert.IsNotNull(updatedBook.Stock);
+            Assert.AreEqual(updateViewModel.Stock, updatedBook.Stock!.Stock);
+
+            // Categoryもレスポンスに含めたい仕様なら確認してOK
+            Assert.IsNotNull(updatedBook.Category);
+            Assert.AreEqual("児童書", updatedBook.Category!.Name);
+        }
+        finally
+        {
+            // Cleanup
+            var exists = await _repository!
+                .SelectByIdWithBookStockAndBookCategoryAsync(bookId);
+
+            if (exists is not null)
+            {
+                await _repository.DeleteByIdAsync(bookId);
+            }
+        }
     }
 }
