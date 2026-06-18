@@ -5,9 +5,13 @@ namespace LibraryApi.Domains.Models;
 /// </summary>
 public class Role // 追加
 {
-    // RoleId
+    /// <summary>
+    /// RoleId
+    /// </summary>
     public int RoleId { get; private set; }
-    // Role名
+    /// <summary>
+    /// Role名
+    /// </summary>
     public string RoleName { get; private set; } = string.Empty;
     /// <summary>
     /// コンストラクタ(既存ユーザー:Idあり）
