@@ -28,9 +28,4 @@ public class RegisterUserViewModel
     [StringLength(30, MinimumLength = 3
         , ErrorMessage = "ユーザーRole名は{2}文字以上、{1}文字以内で入力してください。")]
     public string RoleName { get; set; } = string.Empty;
-
-    public override string ToString()
-    {
-        return $"Username={Username}, Password={Password}";
-    }
 }

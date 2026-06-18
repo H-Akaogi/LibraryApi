@@ -159,7 +159,8 @@ public class RegisterUserControllerTests
         var viewModel = new RegisterUserViewModel
         {
             Username = username,
-            Password = "P@ssw0rd123!"
+            Password = "P@ssw0rd123!",
+            RoleName = "user"
         };
 
         try
@@ -185,7 +186,7 @@ public class RegisterUserControllerTests
 
             Assert.AreEqual("DuplicateUsername", code);
             Assert.AreEqual(
-                $"指定されたユーザー名は既に使用されています",
+                "指定されたユーザー名は既に使用されています",
                 message);
         }
         finally
@@ -209,7 +210,8 @@ public class RegisterUserControllerTests
         var viewModel = new RegisterUserViewModel
         {
             Username = username,
-            Password = "P@ssw0rd123!"
+            Password = "P@ssw0rd123!",
+            RoleName = "user"
         };
 
         try

@@ -138,9 +138,9 @@ public class DeleteBookControllerTests
             var response = await _deleteBookController!.Delete(bookId);
 
             // Assert
-            var ok = response as OkResult;
-            Assert.IsNotNull(ok);
-            Assert.AreEqual(StatusCodes.Status200OK, ok!.StatusCode);
+            var noContent = response as NoContentResult;
+            Assert.IsNotNull(noContent);
+            Assert.AreEqual(StatusCodes.Status204NoContent, noContent!.StatusCode);
 
             var deleted = await _repository
                 .SelectByIdWithBookStockAndBookCategoryAsync(bookId);

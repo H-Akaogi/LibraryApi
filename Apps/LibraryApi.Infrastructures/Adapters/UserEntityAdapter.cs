@@ -26,6 +26,7 @@ IConverter<User, UserEntity>, IRestorer<User, UserEntity>
         entity.UserUuid = domain.UserUuid;
         entity.Username = domain.Username;
         entity.Password = domain.Password;
+        entity.RoleId = domain.Role!.RoleId;
         return Task.FromResult(entity);
     }
 

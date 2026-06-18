@@ -78,8 +78,8 @@ public class UserEntityAdapterTests
         Assert.AreEqual("Taro", entity.Username);
         // パスワードを検証する
         Assert.AreEqual("hashedpwd", entity.Password);
-        // Roleも検証する
-        Assert.AreEqual("user", entity.Role!.RoleName);// 追加
+        // RoleIdを検証する
+        Assert.AreEqual(1, entity.RoleId); ;// 追加
     }
 
     [TestMethod("nullを渡すとInternalExceptionをスローする")]
@@ -101,7 +101,13 @@ public class UserEntityAdapterTests
         {
             UserUuid = uuid,
             Username = "Hanako",
-            Password = "securehash"
+            Password = "securehash",
+            RoleId = 1,
+            Role = new RoleEntity
+            {
+                RoleId = 1,
+                RoleName = "user"
+            }
         };
 
         // UserEntityからUserを復元する
@@ -115,6 +121,10 @@ public class UserEntityAdapterTests
         Assert.AreEqual("Hanako", domain.Username);
         // パスワードを検証する
         Assert.AreEqual("securehash", domain.Password);
+        // Roleを検証する
+        Assert.IsNotNull(domain.Role);
+        Assert.AreEqual(1, domain.Role.RoleId);
+        Assert.AreEqual("user", domain.Role.RoleName);
     }
 
     [TestMethod("nullを渡すとInternalExceptionをスローする")]

@@ -78,7 +78,8 @@ public class RegisterUserViewModelAdapterTests
         var vm = new RegisterUserViewModel
         {
             Username = "taro",
-            Password = "P@ssw0rd1"
+            Password = "P@ssw0rd1",
+            RoleName = "user"
         };
         // ViewModelからUserを復元する
         var user = await _adapter!.RestoreAsync(vm);
@@ -94,11 +95,11 @@ public class RegisterUserViewModelAdapterTests
     [TestMethod("不正なユーザー名（空、長すぎ)の場合、DomainExceptionがスローされる")]
     public async Task RestoreAsync_ShouldThrow_WhenUsernameInvalid()
     {
-        // ユーザー名が空のViewModel
         var vmEmpty = new RegisterUserViewModel
         {
             Username = " ",
-            Password = "P@ssw0rd1"
+            Password = "P@ssw0rd123!",
+            RoleName = "user"
         };
         // DomanExceptionがスローされることを検証する
         Exception ex = await Assert.ThrowsExceptionAsync<DomainException>(async () =>
@@ -110,7 +111,8 @@ public class RegisterUserViewModelAdapterTests
         var vmLong = new RegisterUserViewModel
         {
             Username = new string('x', 31),
-            Password = "P@ssw0rd1"
+            Password = "P@ssw0rd1",
+            RoleName = "user"
         };
         ex = await Assert.ThrowsExceptionAsync<DomainException>(async () =>
             await _adapter!.RestoreAsync(vmLong));
@@ -125,12 +127,29 @@ public class RegisterUserViewModelAdapterTests
         var vm = new RegisterUserViewModel
         {
             Username = "taro",
-            Password = " "
+            Password = " ",
+            RoleName = "user"
         };
         // DomainExceptionがスローされることを検証する
         Exception ex = await Assert.ThrowsExceptionAsync<DomainException>(async () =>
             await _adapter!.RestoreAsync(vm));
         // エラーメッセージを検証する
         Assert.AreEqual("パスワードは必須です。", ex.Message);
+    }
+    [TestMethod("ユーザーRoleが空の場合、DomainExceptionがスローされる")]
+    public async Task RestoreAsync_ShouldThrow_WhenRoleEmpty()
+    {
+        // パスワードが空のViewModelを生成する
+        var vm = new RegisterUserViewModel
+        {
+            Username = "taro",
+            Password = "P@ssw0rd123!",
+            RoleName = ""
+        };
+        // DomainExceptionがスローされることを検証する
+        Exception ex = await Assert.ThrowsExceptionAsync<DomainException>(async () =>
+            await _adapter!.RestoreAsync(vm));
+        // エラーメッセージを検証する
+        Assert.AreEqual("ユーザーRole名は必須です。", ex.Message);
     }
 }
