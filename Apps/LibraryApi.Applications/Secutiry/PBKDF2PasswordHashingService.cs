@@ -26,7 +26,7 @@ public class PBKDF2PasswordHashingService : IPasswordHashingService
     public string Hash(string rawPassword)
     {
         // HashPasswordはユーザー情報を参照しないためダミーを利用する
-        var dummy = new User(Guid.NewGuid().ToString(), "tmp", "x");
+        var dummy = new User(Guid.NewGuid().ToString(), "tmp", "x", new Role(1, "user"));
         return _passwordHasher.HashPassword(dummy, rawPassword);
     }
 
@@ -41,7 +41,7 @@ public class PBKDF2PasswordHashingService : IPasswordHashingService
     /// </exception>
     public bool Verify(string hashedPassword, string providedPassword)
     {
-        var dummy = new User(Guid.NewGuid().ToString(), "tmp", hashedPassword);
+        var dummy = new User(Guid.NewGuid().ToString(), "tmp", hashedPassword, new Role(1, "user"));
         // パスワードを比較検証する
         var result =
         _passwordHasher.VerifyHashedPassword(dummy, hashedPassword, providedPassword);

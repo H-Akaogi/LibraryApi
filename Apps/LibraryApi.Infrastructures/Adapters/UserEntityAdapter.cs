@@ -40,10 +40,20 @@ IConverter<User, UserEntity>, IRestorer<User, UserEntity>
         {
             throw new InternalException("引数targetがnullです。");
         }
+        if (target.Role == null) // 追加
+        {
+            throw new InternalException("ユーザーの権限情報が取得できません。");
+        }
+
+        // 追加
+        var role = new Role(
+            target.Role.RoleId,
+            target.Role.RoleName);
         var domain = new User(
             target.UserUuid.ToString(),
             target.Username,
-            target.Password);
+            target.Password,
+            role); // 追加
         return Task.FromResult(domain);
     }
 }

@@ -34,6 +34,11 @@ public class AppDbContext : DbContext
     public DbSet<UserEntity> Users => Set<UserEntity>();
 
     /// <summary>
+    /// Roleテーブルアクセスプロパティ
+    /// </summary>
+    public DbSet<RoleEntity> Roles => Set<RoleEntity>(); // 追加
+
+    /// <summary>
     /// Fluent APIでマッピング定義
     /// </summary>
     /// <param name="modelBuilder"></param>
@@ -92,6 +97,23 @@ public class AppDbContext : DbContext
             // C#のstring ⇔ PostgreSQLのuuidを自動変換する
             e.Property(u => u.UserUuid)
                   .HasMaxLength(36);
+
+            // users.role_id → roles.id
+            e.HasOne(u => u.Role) // 追加
+                .WithMany()
+                .HasForeignKey(u => u.RoleId)
+                .HasConstraintName("fk_users_role_id")
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // RoleEntityの制約（追加）
+        modelBuilder.Entity<RoleEntity>(e =>
+        {
+            e.HasIndex(r => r.RoleName)
+            .IsUnique();
+
+            e.Property(r => r.RoleName)
+                .HasMaxLength(20);
         });
     }
 

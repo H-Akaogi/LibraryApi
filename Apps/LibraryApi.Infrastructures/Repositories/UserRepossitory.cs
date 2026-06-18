@@ -33,6 +33,18 @@ public class UserRepository : IUserRepository
         try
         {
             var entity = await _adapter.ConvertAsync(user);
+            // Roleを追加（ここから）
+            var roleEntity = await _context.Roles
+    .FirstOrDefaultAsync(r => r.RoleName == user.Role!.RoleName);
+
+            if (roleEntity == null)
+            {
+                throw new InternalException(
+                    $"指定された権限が存在しません。 roleName={user.Role!.RoleName}");
+            }
+
+            entity.RoleId = roleEntity.RoleId;
+            // Roleを追加(ここまで)
             _context.Users.Add(entity);
             await _context.SaveChangesAsync();
         }
@@ -73,7 +85,9 @@ public class UserRepository : IUserRepository
     public async Task<User?> SelectByUsernameAsync(string username)
     {
         var entity = await _context.Users
-        .FirstOrDefaultAsync(u => u.Username == username);
+            .Include(u => u.Role)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Username == username);
         return entity != null ? await _adapter.RestoreAsync(entity) : null;
     }
 
@@ -87,6 +101,7 @@ public class UserRepository : IUserRepository
         try
         {
             var entity = await _context.Users
+            .Include(u => u.Role)
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.UserUuid == useruuid);
             return entity != null ? await _adapter.RestoreAsync(entity) : null;

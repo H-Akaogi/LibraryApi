@@ -14,7 +14,8 @@ public class RegisterUserViewModelAdapter : IRestorer<User, RegisterUserViewMode
     /// <returns></returns>
     public Task<User> RestoreAsync(RegisterUserViewModel target)
     {
-        var user = new User(target.Username, target.Password);
+        var role = new Role(0, target.RoleName);
+        var user = new User(target.Username, target.Password, role);
         return Task.FromResult(user);
     }
 }

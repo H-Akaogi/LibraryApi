@@ -9,6 +9,7 @@ using LibraryApi.Presentations.ViewModels;
 namespace LibraryApi.Presentations.Controllers;
 /// <summary>
 /// ユースケース:[図書を変更する]を実現するコントローラ
+/// ロール認証追加(2026/06/17)
 /// </summary>
 [ApiController]
 [Route("library/api")]
@@ -102,16 +103,18 @@ public class UpdateBookController : ControllerBase
     /// <param name="bookId"></param>
     /// <param name="model">図書変更用ViewModel</param>
     /// <returns></returns>
-    [Authorize]
+    ///[Authorize]
+    [Authorize(Roles = "librarian,admin")] // ロール認証
     [HttpPut("books/{bookId}")]
     [SwaggerOperation(Summary = "図書の変更",
-                      Description = "図書を変更する")]
+                      Description = "図書を変更する【司書のみ】")]
     //[SwaggerResponse(StatusCodes.Status409Conflict, "図書が既に存在する場合{ Conflict(409) } を返す")]
     [SwaggerResponse(StatusCodes.Status404NotFound, "指定された図書が存在しない")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー")]
     [SwaggerResponse(StatusCodes.Status200OK, "図書の変更成功")]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, "権限無し")] // ロール認証
     public async Task<IActionResult> Updated([FromRoute] string bookId, [FromBody] UpdateBookViewModel model)
     {
         // サーバーサイドバリデーション

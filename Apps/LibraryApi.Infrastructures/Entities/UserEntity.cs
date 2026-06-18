@@ -39,6 +39,19 @@ public class UserEntity : ITimestamped
     public string Password { get; set; } = string.Empty;
 
     /// <summary>
+    /// RoleId
+    /// </summary>
+    [Required]
+    [Column("role_id")] // 追加
+    public int RoleId { get; set; }
+
+    /// <summary>
+    /// 外部キー：RoleId
+    /// </summary>
+    [ForeignKey("RoleId")] // 追加
+    public RoleEntity? Role { get; set; }
+
+    /// <summary>
     /// レコード作成日時
     /// </summary>
     [Required]

@@ -67,7 +67,7 @@ public class UserEntityAdapterTests
     {
         // データを用意する
         var uuid = Guid.NewGuid().ToString();
-        var domain = new User(uuid, "Taro", "hashedpwd");
+        var domain = new User(uuid, "Taro", "hashedpwd", new Role(1, "user"));
         // UserからUserEntityに変換する
         var entity = await _adapter.ConvertAsync(domain);
         // nullでないことを検証する
@@ -78,6 +78,8 @@ public class UserEntityAdapterTests
         Assert.AreEqual("Taro", entity.Username);
         // パスワードを検証する
         Assert.AreEqual("hashedpwd", entity.Password);
+        // Roleも検証する
+        Assert.AreEqual("user", entity.Role!.RoleName);// 追加
     }
 
     [TestMethod("nullを渡すとInternalExceptionをスローする")]

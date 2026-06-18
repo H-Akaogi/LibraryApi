@@ -10,6 +10,7 @@ using LibraryApi.Presentations.ViewModels;
 namespace LibraryApi.Presentations.Controllers;
 /// <summary>
 /// ユースケース:[新図書を登録する]を実現するコントローラ
+/// ロール認証追加(2026/06/17)
 /// </summary>
 [ApiController]
 [Route("library/api")]
@@ -78,13 +79,15 @@ public class RegisterBookController : ControllerBase
     /// </summary>
     /// <param name="author"></param>
     /// <returns></returns>
-    [Authorize]
+    ///[Authorize]
+    [Authorize(Roles = "librarian,admin")] // ロール認証
     [HttpGet("books/validate/author")]
     [SwaggerOperation(Summary = "著者名の入力確認",
-                      Description = "著者名が入力されたかを検証する")]
+                      Description = "著者名が入力されたかを検証する【司書のみ】")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "著者名が未入力の場合")]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, "権限無し")] // ロール認証
     // 著者名
     public async Task<IActionResult> ValidateAuthor([FromQuery] string author)
     {
@@ -105,14 +108,16 @@ public class RegisterBookController : ControllerBase
     /// </summary>
     /// <param name="model">図書登録用ViewModel</param>
     /// <returns></returns>
-    [Authorize]
+    ///[Authorize]
+    [Authorize(Roles = "librarian,admin")] // ロール認証
     [HttpPost("books")]
     [SwaggerOperation(Summary = "図書登録",
-                      Description = "新しい図書を登録する")]
+                      Description = "新しい図書を登録する【司書のみ】")]
     [SwaggerResponse(StatusCodes.Status201Created, "図書登録成功", typeof(Book))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "入力値の検証エラー、または分類が存在しない")]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, "権限無し")] // ロール認証
     public async Task<IActionResult> Register(
         RegisterBookViewModel model)
     {

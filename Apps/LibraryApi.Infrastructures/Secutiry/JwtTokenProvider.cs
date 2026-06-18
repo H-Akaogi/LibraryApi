@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using LibraryApi.Domains.Models;
 using LibraryApi.Applications.Security;
+//using LibraryApi.Domains.Auth; //追加
 namespace LibraryApi.Infrastructures.Security;
 
 /// <summary>
@@ -59,6 +60,15 @@ public class JwtTokenProvider : IJwtTokenProvider
         // unique_name:ユーザー名(表示用)
         // 認証後に HttpContext.User.Identity.Nameとして参照される
         claims.Add(new(JwtRegisteredClaimNames.UniqueName, user.Username));
+
+        /// 追加(ここから)
+        // unique_name:ユーザー名(表示用)
+        // 認証後に HttpContext.User.Identity.Nameとして参照される
+        claims.Add(new(JwtRegisteredClaimNames.UniqueName, user.Username));
+        // role: ロール情報
+        claims.Add(new(ClaimTypes.Role, user.Role!.RoleName));
+        /// 追加(ここまで)
+
         // 呼び出し側で追加したいクレームがある場合はまとめて追加する
         if (extraClaims is not null)
         {
@@ -155,6 +165,10 @@ public class JwtTokenProvider : IJwtTokenProvider
             // 通常はtrue、期限切れトークンからクレームを取り出す場合はfalse
             ValidateLifetime = validateLifetime,
 
+            /// 追加(ここから)
+            // ロール認可で参照するClaimの種類
+            RoleClaimType = ClaimTypes.Role
+            /// 追加(ここまで)
         };
 
     /// <summary>

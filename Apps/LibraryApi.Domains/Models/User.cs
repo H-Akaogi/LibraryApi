@@ -11,11 +11,12 @@ public class User
     public string Username { get; private set; } = string.Empty;
     // パスワード
     public string Password { get; private set; } = string.Empty;
-
+    // Role (追加)
+    public Role? Role { get; private set; }
     /// <summary>
     /// コンストラクタ(既存ユーザー:Idあり）
     /// </summary>
-    public User(string useruuid, string username, string password)
+    public User(string useruuid, string username, string password, Role role)
     {
         if (string.IsNullOrWhiteSpace(useruuid) || !Guid.TryParse(useruuid, out _))
             throw new DomainException("ユーザーIdはUUID形式でなければなりません。");
@@ -26,14 +27,23 @@ public class User
         UserUuid = useruuid;
         Username = username;
         Password = password;
+        Role = role;
     }
 
     /// <summary>
     /// コンストラクタ(新規ユーザー)
     /// </summary>
+    public User(string username, string password, Role role)
+        : this(Guid.NewGuid().ToString(), username, password, role) { }
+    /// <summary>
+    /// コンストラクタ（テスト用・引数2つ）
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
     public User(string username, string password)
-        : this(Guid.NewGuid().ToString(), username, password) { }
-
+        : this(Guid.NewGuid().ToString(), username, password, new Role(1, "user"))
+    {
+    }
     /// <summary>
     /// ユーザー名のバリデーション
     /// </summary>
@@ -92,6 +102,6 @@ public class User
     /// <returns></returns>
     public override string ToString()
     {
-        return $"Username:{Username}, Password:{Password}";
+        return $"Username:{Username}, Password:{Password}, Role:{Role}";
     }
 }

@@ -7,6 +7,7 @@ using LibraryApi.Presentations.Adapters;
 namespace LibraryApi.Presentations.Controllers;
 /// <summary>
 /// ユースケース:[図書を削除する]を実現するコントローラ
+/// ロール認証追加(2026/06/17)
 /// </summary>
 [ApiController]
 [Route("library/api")]
@@ -33,21 +34,23 @@ public class DeleteBookController : ControllerBase
     /// </summary>
     /// <param name="bookId"></param>
     /// <returns></returns>
-    [Authorize]
+    ///[Authorize]
+    [Authorize(Roles = "librarian,admin")] // ロール認証
     [HttpDelete("books/{bookId}")]
     [SwaggerOperation(Summary = "図書削除",
-                      Description = "図書を削除する")]
-    [SwaggerResponse(StatusCodes.Status201Created, "図書削除成功")]
+                      Description = "図書を削除する【司書のみ】")]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "図書削除成功")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "指定された図書が存在しない")]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "未認証、またはJWT トークン無効)")]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "サーバー内部エラー")]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, "権限無し")] // ロール認証
     public async Task<IActionResult> Delete([FromRoute] string bookId)
     {
         try
         {
             // 既に登録済みの図書を受信した
             await _deleteBookUsecase.DeleteBookAsync(bookId);
-            return Ok();
+            return NoContent();
         }
         catch (NotFoundException ex)
         {
