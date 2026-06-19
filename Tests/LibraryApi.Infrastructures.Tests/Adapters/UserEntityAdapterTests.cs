@@ -91,6 +91,23 @@ public class UserEntityAdapterTests
         });
         Assert.AreEqual("引数domainがnullです。", ex.Message);
     }
+    [TestMethod("UserからUserEntityに変換:Roleがnullの場合、InternalExceptionがスローされる")]
+    public async Task ConvertAsync_ShouldThrow_WhenRoleIsNull()
+    {
+        // Arrange
+        var domain = new User(
+            Guid.NewGuid().ToString(),
+            "Taro",
+            "hashedpwd",
+            null!);
+
+        // Act
+        var ex = await Assert.ThrowsExceptionAsync<InternalException>(async () =>
+            await _adapter!.ConvertAsync(domain));
+
+        // Assert
+        Assert.AreEqual("ユーザーの権限情報が設定されていません。", ex.Message);
+    }
 
     [TestMethod("UserEntityからUserを復元できる")]
     public async Task RestoreAsync_Should_MapPropertiesCorrectly()
@@ -125,6 +142,27 @@ public class UserEntityAdapterTests
         Assert.IsNotNull(domain.Role);
         Assert.AreEqual(1, domain.Role.RoleId);
         Assert.AreEqual("user", domain.Role.RoleName);
+    }
+
+    [TestMethod("UserEntityからUserを復元:Roleがnullの場合、InternalExceptionがスローされる")]
+    public async Task RestoreAsync_ShouldThrow_WhenRoleIsNull()
+    {
+        // Arrange
+        var entity = new UserEntity
+        {
+            UserUuid = Guid.NewGuid().ToString(),
+            Username = "Hanako",
+            Password = "securehash",
+            RoleId = 1,
+            Role = null!
+        };
+
+        // Act
+        var ex = await Assert.ThrowsExceptionAsync<InternalException>(async () =>
+            await _adapter!.RestoreAsync(entity));
+
+        // Assert
+        Assert.AreEqual("ユーザーの権限情報が取得できません。", ex.Message);
     }
 
     [TestMethod("nullを渡すとInternalExceptionをスローする")]

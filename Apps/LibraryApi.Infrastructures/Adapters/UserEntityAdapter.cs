@@ -22,6 +22,10 @@ IConverter<User, UserEntity>, IRestorer<User, UserEntity>
         {
             throw new InternalException("引数domainがnullです。");
         }
+        if (domain.Role == null)
+        {
+            throw new InternalException("ユーザーの権限情報が設定されていません。");
+        }
         var entity = new UserEntity();
         entity.UserUuid = domain.UserUuid;
         entity.Username = domain.Username;
