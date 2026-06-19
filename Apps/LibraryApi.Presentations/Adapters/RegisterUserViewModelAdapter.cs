@@ -1,3 +1,4 @@
+using LibraryApi.Domains.Exceptions;
 using LibraryApi.Domains.Adapters;
 using LibraryApi.Domains.Models;
 using LibraryApi.Presentations.ViewModels;
@@ -14,8 +15,17 @@ public class RegisterUserViewModelAdapter : IRestorer<User, RegisterUserViewMode
     /// <returns></returns>
     public Task<User> RestoreAsync(RegisterUserViewModel target)
     {
-        var role = new Role(0, target.RoleName);
-        var user = new User(target.Username, target.Password, role);
+        if (target == null)
+        {
+            throw new InternalException("引数targetがnullです。");
+        }
+        var role = new Role(0, target.RoleName); // 画面入力をドメインに変換するだけなので、0を入力
+
+        var user = new User(
+            target.Username,
+            target.Password,
+            role);
+
         return Task.FromResult(user);
     }
 }

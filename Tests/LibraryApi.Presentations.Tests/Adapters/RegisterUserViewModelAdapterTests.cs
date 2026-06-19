@@ -5,7 +5,7 @@ using LibraryApi.Presentations.Adapters;
 using LibraryApi.Presentations.Configs;
 using LibraryApi.Presentations.ViewModels;
 
-namespace RestAPI_Exercise.Presentation.Tests.Adapters;
+namespace LibraryApi.Presentation.Tests.Adapters;
 /// <summary>
 /// RegisterUserViewModelAdapter のテストドライバ
 /// </summary>
@@ -136,6 +136,46 @@ public class RegisterUserViewModelAdapterTests
         // エラーメッセージを検証する
         Assert.AreEqual("パスワードは必須です。", ex.Message);
     }
+    [TestMethod("ユーザー登録ViewModel復元:RoleNameがlibrarianの場合、UserのRoleにlibrarianが設定される")]
+    public async Task RestoreAsync_ShouldSetLibrarianRole_WhenRoleNameIsLibrarian()
+    {
+        // Arrange
+        var vm = new RegisterUserViewModel
+        {
+            Username = "librarian1",
+            Password = "P@ssw0rd123!",
+            RoleName = "librarian"
+        };
+
+        // Act
+        var user = await _adapter!.RestoreAsync(vm);
+
+        // Assert
+        Assert.IsNotNull(user);
+        Assert.AreEqual("librarian1", user.Username);
+        Assert.AreEqual("librarian", user.Role!.RoleName);
+    }
+
+    [TestMethod("ユーザー登録ViewModel復元:RoleNameがadminの場合、UserのRoleにadminが設定される")]
+    public async Task RestoreAsync_ShouldSetAdminRole_WhenRoleNameIsAdmin()
+    {
+        // Arrange
+        var vm = new RegisterUserViewModel
+        {
+            Username = "admin1",
+            Password = "P@ssw0rd123!",
+            RoleName = "admin"
+        };
+
+        // Act
+        var user = await _adapter!.RestoreAsync(vm);
+
+        // Assert
+        Assert.IsNotNull(user);
+        Assert.AreEqual("admin1", user.Username);
+        Assert.AreEqual("admin", user.Role!.RoleName);
+    }
+
     [TestMethod("ユーザーRoleが空の場合、DomainExceptionがスローされる")]
     public async Task RestoreAsync_ShouldThrow_WhenRoleEmpty()
     {
@@ -151,5 +191,49 @@ public class RegisterUserViewModelAdapterTests
             await _adapter!.RestoreAsync(vm));
         // エラーメッセージを検証する
         Assert.AreEqual("ユーザーRole名は必須です。", ex.Message);
+    }
+    [TestMethod("ユーザーRoleが空の場合、DomainExceptionがスローされる")]
+    public async Task RestoreAsync_ShouldThrow_WhenRoleNameIsWhiteSpace()
+    {
+        // パスワードが空のViewModelを生成する
+        var vm = new RegisterUserViewModel
+        {
+            Username = "taro",
+            Password = "P@ssw0rd123!",
+            RoleName = " "
+        };
+        // DomainExceptionがスローされることを検証する
+        Exception ex = await Assert.ThrowsExceptionAsync<DomainException>(async () =>
+            await _adapter!.RestoreAsync(vm));
+        // エラーメッセージを検証する
+        Assert.AreEqual("ユーザーRole名は必須です。", ex.Message);
+    }
+    [TestMethod("ユーザー登録ViewModel復元:RoleNameがnullの場合、DomainExceptionがスローされる")]
+    public async Task RestoreAsync_ShouldThrow_WhenRoleNameIsNull()
+    {
+        // Arrange
+        var vm = new RegisterUserViewModel
+        {
+            Username = "taro",
+            Password = "P@ssw0rd123!",
+            RoleName = null!
+        };
+
+        // Act
+        var ex = await Assert.ThrowsExceptionAsync<DomainException>(async () =>
+            await _adapter!.RestoreAsync(vm));
+
+        // Assert
+        Assert.AreEqual("ユーザーRole名は必須です。", ex.Message);
+    }
+    [TestMethod("ユーザー登録ViewModel復元:ViewModelがnullの場合、InternalExceptionがスローされる")]
+    public async Task RestoreAsync_ShouldThrow_WhenTargetIsNull()
+    {
+        // Act
+        var ex = await Assert.ThrowsExceptionAsync<InternalException>(async () =>
+            await _adapter!.RestoreAsync(null!));
+
+        // Assert
+        Assert.AreEqual("引数targetがnullです。", ex.Message);
     }
 }

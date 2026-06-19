@@ -5,7 +5,7 @@ using LibraryApi.Presentations.Adapters;
 using LibraryApi.Presentations.Configs;
 using LibraryApi.Presentations.ViewModels;
 
-namespace RestAPI_Exercise.Presentation.Tests.Adapters;
+namespace LibraryApi.Presentation.Tests.Adapters;
 /// <summary>
 /// RegisterBookViewModelAdapterのテストドライバ
 /// </summary>
